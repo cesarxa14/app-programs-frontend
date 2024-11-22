@@ -1,0 +1,56 @@
+<div class="container border">
+    <div>
+        <h1>Módulo de Programas y Paquetes</h1>
+    </div>
+
+    <div>
+        <a href="#" class="btn btn-primary active" role="button" aria-pressed="true">Programas</a>
+        <a href="#" class="btn btn-primary active" role="button" aria-pressed="true">Paquetes</a>
+    </div>
+
+    <div>
+        <button type="button" (click)="abrirModal()" class="btn btn-primary">Agregar paquete</button>
+    </div>
+
+    <div class="row border m-1">
+        <table class="table align-middle mb-0 bg-white text-center">
+            <thead class="bg-light">
+              <tr>
+                <th>Programa</th>
+                <th>Nombre</th>
+                <th>Numero de Clases</th>
+                <th>Dias de Vigencia</th>
+                <th>Costo</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let pack of packages">
+                <td>
+                  <p>{{pack.program}}</p>
+                </td>
+                <td>
+                  <p >{{pack.name}}</p>
+                </td>
+                <td>
+                    <p>{{pack.num_clases}}</p>
+                </td>
+                <td>
+                    {{pack.days_validity}}
+                </td>
+                <td>
+                    {{pack.cost}}
+                </td>
+                <td>
+                    {{pack.status}}
+                </td>
+                <td>
+                    <button type="button" class="btn btn-light btn-sm" (click)="editModal(pack)">Editar</button>
+                    <button type="button" class="btn btn-danger btn-sm">Eliminar</button>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
