@@ -1,0 +1,32 @@
+.sidenav-container {
+    height: 100%;
+}
+
+.sidenav {
+    width: 200px;
+}
+
+.flex-expand {
+    flex: 1 1 auto;
+}
+
+mat-sidenav{
+    background-color: rgb(82, 95, 173);
+}
+
+mat-nav-list{
+    padding: 0;
+}
+
+.sidenav-toolbar{
+    background-color: white !important; 
+}
+
+.item-sidenav{
+    color: white;
+  }
+  .item-sidenav:hover{
+    background-color: brown;
+    color: wheat;
+  }
+  

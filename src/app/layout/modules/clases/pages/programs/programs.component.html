@@ -1,0 +1,58 @@
+<div class="container border mt-3">
+    <div>
+        <h1>Módulo de Programas y Paquetes</h1>
+    </div>
+
+    <div class="my-3">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/pages/clases/programs">Programas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/pages/clases/packages">Paquetes</a>
+        </li>
+        
+      </ul>
+        <!-- <a href="#" class="btn btn-primary active" role="button" aria-pressed="true">Programas</a>
+        <a href="#" class="btn btn-primary active" role="button" aria-pressed="true">Paquetes</a> -->
+    </div>
+
+    <div class="my-2">
+        <button type="button" (click)="abrirModal()" class="btn btn-primary">Agregar programa</button>
+    </div>
+
+    <div class="row border m-1">
+        <table class="table align-middle mb-0 bg-white text-center">
+            <thead class="bg-light">
+              <tr>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Fin</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let prog of programs">
+                <td>
+                  <p>{{prog.name}}</p>
+                </td>
+                <td>
+                  <p class="fw-normal mb-1">{{prog.description}}</p>
+                </td>
+                <td>
+                    <p>{{prog.startDate | date: 'dd/MM/YYYY'}}</p>
+                </td>
+                <td>
+                    {{prog.endDate | date: 'dd/MM/YYYY'}}
+                </td>
+                <td>
+                    <button type="button" class="btn btn-light btn-sm" (click)="editModal(prog)">Editar</button>
+                    <button type="button" class="btn btn-danger btn-sm" (click)="deleteProgram(prog)">Eliminar</button>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
