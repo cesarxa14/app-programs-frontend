@@ -18,13 +18,15 @@ export class SidenavComponent implements OnInit {
 
     // TODO: agregar lo del local storage
     role:any = localStorage.getItem('role') || 'Admin';
-    displayName:any = localStorage.getItem('displayName') || 'Cesar';
+    displayName:any = `${localStorage.getItem('name')} ${localStorage.getItem('lastname')} ` || 'Cesar Torres'
   constructor(
     private breakpointObserver: BreakpointObserver,
     private authService: AuthService
   ) { }
 
   ngOnInit(): void {
+    console.log('role: ', this.role)
+    console.log('displayName: ', this.displayName)
   }
 
   logout(){

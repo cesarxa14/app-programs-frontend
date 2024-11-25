@@ -25,7 +25,6 @@ export class ProgramService {
 
   getPrograms(){
     try{
-
       return this.http.get(this.API_BASE_URI, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)

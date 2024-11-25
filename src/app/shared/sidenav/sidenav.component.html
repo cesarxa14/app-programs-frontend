@@ -12,17 +12,18 @@
       </mat-toolbar>
       <hr style="color: white; margin: 0;">
       <mat-nav-list>
-        <a class="item-sidenav" mat-list-item routerLink="/pages/clases/programs">
+        <a *ngIf="role == '1'" class="item-sidenav" mat-list-item routerLink="/pages/clases/programs">
           <span class="material-icons button-backs">
             download
           </span> Clases
         </a>
-        <!-- <a class="item-sidenav" mat-list-item routerLink="/pages/outputs">
+        <a class="item-sidenav" mat-list-item routerLink="/pages/customers">
           <span class="material-icons button-back">
             upload
           </span>
-          Salidas
+          Clientes
         </a>
+        <!-- 
         <a class="item-sidenav" mat-list-item routerLink="/pages/products">
           <span class="material-icons button-back">
             local_mall

@@ -1,0 +1,98 @@
+<div class="container" >
+    <div class="row">
+        <h3>Registrar Nuevo Cliente</h3>
+    </div>
+
+    <div class="my-1 row justify-content-center ">
+        <div class="card">
+            <div class="card-body">
+                <form [formGroup]="addMyCustomerForm" (ngSubmit)="createMyCustomer()">
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Nombre</label>
+                        <input type="email" formControlName="name" class="form-control form-control-sm"
+                                [ngClass]="name.errors && (name.dirty || name.touched) ? 'is-invalid': ''">
+                        <div *ngIf="name.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Apellido</label>
+                        <input type="email" formControlName="lastname" class="form-control form-control-sm"
+                                [ngClass]="lastname.errors && (lastname.dirty || lastname.touched) ? 'is-invalid': ''">
+                        <div *ngIf="lastname.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Correo</label>
+                        <input type="email" formControlName="email" class="form-control form-control-sm"
+                                [ngClass]="email.errors && (email.dirty || email.touched) ? 'is-invalid': ''">
+                        <div *ngIf="name.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Telefono</label>
+                        <input formControlName="phone" class="form-control form-control-sm"
+                                [ngClass]="phone.errors && (phone.dirty || phone.touched) ? 'is-invalid': ''">
+                        <div *ngIf="phone.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Pais</label>
+                        <input formControlName="country" class="form-control form-control-sm"
+                                [ngClass]="country.errors && (country.dirty || country.touched) ? 'is-invalid': ''">
+                        <div *ngIf="country.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                        <!-- <div *ngIf="name.hasError('email')" class="invalid-feedback">
+                                Ingrese un email válido
+                        </div> -->
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Provincia</label>
+                        <input  formControlName="province" class="form-control form-control-sm"
+                                [ngClass]="province.errors && (province.dirty || province.touched) ? 'is-invalid': ''">
+                        <div *ngIf="province.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                        <!-- <div *ngIf="name.hasError('email')" class="invalid-feedback">
+                                Ingrese un email válido
+                        </div> -->
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Distrito</label>
+                        <input type="email" formControlName="district" class="form-control form-control-sm"
+                                [ngClass]="district.errors && (district.dirty || district.touched) ? 'is-invalid': ''">
+                        <div *ngIf="district.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                        <!-- <div *ngIf="name.hasError('email')" class="invalid-feedback">
+                                Ingrese un email válido
+                        </div> -->
+                    </div>
+
+                    
+
+            
+
+                      <div class="row justify-content-center text-center">
+                        <div class="col">
+                            <button type="submit" [disabled]="addMyCustomerForm.invalid" class="btn btn-dark w-100">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+  

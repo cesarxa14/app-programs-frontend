@@ -9,9 +9,11 @@ const routes: Routes = [
       path: '',
       component: LayoutComponent,
       children: [
-        { path: 'clases', loadChildren: () => import('./modules/clases/clases.module').then(m => m.ClasesModule) }
+        { path: 'clases', loadChildren: () => import('./modules/clases/clases.module').then(m => m.ClasesModule) },
+        { path: 'customers', loadChildren: () => import('./modules/customers/customers.module').then(m => m.CustomersModule) }
       ]
     }
+    
 ]
 @NgModule({
     imports: [
