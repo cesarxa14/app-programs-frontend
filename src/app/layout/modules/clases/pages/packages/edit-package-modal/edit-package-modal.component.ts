@@ -7,6 +7,7 @@ import { IEditPackageDto } from '../../../interfaces/packages/IEditPackageDto';
 import { ProgramService } from '../../../services/program.service';
 import { IProgramEntity } from '../../../interfaces/programs/IProgramEntity';
 import Swal from 'sweetalert2';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 
 @Component({
@@ -16,6 +17,7 @@ import Swal from 'sweetalert2';
 })
 export class EditPackageModalComponent implements OnInit {
 
+  idUser: number;
   editPackageForm: FormGroup;
   programsList: IProgramEntity[] = [];
   isStatusChecked: boolean = true;
@@ -25,6 +27,7 @@ export class EditPackageModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public packag: IPackageEntity,
     private _formBuilder: FormBuilder,
     private packageService: PackageService,
+    private sharedService: SharedService,
     private programService: ProgramService,
     public dialogRef: MatDialogRef<EditPackageModalComponent>,
   ) { 
@@ -34,6 +37,7 @@ export class EditPackageModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.idUser = this.sharedService.getUserId();
     this.editPackageForm = this._builderForm();
     this.getPrograms();
     console.log('packag: ', this.packag)
@@ -62,7 +66,7 @@ export class EditPackageModalComponent implements OnInit {
   get status() {return this.editPackageForm.controls["status"]}
 
   getPrograms() {
-    this.programService.getPrograms().subscribe((res: any) =>{
+    this.programService.getPrograms(this.idUser).subscribe((res: any) =>{
       console.log('programs: ', res)
       this.programsList = res.data;
     })

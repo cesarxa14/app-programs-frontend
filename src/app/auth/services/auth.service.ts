@@ -4,13 +4,14 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ILoginDto } from '../interfaces/ILoginDto';
 import { ICreateUserFirstStep } from '../interfaces/ICreateUserFirstStepDto';
+import { ICompleteRegisterDto } from '../interfaces/ICompleteRegisterDto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  API_BASE_URI: string = environment.API_URI + 'auth'
+  private API_BASE_URI: string = environment.API_URI + 'auth'
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -22,7 +23,15 @@ export class AuthService {
   }
 
   register(payloadRegister: ICreateUserFirstStep){
-    return this.http.post(this.API_BASE_URI + 'register', payloadRegister)
+    return this.http.post(this.API_BASE_URI + '/register', payloadRegister)
+  }
+
+  completeRegister(payloadRegister: ICompleteRegisterDto){
+    return this.http.post(this.API_BASE_URI + '/complete-register', payloadRegister)
+  }
+
+  verifyUser(payloadVerify: any){
+    return this.http.post(this.API_BASE_URI + '/verifyUser', payloadVerify)
   }
 
   logOut() {

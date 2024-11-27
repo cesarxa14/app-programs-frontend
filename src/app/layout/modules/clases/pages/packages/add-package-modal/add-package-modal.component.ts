@@ -6,6 +6,7 @@ import { ProgramService } from '../../../services/program.service';
 import { IProgramEntity } from '../../../interfaces/programs/IProgramEntity';
 import Swal from 'sweetalert2';
 import { MatDialogRef } from '@angular/material/dialog';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class AddPackageModalComponent implements OnInit {
 
+  idUser: number;
   programsList: IProgramEntity[] = [];
   addPackageForm: FormGroup;
   isStatusChecked: boolean = true;
@@ -22,11 +24,13 @@ export class AddPackageModalComponent implements OnInit {
   constructor(
     private packageService: PackageService,
     private programService: ProgramService,
+    private sharedService: SharedService,
     private _formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<AddPackageModalComponent>,
   ) { }
 
   ngOnInit(): void {
+    this.idUser = this.sharedService.getUserId();
     this.addPackageForm = this._builderForm();
     this.getPrograms();
     this.getValueChangesStatus();
@@ -37,7 +41,7 @@ export class AddPackageModalComponent implements OnInit {
   _builderForm() {
     // const pattern = '[a-zA-Z ]{2,254}';
     const form = this._formBuilder.group({
-      program: ['', [Validators.required]],
+      program: [null, [Validators.required]],
       name: ['', [Validators.required]],
       num_clases: [null, [Validators.required]],
       expiration: [null, [Validators.required]],
@@ -66,7 +70,7 @@ export class AddPackageModalComponent implements OnInit {
   }
 
   getPrograms() {
-    this.programService.getPrograms().subscribe((res: any) =>{
+    this.programService.getPrograms(this.idUser).subscribe((res: any) =>{
       console.log('programs: ', res)
       this.programsList = res.data;
     })

@@ -1,5 +1,5 @@
 export interface ICreatePackageDto{
-    program: string;
+    program: number;
     name: string;
     num_clases: number;
     expiration: number;

@@ -4,6 +4,8 @@ import { ProgramService } from '../../../services/program.service';
 import { CreateProgramDto } from '../../../interfaces/programs/ICreateProgramDto';
 import Swal from 'sweetalert2';
 import { MatDialogRef } from '@angular/material/dialog';
+import {jwtDecode} from 'jwt-decode';
+import { IJwtPayload } from 'src/app/shared/interfaces/IJWTDecode';
 
 
 
@@ -14,6 +16,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class AddProgramModalComponent implements OnInit {
 
+  
+  idUser: number;
   addProgramForm: FormGroup;
   @Output() program_emit:any = new EventEmitter();
   constructor(
@@ -24,6 +28,14 @@ export class AddProgramModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.addProgramForm = this._builderForm();
+    this.getToken()
+  }
+
+  getToken(){
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode<IJwtPayload>(token!)
+    console.log('decodedToken', decodedToken)
+    this.idUser = Number(decodedToken.id);
   }
 
   _builderForm() {
@@ -48,6 +60,7 @@ export class AddProgramModalComponent implements OnInit {
     let payloadCreate: CreateProgramDto = {
       name: this.name.value,
       description: this.description.value,
+      user_id: this.idUser,
       startDate: this.startDate.value,
       endDate: this.endDate.value
     }

@@ -1,9 +1,7 @@
-export interface IUserCustomerEntity {
-    id: number;
+export interface IEditMyCustomerDto {
     name: string;
     lastname: string;
     email: string;
-    password: string;
     phone: string;
     country: string;
     province: string;

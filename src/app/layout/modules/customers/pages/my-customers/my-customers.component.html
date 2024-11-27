@@ -50,9 +50,16 @@
                     <p class="fw-normal mb-1">{{cus.phone}}</p>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-light btn-sm" (click)="editModal(cus)">Editar</button>
-                    <button type="button" class="btn btn-danger btn-sm" (click)="deleteCustomer(cus)">Eliminar</button>
-
+                  <button (click)="viewDetail(cus)" type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Borrar">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                  <button (click)="editModal(cus)" type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Borrar">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button (click)="deleteCustomer(cus)" type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Borrar">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                 
                 </td>
               </tr>
             </tbody>

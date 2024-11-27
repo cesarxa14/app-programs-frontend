@@ -23,9 +23,9 @@ export class ProgramService {
     return headers
   }
 
-  getPrograms(){
+  getPrograms(idUser: number){
     try{
-      return this.http.get(this.API_BASE_URI, {headers: this.setHeaders()})
+      return this.http.get(`${this.API_BASE_URI}?userId=${idUser}`, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)
       throw err

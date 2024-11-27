@@ -49,6 +49,9 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('lastname', res.data.lastname)
       this.router.navigateByUrl('/pages/clases')
       
+    }, (err) =>{
+      console.log('err: ', err)
+      alert(err.error.message)
     })
   }
 

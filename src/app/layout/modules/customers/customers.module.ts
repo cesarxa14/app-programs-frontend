@@ -6,6 +6,7 @@ import { MyCustomersComponent } from './pages/my-customers/my-customers.componen
 import { DetailCustomerComponent } from './pages/detail-customer/detail-customer.component';
 import { AddMyCustomerModalComponent } from './pages/my-customers/add-my-customer-modal/add-my-customer-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EditMyCustomerModalComponent } from './pages/my-customers/edit-my-customer-modal/edit-my-customer-modal.component';
 
 
 
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CustomersComponent,
     MyCustomersComponent,
     DetailCustomerComponent,
-    AddMyCustomerModalComponent
+    AddMyCustomerModalComponent,
+    EditMyCustomerModalComponent
   ],
   imports: [
     CommonModule,

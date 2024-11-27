@@ -1,9 +1,4 @@
-export interface IUserCustomerEntity {
-    id: number;
-    name: string;
-    lastname: string;
-    email: string;
-    password: string;
+export interface ICompleteRegisterDto {
     phone: string;
     country: string;
     province: string;

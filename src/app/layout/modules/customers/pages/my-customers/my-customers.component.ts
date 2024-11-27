@@ -4,6 +4,7 @@ import { AddMyCustomerModalComponent } from './add-my-customer-modal/add-my-cust
 import { MatDialog } from '@angular/material/dialog';
 import { MyCustomerService } from '../../services/my-customer.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EditMyCustomerModalComponent } from './edit-my-customer-modal/edit-my-customer-modal.component';
 
 @Component({
   selector: 'app-my-customers',
@@ -62,21 +63,31 @@ export class MyCustomersComponent implements OnInit {
     console.log('abrir')
     const dialogRef = this.dialog.open(AddMyCustomerModalComponent, {
       width: '600px',
-      height: 'auto',
+      height: '600px',
     })
 
-    // dialogRef.componentInstance.program_emit.subscribe((prog_add:any) => {
-    //   console.log('prog_add: ', prog_add)
-    //   this.programs.unshift(prog_add)
-    // })
+    dialogRef.componentInstance.customer_created.subscribe((res:any) => {
+      console.log('res: ', res)
+      this.getMyCustomers();
+    })
 
    
   }
 
+  viewDetail(customer: IUserCustomerEntity){
+    
+  }
+
   editModal(customer: IUserCustomerEntity){
-    const dialogRef = this.dialog.open(AddMyCustomerModalComponent, {
-      width: '700px',
-      height: 'auto',
+    const dialogRef = this.dialog.open(EditMyCustomerModalComponent, {
+      width: '600px',
+      height: '600px', 
+      data: customer
+    })
+
+    dialogRef.componentInstance.customer_edit_emit.subscribe((res:any) => {
+      console.log('res: ', res)
+      this.getMyCustomers();
     })
   }
 

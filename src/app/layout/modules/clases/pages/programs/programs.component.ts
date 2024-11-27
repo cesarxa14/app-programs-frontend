@@ -5,6 +5,7 @@ import { ProgramService } from '../../services/program.service';
 import { EditProgramModalComponent } from './edit-program-modal/edit-program-modal.component';
 import { IProgramEntity } from '../../interfaces/programs/IProgramEntity';
 import Swal from 'sweetalert2';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Component({
   selector: 'app-programs',
@@ -13,18 +14,21 @@ import Swal from 'sweetalert2';
 })
 export class ProgramsComponent implements OnInit {
 
+  idUser: number;
   programs: IProgramEntity[] = []
   constructor(
     public dialog: MatDialog,
-    private programService: ProgramService
+    private programService: ProgramService,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
-    this.getPrograms();
+    this.idUser = this.sharedService.getUserId();
+    this.getPrograms(this.idUser);
   }
 
-  getPrograms(){
-    this.programService.getPrograms().subscribe((res:any) => {
+  getPrograms(idUser: number){
+    this.programService.getPrograms(idUser).subscribe((res:any) => {
       console.log(res)
       this.programs = res.data;
     })
@@ -55,7 +59,7 @@ export class ProgramsComponent implements OnInit {
     dialogRef.componentInstance.program_edit_emit.subscribe((prog_add:any) => {
       console.log('prog_add: ', prog_add)
       // this.programs.unshift(prog_add)
-      this.getPrograms();
+      this.getPrograms(this.idUser);
     })
   }
 
@@ -70,7 +74,7 @@ export class ProgramsComponent implements OnInit {
       if (result.isConfirmed) {
         this.programService.deleteProgram(prog.id).subscribe((res) => {    
           console.log('eliminado: ', res)
-          this.getPrograms();
+          this.getPrograms(this.idUser);
         })
       } 
     })

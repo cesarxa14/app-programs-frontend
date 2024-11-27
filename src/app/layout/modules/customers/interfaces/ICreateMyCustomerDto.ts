@@ -1,5 +1,4 @@
-export interface IUserCustomerEntity {
-    id: number;
+export interface ICreateMyCustomerDto {
     name: string;
     lastname: string;
     email: string;
