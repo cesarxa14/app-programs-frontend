@@ -1,1 +1,89 @@
-<p>detail-customer works!</p>
+<div class="container border mt-3">
+  <div>
+      <h1>Detalles del cliente</h1>
+      
+  </div>
+
+  <div class="my-3">
+    <ul class="nav nav-tabs">
+      <li class="nav-item cursor-pointer">
+        <a class="nav-link" (click)="changeTab('subscription')" [ngClass]="{'active': currentTab === 'subscription'}" role="button" aria-current="page" >Suscripciones</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="changeTab('purchase')"  [ngClass]="{'active': currentTab === 'purchase'}" role="button" >Compras</a>
+      </li>
+      
+    </ul>
+      <!-- <a href="#" class="btn btn-primary active" role="button" aria-pressed="true">Programas</a>
+      <a href="#" class="btn btn-primary active" role="button" aria-pressed="true">Paquetes</a> -->
+  </div>
+
+  <div *ngIf="currentTab === 'subscription'">
+    <div class="row m-1">
+      <h2>Suscripciones</h2>
+      <p>Suscripciones activas del cliente</p>
+    </div>
+    <div class="row border m-1 table-responsive">
+      <table class="table align-middle mb-0 bg-white text-center">
+          <thead class="bg-light">
+            <tr>
+              <th>Service</th>
+              <th>Fecha Inicio</th>
+              <th>Fecha Fin</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sub of subscriptionList">
+              <td>
+                <p>{{sub.service}}</p>
+              </td>
+              <td>
+                  <p>{{sub.startDate | date: 'dd/MM/YYYY'}}</p>
+              </td>
+              <td>
+                  {{sub.endDate | date: 'dd/MM/YYYY'}}
+              </td>
+              <td>
+                  <button type="button" class="btn btn-light btn-sm" (click)="extendSubscription(sub)">Ampliar</button>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  </div>
+</div>
+
+<div *ngIf="currentTab === 'purchase'">
+  <div class="row m-1">
+    <h2>Compras</h2>
+    <p>Historial de compras del cliente</p>
+  </div>
+  <div class="row border m-1 table-responsive">
+    <table class="table align-middle mb-0 bg-white text-center">
+        <thead class="bg-light">
+          <tr>
+            <th>Service</th>
+            <th>Fecha</th>
+            <th>Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pur of purchaseList">
+            <td>
+              <p>{{pur.service}}</p>
+            </td>
+            <td>
+                <p>{{pur.created_at | date: 'dd/MM/YYYY'}}</p>
+            </td>
+            <td>
+                <p>S/. {{pur.amount}}</p> 
+            </td>
+          
+          </tr>
+        </tbody>
+      </table>
+</div>
+</div>
+  
+</div>

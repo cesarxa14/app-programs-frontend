@@ -13,9 +13,9 @@ export class PackageService {
     private http: HttpClient,
   ) { }
 
-  getPackages(){
+  getPackages(idUser: number){
     try{
-      return this.http.get(this.API_BASE_URI)
+      return this.http.get(`${this.API_BASE_URI}?userId=${idUser}`)
     }catch(err) {
       console.log('error: ', err)
       throw err

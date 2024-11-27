@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { ILoginDto } from '../../interfaces/ILoginDto';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -51,7 +52,19 @@ export class LoginComponent implements OnInit {
       
     }, (err) =>{
       console.log('err: ', err)
-      alert(err.error.message)
+      Swal.fire({
+        title: 'No se puedo iniciar sesión',
+        text: err.error.message,
+        icon: 'error',
+        confirmButtonText: 'Volver',
+        allowOutsideClick: false
+      }).then((result) => {
+        console.log('result: ', result)
+        if(result.isConfirmed){
+          this.router.navigateByUrl('/auth/login')
+        }
+      })
+      // alert(err.error.message)
     })
   }
 

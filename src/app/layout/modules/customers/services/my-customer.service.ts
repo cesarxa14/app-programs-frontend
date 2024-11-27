@@ -49,4 +49,13 @@ export class MyCustomerService {
       throw err
     }
   }
+
+  deleteCustomer(id: number){
+    try{
+      return this.http.delete(`${this.API_BASE_URI}/${id}`)
+    } catch (err) {
+      console.log('error: ', err)
+      throw err
+    }
+  }
 }

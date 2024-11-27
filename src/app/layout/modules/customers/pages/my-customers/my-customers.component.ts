@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MyCustomerService } from '../../services/my-customer.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EditMyCustomerModalComponent } from './edit-my-customer-modal/edit-my-customer-modal.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-my-customers',
@@ -93,6 +94,20 @@ export class MyCustomersComponent implements OnInit {
 
   deleteCustomer(customer: IUserCustomerEntity) {
 
+    Swal.fire({
+      title: '¿Estás seguro que deseas eliminar el cliente?',
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.myCustomerService.deleteCustomer(customer.id).subscribe((res: any)=> {
+          console.log('res: ', res)
+          this.getMyCustomers()
+        })
+      } 
+    })
+
+    
   }
 
 }

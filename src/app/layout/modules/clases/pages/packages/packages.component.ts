@@ -5,6 +5,7 @@ import { AddPackageModalComponent } from './add-package-modal/add-package-modal.
 import { EditPackageModalComponent } from './edit-package-modal/edit-package-modal.component';
 import { PackageService } from '../../services/package.service';
 import Swal from 'sweetalert2';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Component({
   selector: 'app-packages',
@@ -13,18 +14,21 @@ import Swal from 'sweetalert2';
 })
 export class PackagesComponent implements OnInit {
 
+  idUser: number;
   packages: IPackageEntity[] = []
   constructor(
     private packageService: PackageService,
     public dialog: MatDialog,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
+    this.idUser = this.sharedService.getUserId();
     this.getPackages();
   }
 
   getPackages(){
-    this.packageService.getPackages().subscribe((res:any) => {
+    this.packageService.getPackages(this.idUser).subscribe((res:any) => {
       console.log(res)
       this.packages = res.data;
     })
