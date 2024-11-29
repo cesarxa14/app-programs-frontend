@@ -23,6 +23,19 @@
           </span>
           Clientes
         </a>
+        <a class="item-sidenav" mat-list-item routerLink="/pages/assistance">
+          <span class="material-icons button-back">
+            upload
+          </span>
+          Asistencia
+        </a>
+
+        <a *ngIf="role == '3'" class="item-sidenav" mat-list-item routerLink="/pages/store">
+          <span class="material-icons button-back">
+            store
+          </span>
+          Tienda web
+        </a>
         <!-- 
         <a class="item-sidenav" mat-list-item routerLink="/pages/products">
           <span class="material-icons button-back">

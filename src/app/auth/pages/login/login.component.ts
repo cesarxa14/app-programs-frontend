@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('role', res.data.role)
       localStorage.setItem('name', res.data.name)
       localStorage.setItem('lastname', res.data.lastname)
+      if(res.data.role === 3) localStorage.setItem('car', JSON.stringify([]))
       this.router.navigateByUrl('/pages/clases')
       
     }, (err) =>{

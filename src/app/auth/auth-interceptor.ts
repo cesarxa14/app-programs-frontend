@@ -28,6 +28,7 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
           // Token expirado o no autorizado
+          alert('Expiró su sesion')
           console.error('Token vencido o inválido.');
           this.authService.logOut();
         }

@@ -10,7 +10,11 @@ const routes: Routes = [
       component: LayoutComponent,
       children: [
         { path: 'clases', loadChildren: () => import('./modules/clases/clases.module').then(m => m.ClasesModule) },
-        { path: 'customers', loadChildren: () => import('./modules/customers/customers.module').then(m => m.CustomersModule) }
+        { path: 'customers', loadChildren: () => import('./modules/customers/customers.module').then(m => m.CustomersModule) },
+        { path: 'assistance', loadChildren: () => import('./modules/assistance/assistance.module').then(m => m.AssistanceModule) },
+        { path: 'store', loadChildren: () => import('./modules/store/store.module').then(m => m.StoreModule) }
+
+
       ]
     }
     

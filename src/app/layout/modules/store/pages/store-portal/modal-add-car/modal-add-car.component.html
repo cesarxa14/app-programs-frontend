@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Carrito de compras</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Resumen de tu seleccion de servicios y productos</h6>
+          
+          <div class="row">
+            <div class="col-12">
+                <div class="row my-1" *ngFor="let item of carList; let i = index">
+                    <div class="col-9">
+                        {{item.name}} <b>x{{item.cantidad}}</b> 
+                    </div>
+                    <div class="col-1">
+                        <button  type="button" (click)="removeToCar(item, i)" class="btn btn-secondary btn-sm " matTooltip="Borrar">
+                            <i class="fa-solid fa-minus"></i>
+                        </button>
+                    </div>
+                    <div class="col-1">
+                        <button  type="button" (click)="addToCar(item)" class="btn btn-secondary btn-sm " matTooltip="Borrar">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    
+                </div>
+
+            </div>
+            <div class="row my-3">
+                <div class="col-12 text-end">
+                    Total <b>${{totalAmount}}</b>
+                </div>
+            </div>
+
+            <div class="row my-3">
+                <div class="col-12">
+                    <button type="button" (click)="requestPurchase()" class="btn btn-dark w-100">Solicitar Compra</button>
+
+                </div>
+            </div>
+          </div>
+
+          
+        </div>
+      </div>
+</div>
