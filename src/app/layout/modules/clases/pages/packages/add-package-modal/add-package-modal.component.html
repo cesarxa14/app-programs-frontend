@@ -36,9 +36,9 @@
                         <div *ngIf="num_clases.hasError('required')" class="invalid-feedback">
                             Este campo es requerido 
                         </div>
-                        <!-- <div *ngIf="name.hasError('email')" class="invalid-feedback">
-                                Ingrese un email válido
-                        </div> -->
+                        <div *ngIf="num_clases.hasError('pattern')" class="invalid-feedback">
+                                El valor debe ser un numero
+                        </div>
                     </div>
 
                     <div class="mb-3">
@@ -47,6 +47,9 @@
                                 [ngClass]="expiration.errors && (expiration.dirty || expiration.touched) ? 'is-invalid': ''">
                         <div *ngIf="expiration.hasError('required')" class="invalid-feedback">
                             Este campo es requerido 
+                        </div>
+                        <div *ngIf="expiration.hasError('pattern')" class="invalid-feedback">
+                            El valor debe ser un numero
                         </div>
                         <!-- <div *ngIf="name.hasError('email')" class="invalid-feedback">
                                 Ingrese un email válido
@@ -59,6 +62,9 @@
                                 [ngClass]="cost.errors && (cost.dirty || cost.touched) ? 'is-invalid': ''">
                         <div *ngIf="cost.hasError('required')" class="invalid-feedback">
                             Este campo es requerido 
+                        </div>
+                        <div *ngIf="cost.hasError('pattern')" class="invalid-feedback">
+                            El valor debe ser un numero valido
                         </div>
                         <!-- <div *ngIf="name.hasError('email')" class="invalid-feedback">
                                 Ingrese un email válido

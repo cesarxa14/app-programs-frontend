@@ -37,27 +37,28 @@
                                       class="form-check-input" 
                                       type="checkbox" 
                                       role="switch" 
+                                      (change)="changeToggle($event)"
                                       id="flexSwitchCheckDefault" >
-                                    <label class="form-check-label" for="flexSwitchCheckDefault">Buscar por documento</label>
+                                    <label class="form-check-label" for="flexSwitchCheckDefault">{{stringSwitchFilter}}</label>
                                   </div>
                             </div>
                             
                             <form [formGroup]="bookForm" (ngSubmit)="createBook()">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Numero de documento</label>
+                                    <label for="exampleInputEmail1" class="form-label">{{labelFilterInput}}</label>
                                     <div class="ng-autocomplete">
                                         <ng-autocomplete 
                                           #autocomplete
                                           [data]="myCustomersList"
-                                          [searchKeyword]="'document'"
-                                          placeholder="Busca por DNI"
+                                          [searchKeyword]="toggleButton ? 'document': 'name' "
+                                          
                                           (selected)='selectEvent($event)'
                                           [itemTemplate]="itemTemplate"
                                           [notFoundTemplate]="notFoundTemplate">                                 
                                         </ng-autocomplete>
                                         
                                         <ng-template #itemTemplate let-item>
-                                        <a [innerHTML]="item.document"></a>
+                                        <a [innerHTML]="toggleButton ? item.document : item.name + ' ' + item.lastname"></a>
                                         </ng-template>
                                         
                                         <ng-template #notFoundTemplate let-notFound>

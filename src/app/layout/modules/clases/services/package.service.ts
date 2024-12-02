@@ -22,6 +22,15 @@ export class PackageService {
     }
   }
 
+  getPackagesEnables(idUser: number){
+    try{
+      return this.http.get(`${this.API_BASE_URI}/enables?userId=${idUser}`)
+    }catch(err) {
+      console.log('error: ', err)
+      throw err
+    }
+  }
+
   createPackage(payloadCreate: ICreatePackageDto){
     try{
       return this.http.post(this.API_BASE_URI, payloadCreate)

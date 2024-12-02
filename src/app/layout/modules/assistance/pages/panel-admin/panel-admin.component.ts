@@ -26,12 +26,13 @@ export class PanelAdminComponent implements OnInit {
   myCustomersList: IUserCustomerEntity[] = []
   autocompleteValue: string = '';
 
+  stringSwitchFilter: string = 'Buscar por nombre';
+  labelFilterInput: string = 'Nombre';
+  toggleButton: boolean = false;
   @ViewChild('autocomplete') autocomplete!: AutocompleteComponent;
 
 
-  options: string[] = ['Perú', 'Argentina', 'Colombia', 'Chile', 'México'];
-filteredOptions: string[] = [];
-inputValue: string = '';
+
   constructor(
     private _formBuilder: FormBuilder,
     private programService: ProgramService,
@@ -75,6 +76,19 @@ inputValue: string = '';
   get classHour() {return this.bookForm.controls["classHour"]}
   get additional_notes() {return this.bookForm.controls["additional_notes"]}
 
+  changeToggle(event: Event){
+    const input = event.target as HTMLInputElement;
+    const isChecked = input.checked; // Obtiene el estado del toggle (true/false)
+    console.log('Estado del toggle:', isChecked);
+    this.toggleButton = isChecked;
+    if(this.toggleButton){
+      this.stringSwitchFilter = 'Buscar por DNI'
+      this.labelFilterInput = 'Numero de documento'
+    }else {
+      this.labelFilterInput = 'Nombre'
+      this.stringSwitchFilter = 'Buscar por nombre'
+    }
+  }
 
 
   getPrograms() {

@@ -23,13 +23,13 @@ export class StorePortalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getPackages();
+    this.getPackagesEnables();
   }
 
 
-  getPackages(){
+  getPackagesEnables(){
     this.idUser = this.sharedService.getUserId();
-    this.packageService.getPackages(this.idUser).subscribe((res: any) => {
+    this.packageService.getPackagesEnables(this.idUser).subscribe((res: any) => {
       console.log('packages: ', res)
       this.packagesList = res.data;
       this.packagesList.map(item => {

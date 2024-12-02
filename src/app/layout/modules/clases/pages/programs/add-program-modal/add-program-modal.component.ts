@@ -16,7 +16,8 @@ import { IJwtPayload } from 'src/app/shared/interfaces/IJWTDecode';
 })
 export class AddProgramModalComponent implements OnInit {
 
-  
+  today: string = new Date().toISOString().split('T')[0];
+  minEndDate: string;
   idUser: number;
   addProgramForm: FormGroup;
   @Output() program_emit:any = new EventEmitter();
@@ -40,11 +41,12 @@ export class AddProgramModalComponent implements OnInit {
 
   _builderForm() {
     // const pattern = '[a-zA-Z ]{2,254}';
+    
     const form = this._formBuilder.group({
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
       startDate: [null, [Validators.required]],
-      endDate: [null, [Validators.required]]     
+      endDate: [{ value: null, disabled: true }, [Validators.required]]     
     });
 
     return form;
@@ -55,6 +57,15 @@ export class AddProgramModalComponent implements OnInit {
   get startDate() {return this.addProgramForm.controls["startDate"]}
   get endDate() {return this.addProgramForm.controls["endDate"]}
 
+  onStartDateChange(event: Event){
+    const input = event.target as HTMLInputElement;
+    console.log('input: ', input.value)
+    
+    this.endDate.enable();
+    this.endDate.reset();
+    this.minEndDate = input.value;
+  }
+
   createProgram(){
 
     let payloadCreate: CreateProgramDto = {
@@ -64,6 +75,8 @@ export class AddProgramModalComponent implements OnInit {
       startDate: this.startDate.value,
       endDate: this.endDate.value
     }
+
+   
 
     this.programService.createProgram(payloadCreate).subscribe((res: any) => {
       console.log('res')

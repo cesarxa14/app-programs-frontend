@@ -40,12 +40,14 @@ export class AddPackageModalComponent implements OnInit {
 
   _builderForm() {
     // const pattern = '[a-zA-Z ]{2,254}';
+    const numberPattern = '^[0-9]*$'
+    const decimalPattern = '^[0-9]+(\.[0-9]{1,2})?$'
     const form = this._formBuilder.group({
       program: [null, [Validators.required]],
       name: ['', [Validators.required]],
-      num_clases: [null, [Validators.required]],
-      expiration: [null, [Validators.required]],
-      cost: [null, [Validators.required]],
+      num_clases: [null, [Validators.required, Validators.pattern(numberPattern)]],
+      expiration: [null, [Validators.required, Validators.pattern(numberPattern)]],
+      cost: [null, [Validators.required, Validators.pattern(decimalPattern)]],
       status: [true, [Validators.required]]   
 
     });

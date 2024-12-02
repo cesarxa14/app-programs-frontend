@@ -1,6 +1,6 @@
 <div class="container" >
     <div class="row">
-        <h3>Agregar Programa</h3>
+        <h3>Editar Paquete</h3>
     </div>
 
     <div class="my-1 row justify-content-center ">
@@ -45,9 +45,10 @@
                         <div *ngIf="num_clases.hasError('required')" class="invalid-feedback">
                             Este campo es requerido 
                         </div>
-                        <!-- <div *ngIf="name.hasError('email')" class="invalid-feedback">
-                                Ingrese un email válido
-                        </div> -->
+                        <div *ngIf="num_clases.hasError('pattern')" class="invalid-feedback">
+                            El valor debe ser un numero
+                        </div>
+                       
                     </div>
 
                     <div class="mb-3">
@@ -57,9 +58,9 @@
                         <div *ngIf="expiration.hasError('required')" class="invalid-feedback">
                             Este campo es requerido 
                         </div>
-                        <!-- <div *ngIf="name.hasError('email')" class="invalid-feedback">
-                                Ingrese un email válido
-                        </div> -->
+                        <div *ngIf="expiration.hasError('pattern')" class="invalid-feedback">
+                            El valor debe ser un numero
+                        </div>
                     </div>
 
                     <div class="mb-3">
@@ -68,6 +69,9 @@
                                 [ngClass]="cost.errors && (cost.dirty || cost.touched) ? 'is-invalid': ''">
                         <div *ngIf="cost.hasError('required')" class="invalid-feedback">
                             Este campo es requerido 
+                        </div>
+                        <div *ngIf="cost.hasError('pattern')" class="invalid-feedback">
+                            El valor debe ser un numero valido
                         </div>
                         <!-- <div *ngIf="name.hasError('email')" class="invalid-feedback">
                                 Ingrese un email válido

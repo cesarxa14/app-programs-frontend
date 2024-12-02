@@ -32,14 +32,17 @@
 
                     <div class="mb-3">
                         <label for="fechaInicio" class="form-label">Fecha de inicio</label>
-                        <input type="date" formControlName="startDate" class="form-control" id="fechaInicio" />
+                        <input type="date" formControlName="startDate" 
+                                class="form-control" id="fechaInicio" 
+                                (change)="onStartDateChange($event)"
+                                [min]="today"  />
                         <div *ngIf="startDate.hasError('required')" class="invalid-feedback">
                             Este campo es requerido 
                         </div>
                     </div>
                       <div class="mb-3">
                         <label for="fechaFin" class="form-label">Fecha fin</label>
-                        <input type="date" formControlName="endDate" class="form-control" id="fechaFin" />
+                        <input type="date" [min]="minEndDate" formControlName="endDate" class="form-control" id="fechaFin" />
                         <div *ngIf="endDate.hasError('required')" class="invalid-feedback">
                             Este campo es requerido 
                         </div>

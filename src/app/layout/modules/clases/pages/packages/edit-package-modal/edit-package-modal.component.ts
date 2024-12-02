@@ -40,17 +40,20 @@ export class EditPackageModalComponent implements OnInit {
     this.idUser = this.sharedService.getUserId();
     this.editPackageForm = this._builderForm();
     this.getPrograms();
+    this.getValueChangesStatus();
     console.log('packag: ', this.packag)
   }
 
   _builderForm() {
     // const pattern = '[a-zA-Z ]{2,254}';
+    const numberPattern = '^[0-9]*$'
+    const decimalPattern = '^[0-9]+(\.[0-9]{1,2})?$'
     const form = this._formBuilder.group({
       program: [this.packag.program.id, [Validators.required]],
       name: [this.packag.name, [Validators.required]],
-      num_clases: [this.packag.num_clases, [Validators.required]],
-      expiration: [this.packag.expiration, [Validators.required]],
-      cost: [this.packag.cost, [Validators.required]],
+      num_clases: [this.packag.num_clases, [Validators.required, Validators.pattern(numberPattern)]],
+      expiration: [this.packag.expiration, [Validators.required, Validators.pattern(numberPattern)]],
+      cost: [this.packag.cost, [Validators.required, Validators.pattern(decimalPattern)]],
       status: [this.booleanStatus, [Validators.required]]   
 
     });
@@ -64,6 +67,15 @@ export class EditPackageModalComponent implements OnInit {
   get expiration() {return this.editPackageForm.controls["expiration"]}
   get cost() {return this.editPackageForm.controls["cost"]}
   get status() {return this.editPackageForm.controls["status"]}
+
+  getValueChangesStatus() {
+    this.editPackageForm.get('status')?.valueChanges.subscribe((newValue) => {
+      console.log('El valor cambió:', newValue);
+      this.isStatusChecked = newValue
+      // Aquí puedes ejecutar tu lógica
+    });
+
+  }
 
   getPrograms() {
     this.programService.getPrograms(this.idUser).subscribe((res: any) =>{
