@@ -43,10 +43,10 @@ export class PackagesComponent implements OnInit {
 
     dialogRef.componentInstance.package_emit.subscribe((pack_add:any) => {
       console.log('prog_add: ', pack_add)
-      this.packages.unshift(pack_add)
+      // this.packages.unshift(pack_add)s
+      this.getPackages();
     })
 
-   
   }
 
   editModal(pack: any){

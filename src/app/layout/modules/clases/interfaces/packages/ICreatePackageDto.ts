@@ -5,4 +5,6 @@ export interface ICreatePackageDto{
     expiration: number;
     cost: number;
     status: string;
+    activeDays: string;
+    activeHours: string;
 }

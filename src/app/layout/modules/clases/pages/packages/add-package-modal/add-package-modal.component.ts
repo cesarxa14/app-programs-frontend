@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PackageService } from '../../../services/package.service';
 import { ICreatePackageDto } from '../../../interfaces/packages/ICreatePackageDto';
 import { ProgramService } from '../../../services/program.service';
@@ -16,6 +16,71 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 })
 export class AddPackageModalComponent implements OnInit {
 
+
+  listDays= ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"]
+
+  listHours = [
+    {
+      start: "05:00",
+      end: "06:00"
+    },
+    {
+      start: "06:00",
+      end: "07:00"
+    },
+    {
+      start: "07:00",
+      end: "08:00"
+    },
+    {
+      start: "08:00",
+      end: "09:00"
+    },
+    {
+      start: "09:00",
+      end: "10:00"
+    },
+    {
+      start: "10:00",
+      end: "11:00"
+    },
+    {
+      start: "11:00",
+      end: "12:00"
+    },
+    {
+      start: "12:00",
+      end: "13:00"
+    },
+    {
+      start: "13:00",
+      end: "14:00"
+    },
+    {
+      start: "14:00",
+      end: "15:00"
+    },
+    {
+      start: "15:00",
+      end: "16:00"
+    },
+    {
+      start: "16:00",
+      end: "17:00"
+    },
+    {
+      start: "17:00",
+      end: "18:00"
+    },
+    {
+      start: "19:00",
+      end: "20:00"
+    },
+    {
+      start: "20:00",
+      end: "21:00"
+    },
+  ]
   idUser: number;
   programsList: IProgramEntity[] = [];
   addPackageForm: FormGroup;
@@ -28,6 +93,8 @@ export class AddPackageModalComponent implements OnInit {
     private _formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<AddPackageModalComponent>,
   ) { }
+
+
 
   ngOnInit(): void {
     this.idUser = this.sharedService.getUserId();
@@ -45,15 +112,17 @@ export class AddPackageModalComponent implements OnInit {
     const form = this._formBuilder.group({
       program: [null, [Validators.required]],
       name: ['', [Validators.required]],
-      num_clases: [null, [Validators.required, Validators.pattern(numberPattern)]],
-      expiration: [null, [Validators.required, Validators.pattern(numberPattern)]],
-      cost: [null, [Validators.required, Validators.pattern(decimalPattern)]],
-      status: [true, [Validators.required]]   
-
+      num_clases: [null, [Validators.required]],
+      expiration: [null, [Validators.required]],
+      cost: [null, [Validators.required]],
+      status: [true, [Validators.required]],
+      activeDays: [null, [Validators.required]],
+      activeHours: [null, []],
     });
 
     return form;
   }
+
 
   get program() {return this.addPackageForm.controls["program"]}
   get num_clases() {return this.addPackageForm.controls["num_clases"]}
@@ -61,6 +130,9 @@ export class AddPackageModalComponent implements OnInit {
   get expiration() {return this.addPackageForm.controls["expiration"]}
   get cost() {return this.addPackageForm.controls["cost"]}
   get status() {return this.addPackageForm.controls["status"]}
+  get activeDays() {return this.addPackageForm.controls["activeDays"]}
+  get activeHours() {return this.addPackageForm.controls["activeHours"]}
+  
 
   getValueChangesStatus() {
     this.addPackageForm.get('status')?.valueChanges.subscribe((newValue) => {
@@ -89,7 +161,9 @@ export class AddPackageModalComponent implements OnInit {
       num_clases: this.num_clases.value,
       cost: this.cost.value,
       expiration: this.expiration.value,
-      status: setStatus
+      status: setStatus,
+      activeDays: JSON.stringify(this.activeDays.value) ,
+      activeHours:JSON.stringify(this.activeHours.value)
     }
     console.log('payloadCreate', payloadCreate)
 
