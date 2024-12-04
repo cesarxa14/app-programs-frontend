@@ -43,6 +43,12 @@
           </span>
           Ventas
         </a>
+        <a *ngIf="role == '1'" class="item-sidenav" mat-list-item routerLink="/pages/products">
+          <span class="material-icons button-back">
+            inventory_2
+          </span>
+          Products
+        </a>
         <!-- 
         <a class="item-sidenav" mat-list-item routerLink="/pages/products">
           <span class="material-icons button-back">

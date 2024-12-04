@@ -12,15 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 
 import { LayoutRoutingModule } from './layout-routing.module';
-import { ClasesComponent } from './modules/clases/clases.component';
-import { AddProgramModalComponent } from './modules/clases/pages/programs/add-program-modal/add-program-modal.component';
-import { ProgramsComponent } from './modules/clases/pages/programs/programs.component';
-import { PackagesComponent } from './modules/clases/pages/packages/packages.component';
-import { EditProgramModalComponent } from './modules/clases/pages/programs/edit-program-modal/edit-program-modal.component';
-import { AddPackageModalComponent } from './modules/clases/pages/packages/add-package-modal/add-package-modal.component';
-import { EditPackageModalComponent } from './modules/clases/pages/packages/edit-package-modal/edit-package-modal.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from '../auth/auth-interceptor';
+
 
 
 
