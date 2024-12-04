@@ -1,5 +1,5 @@
 export interface IItemStoreEntity{
-    id: number;
+    id?: number;
     name: string;
     amount: number;
     type: 'servicio' | 'producto';

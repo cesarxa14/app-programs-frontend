@@ -36,6 +36,13 @@
           </span>
           Tienda web
         </a>
+
+        <a *ngIf="role == '1'" class="item-sidenav" mat-list-item routerLink="/pages/sales">
+          <span class="material-icons button-back">
+            local_offer
+          </span>
+          Ventas
+        </a>
         <!-- 
         <a class="item-sidenav" mat-list-item routerLink="/pages/products">
           <span class="material-icons button-back">
