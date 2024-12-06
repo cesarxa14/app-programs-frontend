@@ -39,6 +39,7 @@ export class PackagesComponent implements OnInit {
     const dialogRef = this.dialog.open(AddPackageModalComponent, {
       width: '700px',
       height: 'auto',
+      panelClass: 'custom-dialog'
     })
 
     dialogRef.componentInstance.package_emit.subscribe((pack_add:any) => {

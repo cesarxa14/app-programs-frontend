@@ -4,6 +4,7 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 import { ProductsService } from '../../services/products.service';
+import { AddProductModalComponent } from './add-product-modal/add-product-modal.component';
 
 @Component({
   selector: 'app-my-products',
@@ -34,7 +35,11 @@ export class MyProductsComponent implements OnInit {
 
 
   abrirModalNewProduct(){
-
+    console.log('abrir')
+    const dialogRef = this.dialog.open(AddProductModalComponent, {
+      width: '600px',
+      height: '600px',
+    })
   }
 
 }
