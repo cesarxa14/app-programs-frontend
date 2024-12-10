@@ -17,7 +17,7 @@
             download
           </span> Clases
         </a>
-        <a class="item-sidenav" mat-list-item routerLink="/pages/customers">
+        <a *ngIf="role == '1'" class="item-sidenav" mat-list-item routerLink="/pages/customers">
           <span class="material-icons button-back">
             upload
           </span>

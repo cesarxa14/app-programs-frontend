@@ -1,6 +1,6 @@
 export interface ISubscriptionInterface {
   id: number;
-  service: string;
+  package_name: string;
   startDate: Date;
   endDate: Date;
   user_id: number;

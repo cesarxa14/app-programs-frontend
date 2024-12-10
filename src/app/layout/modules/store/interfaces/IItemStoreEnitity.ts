@@ -4,4 +4,6 @@ export interface IItemStoreEntity{
     amount: number;
     type: 'servicio' | 'producto';
     cantidad?: number;
+    phone_owner?: number;
+    image?: string;
 }

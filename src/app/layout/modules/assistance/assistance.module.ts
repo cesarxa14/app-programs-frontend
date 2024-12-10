@@ -5,6 +5,7 @@ import { AssistanceRoutingModule } from './assistance-routing.module';
 import { PanelAdminComponent } from './pages/panel-admin/panel-admin.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { PreviewBookModalComponent } from './pages/panel-admin/preview-book-modal/preview-book-modal.component';
 
 
 
@@ -12,6 +13,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
   declarations: [
     AssistanceComponent,
     PanelAdminComponent,
+    PreviewBookModalComponent,
   ],
   imports: [
     CommonModule,

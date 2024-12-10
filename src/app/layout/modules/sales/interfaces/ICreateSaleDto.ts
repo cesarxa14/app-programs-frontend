@@ -3,6 +3,7 @@ export interface ICreateSaleDto {
     customerId: number;
     category: string;
     saleName: string;
+    itemId: number;
     type_voucher: string;
     payment_method: string;
     amount: number;

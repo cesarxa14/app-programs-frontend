@@ -42,6 +42,12 @@ export class PanelSalesComponent implements OnInit {
       height: 'auto',
       panelClass: 'custom-dialog'
     })
+
+    dialogRef.componentInstance.sale_emit.subscribe((pack_add:any) => {
+      console.log('prog_add: ', pack_add)
+      // this.packages.unshift(pack_add)s
+      this.getMySales();
+    })
   }
 
 }

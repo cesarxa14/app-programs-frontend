@@ -37,6 +37,7 @@ export class ModalAddCarComponent implements OnInit {
   }
 
   addToCar(item:IItemStoreEntity){
+    console.log('otem: ', item)
     console.log(this.carList)
 
     const existing = this.carList.find(itemCar => itemCar.name === item.name && itemCar.type == item.type);
@@ -63,6 +64,23 @@ export class ModalAddCarComponent implements OnInit {
 
   requestPurchase(){
     
+  }
+
+  openWhatsApp() {
+    const baseUrl = 'https://wa.me/';
+    
+    let stringProducts = '';
+    for (const item of this.carList) {
+      stringProducts += `Id: ${item.id};  Producto: ${item.name}; Precio: ${item.amount}; Cantidad: ${item.cantidad}`
+    }
+    const message = `
+      Hola quisiera los siguientes productos: ${stringProducts}
+    `;
+    const encodedMessage = encodeURIComponent(message); // Codifica el mensaje
+    const url = `${baseUrl}51917021657?text=${encodedMessage}`;
+
+    // Abre una nueva pestaña con el enlace
+    window.open(url, '_blank');
   }
 
 }

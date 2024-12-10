@@ -36,7 +36,16 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Precio de Venta</label>
+                        <input type="number" formControlName="price_sale" class="form-control form-control-sm"
+                                [ngClass]="price_sale.errors && (price_sale.dirty || price_sale.touched) ? 'is-invalid': ''">
+                        <div *ngIf="price_sale.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+
+                    <div class="my-2">
                         <div class="form-check form-switch">
                             <input 
                               class="form-check-input" 
@@ -50,7 +59,7 @@
 
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Imagen</label>
-                        <input class="form-control" type="file" id="formFile" formControlName="image" class="form-control form-control-sm"
+                        <input class="form-control" type="file" (change)="onFileSelected($event)" id="formFile" class="form-control form-control-sm"
                         [ngClass]="image.errors && (image.dirty || image.touched) ? 'is-invalid': ''">
                 
                         <div *ngIf="image.hasError('required')" class="invalid-feedback">

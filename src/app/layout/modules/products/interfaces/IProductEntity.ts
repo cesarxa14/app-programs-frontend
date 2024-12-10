@@ -4,6 +4,7 @@ export interface IProductEntity {
   description: string;
   quantity: number;
   status: 'HABILITADO' | 'INHABILITADO';
-  priceSale: number;
+  price_sale: number;
   image: string;
+  phone_owner?: number;
 }

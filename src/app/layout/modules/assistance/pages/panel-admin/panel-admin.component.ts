@@ -10,6 +10,9 @@ import { ICreateBookDto } from '../../interfaces/ICreateBookDto';
 import { BookService } from '../../services/book.service';
 import Swal from 'sweetalert2';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
+import { PreviewBookModalComponent } from './preview-book-modal/preview-book-modal.component';
+import { MatDialog } from '@angular/material/dialog';
+import { SubscriptionService } from '../../../customers/services/subscription.service';
 
 @Component({
   selector: 'app-panel-admin',
@@ -31,6 +34,10 @@ export class PanelAdminComponent implements OnInit {
   toggleButton: boolean = false;
   @ViewChild('autocomplete') autocomplete!: AutocompleteComponent;
 
+  startDateBook: string;
+  endDateBook: string;
+
+  activeHours: any[] = [];
 
 
   constructor(
@@ -38,7 +45,9 @@ export class PanelAdminComponent implements OnInit {
     private programService: ProgramService,
     private sharedService: SharedService,
     private myCustomerService: MyCustomerService,
-    private bookService: BookService
+    private bookService: BookService,
+    private subscriptionService: SubscriptionService,
+    public dialog: MatDialog,
   ) { }
 
   selectEvent(item: IUserCustomerEntity) {
@@ -46,13 +55,24 @@ export class PanelAdminComponent implements OnInit {
     console.log('item: ', item)
     this.document.setValue(item.document)
     this.idBooked = item.id;
+
+    this.subscriptionService.getSubscriptionValidByUser(item.id).subscribe((res:any)=> {
+      console.log('res valid: ', res);
+      if(res.data.length < 1){
+        alert('El usuario no tiene subscripciones validas')
+      }else {
+        this.getPrograms();
+        this.activeHours = JSON.parse(res.data[0].activeHours);
+        console.log('activeHours', this.activeHours)
+      }
+    })
   }
 
 
   ngOnInit(): void {
     this.idUser = this.sharedService.getUserId();
     this.bookForm = this._builderForm();
-    this.getPrograms();
+    
     this.getMyCustomers();
     this.getMyBooks();
   }
@@ -61,10 +81,10 @@ export class PanelAdminComponent implements OnInit {
     // const pattern = '[a-zA-Z ]{2,254}';
     const form = this._formBuilder.group({
       document: ['', [Validators.required]],
-      program: ['', [Validators.required]],
-      classDate: ['', [Validators.required]],
-      classHour: ['', [Validators.required]],
-      additional_notes: [''],
+      program: [{value: '', disabled: true}, [Validators.required]],
+      classDate: [{value: '', disabled: true}, [Validators.required]],
+      classHour: [{value: this.activeHours, disabled: true}, [Validators.required]],
+      additional_notes: [{value: '', disabled: true}],
     });
 
     return form;
@@ -95,6 +115,7 @@ export class PanelAdminComponent implements OnInit {
     this.programService.getPrograms(this.idUser).subscribe((res: any) =>{
       console.log('programs: ', res)
       this.programsList = res.data;
+      this.program.enable();
     })
   }
 
@@ -114,6 +135,29 @@ export class PanelAdminComponent implements OnInit {
     })
   }
 
+  onChangeSelectProgram(event: Event){
+    const value = 
+    console.log('event: ', this.program.value);
+    const program = this.programsList.find(item => item.id == this.program.value)
+    console.log('program', program);
+    this.startDateBook = this.formatDate(new Date(program!.startDate)) 
+    this.endDateBook = this.formatDate(new Date(program!.endDate)) 
+
+    console.log('startDateBook', this.startDateBook)
+    console.log('endDateBook', this.endDateBook)
+    this.classDate.enable();
+    this.classHour.enable();
+    this.additional_notes.enable();
+  }
+
+  // Formatea una fecha en formato 'yyyy-MM-dd'
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
 
   createBook() {
     const newBook: ICreateBookDto = {
@@ -124,6 +168,13 @@ export class PanelAdminComponent implements OnInit {
       userCreator: this.idUser,
       userBooked: this.idBooked
     }
+
+    // const dialogRef = this.dialog.open(PreviewBookModalComponent, {
+    //   width: '700px',
+    //   height: 'auto',
+    //   data: newBook
+    // })
+    
 
     this.bookService.createBook(newBook).subscribe((res: any) => {
       console.log('book created', res)
@@ -136,7 +187,7 @@ export class PanelAdminComponent implements OnInit {
       })
       this.bookForm.reset();
       this.autocomplete.clear();
-      
+      this.getMyBooks();
 
     })
     

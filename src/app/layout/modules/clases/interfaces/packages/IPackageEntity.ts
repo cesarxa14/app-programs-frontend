@@ -8,4 +8,5 @@ export interface IPackageEntity {
     expiration: number;
     cost: number;
     status: string;
+    phone?: number;
 }

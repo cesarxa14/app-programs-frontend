@@ -36,7 +36,7 @@
           <tbody>
             <tr *ngFor="let sub of subscriptionList">
               <td>
-                <p>{{sub.service}}</p>
+                <p>{{sub.package_name}}</p>
               </td>
               <td>
                   <p>{{sub.startDate | date: 'dd/MM/YYYY'}}</p>
@@ -71,7 +71,7 @@
         <tbody>
           <tr *ngFor="let pur of purchaseList">
             <td>
-              <p>{{pur.service}}</p>
+              <p>{{pur.product_name}}</p>
             </td>
             <td>
                 <p>{{pur.created_at | date: 'dd/MM/YYYY'}}</p>

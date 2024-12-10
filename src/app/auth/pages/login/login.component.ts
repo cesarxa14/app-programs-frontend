@@ -37,11 +37,14 @@ export class LoginComponent implements OnInit {
   get password() {return this.loginForm.controls["password"]}
 
   login() {
+
+    Swal.showLoading();
     const payloadLogin: ILoginDto = {
       email: this.email.value,
       password: this.password.value
     }
     this.authService.signIn(payloadLogin).subscribe((res:any) => {
+      Swal.close();
       console.log('res: ', res)
 
       localStorage.setItem('token', res.token)

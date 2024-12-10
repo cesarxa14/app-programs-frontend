@@ -68,6 +68,8 @@ export class AddProgramModalComponent implements OnInit {
 
   createProgram(){
 
+    Swal.showLoading();
+
     let payloadCreate: CreateProgramDto = {
       name: this.name.value,
       description: this.description.value,
@@ -80,6 +82,7 @@ export class AddProgramModalComponent implements OnInit {
 
     this.programService.createProgram(payloadCreate).subscribe((res: any) => {
       console.log('res')
+      Swal.close();
       Swal.fire({
         title: 'Se creó el programa!',
         // text: 'Se inició sesión',

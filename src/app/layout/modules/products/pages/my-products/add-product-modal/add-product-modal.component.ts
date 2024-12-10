@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ICreateProductDto } from '../../../interfaces/ICreateProductDto';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { ProductsService } from '../../../services/products.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-product-modal',
@@ -14,10 +16,13 @@ export class AddProductModalComponent implements OnInit {
   addProductForm: FormGroup;
   isStatusChecked: boolean = true;
   idUser: number;
+  @Output() product_emit:any = new EventEmitter();
+
   constructor(
     private _formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<AddProductModalComponent>,
     private sharedService: SharedService,
+    private productService: ProductsService
   ) { }
 
   ngOnInit(): void {
@@ -32,7 +37,7 @@ export class AddProductModalComponent implements OnInit {
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
       quantity: ['', [Validators.required]],
-      status: ['', [Validators.required]],
+      status: [true, [Validators.required]],
       price_sale: ['', [Validators.required]],
       image: ['', [Validators.required]],
      
@@ -59,7 +64,25 @@ export class AddProductModalComponent implements OnInit {
 
   }
 
+  onFileSelected(event: Event){
+    let file
+    let base64File
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files[0]) {
+      file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        base64File = reader.result as string;
+        this.image.setValue(base64File)
+        console.log('Archivo en Base64:', base64File);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   createProduct(){
+    Swal.showLoading();
     const payloadCreate: ICreateProductDto = {
       name: this.name.value,
       description: this.description.value,
@@ -69,6 +92,27 @@ export class AddProductModalComponent implements OnInit {
       image: this.image.value,
       user_id: this.idUser
     }
+
+    this.productService.createProduct(payloadCreate).subscribe((res: any) => {
+      console.log('res:', res)
+      Swal.close();
+      Swal.fire({
+        title: 'Se creó el producto!',
+        // text: 'Se inició sesión',
+        icon: 'success',
+        confirmButtonText: 'Ir',
+        allowOutsideClick: false
+      }).then((result) => {
+        console.log('result: ', result)
+        if(result.isConfirmed){
+          this.product_emit.emit(res);
+          this.dialogRef.close()
+          
+        }
+      })
+    })
   }
+
+  
 
 }

@@ -58,7 +58,7 @@ export class AddMyCustomerModalComponent implements OnInit {
   get medical_history() {return this.addMyCustomerForm.controls["medical_history"]}
 
   createMyCustomer() {
-
+    Swal.showLoading();
     let newMyCustomer: ICreateMyCustomerDto = {
       name: this.name.value,
       lastname: this.lastname.value,
@@ -77,6 +77,7 @@ export class AddMyCustomerModalComponent implements OnInit {
     console.log('newMyCustomer: ', newMyCustomer)
     this.myCustomerService.createMyCustomer(newMyCustomer).subscribe(res => {
       console.log('res: ', res);
+      Swal.close();
       Swal.fire({
         title: 'Se creó el cliente!',
         // text: 'Se inició sesión',

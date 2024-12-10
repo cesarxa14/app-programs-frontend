@@ -153,6 +153,7 @@ export class AddPackageModalComponent implements OnInit {
 
   createPackage(){
 
+    Swal.showLoading();
     let setStatus = this.status.value ? 'HABILITADO' : 'DESHABILITADO'
 
     let payloadCreate: ICreatePackageDto = {
@@ -169,6 +170,7 @@ export class AddPackageModalComponent implements OnInit {
 
     this.packageService.createPackage(payloadCreate).subscribe((res: any) => {
       console.log('res', res)
+      Swal.close();
       Swal.fire({
         title: 'Se creó el paquete!',
         // text: 'Se inició sesión',

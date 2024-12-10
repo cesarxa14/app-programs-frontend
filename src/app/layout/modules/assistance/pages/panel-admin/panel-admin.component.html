@@ -3,19 +3,7 @@
         <h1>Reserva de Clase - Panel de Administrador</h1>
     </div>
 
-    <div class="my-2">
-        <div class="row">
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-dark w-100">Sin clases</button>
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-dark w-100">1 clase restante</button>
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-dark w-100">5 clases restantes</button>
-            </div>
-        </div>
-    </div>
+ 
 
     <div class="container border">
         <div class="row justify-content-center">
@@ -70,7 +58,7 @@
 
                                 <div class="col-12 mb-3">
                                     <label class="form-label">Programa</label>
-                                    <select class="form-select" formControlName="program">
+                                    <select class="form-select" formControlName="program" (change)="onChangeSelectProgram($event)">
                                         <option *ngFor="let prog of programsList" [value]="prog.id">{{prog.name}}</option>
                                         
                                     </select>
@@ -78,19 +66,21 @@
 
                                 <div class="mb-3">
                                     <label for="fechaInicio" class="form-label">Fecha de la clase</label>
-                                    <input type="date" formControlName="classDate" class="form-control" id="fechaInicio" />
+                                    <input type="date" formControlName="classDate" [min]="startDateBook" [max]="endDateBook" class="form-control" id="fechaInicio" />
                                     <div *ngIf="classDate.hasError('required')" class="invalid-feedback">
                                         Este campo es requerido 
                                     </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="fechaInicio" class="form-label">Hora de la clase</label>
-                                    <input type="date" formControlName="classHour" class="form-control" id="fechaInicio" />
-                                    <div *ngIf="classHour.hasError('required')" class="invalid-feedback">
-                                        Este campo es requerido 
-                                    </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Hora de la clase</label>
+                                    <select class="form-select" formControlName="classHour">
+                                        <option *ngFor="let hour of activeHours" value="{{hour.start}} - {{hour.end}}">{{hour.start}} - {{hour.end}}</option>
+                                        
+                                    </select>
                                 </div>
+
+                                
 
                                 <div class="col-md-12 mb-3">
                                     <label class="form-label">Notas adicionales</label>
@@ -147,7 +137,7 @@
                                         <p>{{book.classDate | date: 'dd/MM/YYYY'}}</p>
                                     </td>
                                     <td>
-                                        {{book.classHour | date: 'HH:mm:ss'}}
+                                        {{book.classHour}}
                                     </td>
                                     <!-- <td>
                                         <button type="button" class="btn btn-light btn-sm" (click)="editModal(prog)">Editar</button>
