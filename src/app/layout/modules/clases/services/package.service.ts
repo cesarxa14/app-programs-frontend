@@ -22,6 +22,16 @@ export class PackageService {
     }
   }
 
+  
+  getNumClassesByUser(idUser: number){
+    try{
+      return this.http.get(`${this.API_BASE_URI}/getNumClassesByUser?userId=${idUser}`)
+    }catch(err) {
+      console.log('error: ', err)
+      throw err
+    }
+  }
+
   getPackagesEnables(idUser: number){
     try{
       return this.http.get(`${this.API_BASE_URI}/enables?userId=${idUser}`)

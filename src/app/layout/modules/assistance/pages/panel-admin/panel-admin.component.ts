@@ -32,6 +32,8 @@ export class PanelAdminComponent implements OnInit {
   stringSwitchFilter: string = 'Buscar por nombre';
   labelFilterInput: string = 'Nombre';
   toggleButton: boolean = false;
+  userInfo: any = '';
+  programInfo: any;
   @ViewChild('autocomplete') autocomplete!: AutocompleteComponent;
 
   startDateBook: string;
@@ -55,6 +57,7 @@ export class PanelAdminComponent implements OnInit {
     console.log('item: ', item)
     this.document.setValue(item.document)
     this.idBooked = item.id;
+    this.userInfo = item
 
     this.subscriptionService.getSubscriptionValidByUser(item.id).subscribe((res:any)=> {
       console.log('res valid: ', res);
@@ -112,7 +115,9 @@ export class PanelAdminComponent implements OnInit {
 
 
   getPrograms() {
+    Swal.showLoading();
     this.programService.getPrograms(this.idUser).subscribe((res: any) =>{
+      Swal.close();
       console.log('programs: ', res)
       this.programsList = res.data;
       this.program.enable();
@@ -140,6 +145,7 @@ export class PanelAdminComponent implements OnInit {
     console.log('event: ', this.program.value);
     const program = this.programsList.find(item => item.id == this.program.value)
     console.log('program', program);
+    this.programInfo = program;
     this.startDateBook = this.formatDate(new Date(program!.startDate)) 
     this.endDateBook = this.formatDate(new Date(program!.endDate)) 
 
@@ -160,36 +166,40 @@ export class PanelAdminComponent implements OnInit {
 
 
   createBook() {
-    const newBook: ICreateBookDto = {
+    const newBook = {
       classDate: this.classDate.value,
       classHour: this.classHour.value,
-      program: this.program.value,
+      program: this.programInfo,
       additional_notes: this.additional_notes.value,
       userCreator: this.idUser,
-      userBooked: this.idBooked
+      userBooked: this.idBooked,
+      type: this.labelFilterInput,
+      userInfo: this.userInfo
+
     }
 
-    // const dialogRef = this.dialog.open(PreviewBookModalComponent, {
-    //   width: '700px',
-    //   height: 'auto',
-    //   data: newBook
-    // })
+    const dialogRef = this.dialog.open(PreviewBookModalComponent, {
+      width: '700px',
+      height: 'auto',
+      data: newBook,
+      panelClass: 'custom-dialog'
+    })
     
 
-    this.bookService.createBook(newBook).subscribe((res: any) => {
-      console.log('book created', res)
-      Swal.fire({
-        title: 'Se realizó la reserva!',
-        // text: 'Se inició sesión',
-        icon: 'success',
-        // confirmButtonText: 'Ir',
-        allowOutsideClick: true
-      })
-      this.bookForm.reset();
-      this.autocomplete.clear();
-      this.getMyBooks();
+    // this.bookService.createBook(newBook).subscribe((res: any) => {
+    //   console.log('book created', res)
+    //   Swal.fire({
+    //     title: 'Se realizó la reserva!',
+    //     // text: 'Se inició sesión',
+    //     icon: 'success',
+    //     // confirmButtonText: 'Ir',
+    //     allowOutsideClick: true
+    //   })
+    //   this.bookForm.reset();
+    //   this.autocomplete.clear();
+    //   this.getMyBooks();
 
-    })
+    // })
     
   }
 
