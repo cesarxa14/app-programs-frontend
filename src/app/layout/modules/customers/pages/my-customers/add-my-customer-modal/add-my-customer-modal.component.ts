@@ -4,6 +4,7 @@ import { ICreateMyCustomerDto } from '../../../interfaces/ICreateMyCustomerDto';
 import { MyCustomerService } from '../../../services/my-customer.service';
 import Swal from 'sweetalert2';
 import { MatDialogRef } from '@angular/material/dialog';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Component({
   selector: 'app-add-my-customer-modal',
@@ -12,15 +13,18 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class AddMyCustomerModalComponent implements OnInit {
 
+  idUser: any;
   addMyCustomerForm: FormGroup;
   @Output() customer_created:any = new EventEmitter();
   constructor(
     private _formBuilder: FormBuilder,
     private myCustomerService: MyCustomerService,
     public dialogRef: MatDialogRef<AddMyCustomerModalComponent>,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit(): void {
+    this.idUser = this.sharedService.getUserId();
     this.addMyCustomerForm = this._builderForm();
   }
 
@@ -71,7 +75,8 @@ export class AddMyCustomerModalComponent implements OnInit {
       type_document: this.type_document.value,
       document: this.document.value,
       birthdate: new Date(this.birthdate.value), 
-      medical_history: this.medical_history.value
+      medical_history: this.medical_history.value,
+      createdBy: this.idUser
     }
 
     console.log('newMyCustomer: ', newMyCustomer)

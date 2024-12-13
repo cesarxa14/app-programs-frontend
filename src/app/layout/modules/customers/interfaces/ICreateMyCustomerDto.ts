@@ -11,4 +11,5 @@ export interface ICreateMyCustomerDto {
     document: string;
     birthdate: Date;
     medical_history: string;
+    createdBy: number;
 }

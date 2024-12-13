@@ -72,9 +72,11 @@ export class ProgramsComponent implements OnInit {
       confirmButtonText: 'Eliminar',
     }).then((result) => {
       if (result.isConfirmed) {
+        Swal.showLoading();
         this.programService.deleteProgram(prog.id).subscribe((res) => {    
           console.log('eliminado: ', res)
           this.getPrograms(this.idUser);
+          Swal.close();
         })
       } 
     })

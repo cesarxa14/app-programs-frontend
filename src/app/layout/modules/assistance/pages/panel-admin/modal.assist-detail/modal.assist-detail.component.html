@@ -1,26 +1,22 @@
 <div class="container" >
     <div class="row">
-        <h3>Vista Previa de la Reserva</h3>
+        <h3>Información de Assistencia Registrada</h3>
+        <p class="opacity-50 mt-1">Las asistencia ha sido registrada exitosamente. Aquí están los detalles</p>
     </div>
 
-    <div class="row my-2">
-        <div class="col">
-            <button type="submit" class="btn btn-dark">Reservar</button>
-        </div>
-    </div>
 
     <div class="row">
         <div class="col-md-6">
-            <p><b>Alumno: </b>{{payload.userInfo.name}} {{payload.userInfo.lastname}} </p>
+            <p><b>Alumno: </b>{{payload.studentName}} </p>
         </div>
         <div class="col-md-6">
-            <p><b>Programa: </b>{{payload.program.name}}</p>
+            <p><b>Programa: </b>{{payload.programName}}</p>
         </div>
         <div class="col-md-6">
-            <p><b>Fecha: </b>{{payload.classDate}}</p>
+            <p><b>Fecha: </b>{{payload.assistDate | date: 'dd/MM/yyyy'}}</p>
         </div>
         <div class="col-md-6">
-            <p><b>Hora: </b>{{payload.classHour}}</p>
+            <p><b>Hora: </b>{{payload.assistHour}}</p>
         </div>
         <div class="col-12">
             <p><b>Notas: </b>{{payload.additional_notes}}</p>
@@ -30,15 +26,14 @@
         </div>
     </div>
 
-    <div class="row border m-1">
+    <div class="row table-responsive  border m-1">
         <table class="table align-middle mb-0 bg-white text-center">
             <thead class="bg-light">
               <tr>
                 <th>Programa</th>
                 <th>Fecha</th>
                 <th>Hora</th>
-                <th>Instructor</th>
-                <th>Assistencia tomada por</th>
+                <th>Asistencia tomada por</th>
               </tr>
             </thead>
             <tbody>
@@ -50,13 +45,10 @@
                   <p >{{assist.assistdate | date: 'dd/MM/yyyy'}} </p>
                 </td>
                 <td>
-                    <p >falta hora </p>
+                    <p >{{assist.assistdate | date: 'HH:mm:ss'}} </p>
                   </td>
                 <td>
                     <p>{{assist.instructor}}</p>
-                </td>
-                <td>
-                    {{assist.student}}
                 </td>
                 
               </tr>

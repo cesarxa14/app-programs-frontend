@@ -48,13 +48,13 @@ export class StorePortalComponent implements OnInit {
     this.productService.getProducts().subscribe((res:any) => {
       console.log('res products: ', res)
       this.productsList = res.data;
-      // this.productsList.map(item => {
-      //   this.itemsList.push({id: item.id, amount: item.price_sale, name: item.name, type: 'producto', phone_owner: item.phone_owner, image: item.image})
-      // })
-
-      this.itemsList = this.productsList.map(item => {
-        return {id: item.id, amount: item.price_sale, name: item.name, type: 'producto', phone_owner: item.phone_owner, image: item.image}
+      this.productsList.map(item => {
+        this.itemsList.push({id: item.id, amount: item.price_sale, name: item.name, type: 'producto', phone_owner: item.phone_owner, image: item.image})
       })
+
+      // this.itemsList = this.productsList.map(item => {
+      //   return              {id: item.id, amount: item.price_sale, name: item.name, type: 'producto', phone_owner: item.phone_owner, image: item.image}
+      // })
     })
   }
 

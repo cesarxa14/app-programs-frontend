@@ -6,6 +6,7 @@ import { MyCustomerService } from '../../services/my-customer.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EditMyCustomerModalComponent } from './edit-my-customer-modal/edit-my-customer-modal.component';
 import Swal from 'sweetalert2';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Component({
   selector: 'app-my-customers',
@@ -14,16 +15,19 @@ import Swal from 'sweetalert2';
 })
 export class MyCustomersComponent implements OnInit {
 
+  idUser: any;
   searchForm: FormGroup;
   myCustomersList: IUserCustomerEntity[] = []
   myCustomersListAux: IUserCustomerEntity[] = []
   constructor(
     private _formBuilder: FormBuilder,
     public dialog: MatDialog,
-    private myCustomerService: MyCustomerService
+    private myCustomerService: MyCustomerService,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit(): void {
+    this.idUser = this.sharedService.getUserId();
     this.searchForm = this._builderSearchForm();
     this.getMyCustomers();
   }
@@ -52,7 +56,7 @@ export class MyCustomersComponent implements OnInit {
   }
 
   getMyCustomers() {
-    this.myCustomerService.getMyCustomers().subscribe((res:any) => {
+    this.myCustomerService.getMyCustomers(this.idUser).subscribe((res:any) => {
       console.log('res: ', res);
       this.myCustomersList = res.data;
       this.myCustomersListAux = this.myCustomersList;

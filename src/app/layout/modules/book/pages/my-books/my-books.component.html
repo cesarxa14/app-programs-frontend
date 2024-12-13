@@ -1,0 +1,55 @@
+<div class="container border mt-3">
+    <div>
+        <h1>Módulo de Reservas - {{role == '1' ? 'Administrador': role == '3' ? 'Cliente': ''}}</h1>
+    </div>
+
+    <div class="row align-items-center my-3">
+        <div class="col-auto">
+          <button class="btn btn-dark" (click)="goToNewBook()">Registrar Nueva Reserva</button>
+        </div>
+    </div>
+
+
+    <div class="table-responsive row border m-1">
+        <table class="table align-middle mb-0 bg-white text-center">
+            <thead class="bg-light">
+              <tr>
+                <th>Alumno</th>
+                <th>Programa</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let book of bookList">
+                <td>
+                  <p>{{book.userBooked.name}} {{book.userBooked.lastname}}</p>
+                </td>
+                <td>
+                  <p class="fw-normal mb-1">{{book.program.name}}</p>
+                </td>
+                <td>
+                    <p class="fw-normal mb-1">{{book.classDate | date: 'dd/MM/yyyy'}} </p>
+                </td>
+                <td>
+                    <p class="fw-normal mb-1">{{book.classHour}}</p>
+                </td>
+               
+                <!-- <td>
+                  <button (click)="viewDetail(cus)" type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Borrar">
+                    <a [routerLink]="['/pages/customers/my-customers/details', cus.id]"><i class="fa-solid fa-eye"></i></a>
+                    
+                  </button>
+                  <button (click)="editModal(cus)" type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Borrar">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button (click)="deleteCustomer(cus)" type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Borrar">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                 
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
