@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <div class="row table-responsive  border m-1">
+    <div class="row table-responsive  border m-1" style="max-height: 250px; overflow-y: auto;">
         <table class="table align-middle mb-0 bg-white text-center">
             <thead class="bg-light">
               <tr>
@@ -54,5 +54,10 @@
               </tr>
             </tbody>
           </table>
+    </div>
+    <div class="row d-flex justify-content-end">
+        <div class="col-4 ">
+            <button (click)="closeModal()" class="btn btn-dark">Cerrar</button>
+        </div>
     </div>
 </div>

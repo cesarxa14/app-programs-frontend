@@ -274,7 +274,7 @@ export class RegisterBookComponent implements OnInit {
       classDate: this.classDate2.value,
       classHour: this.classHour2.value,
       program: this.programInfo,
-      additional_notes: this.additional_notes.value,
+      additional_notes: this.additional_notes2.value,
       userCreator: this.idUser,
       userBooked: this.idUser,
       type: this.labelFilterInput,

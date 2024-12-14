@@ -1,0 +1,32 @@
+<div class="container" >
+    <div class="row">
+        <h3>Ampliar Subscription</h3>
+    </div>
+
+    <div class="my-1 row justify-content-center ">
+        <div class="card">
+            <div class="card-body">
+                <form [formGroup]="updateForm" (ngSubmit)="extendSubscription()">
+
+
+                    <div class="mb-3">
+                        <label for="fechaInicio" class="form-label">Fecha Fin</label>
+                        <input type="date" [min]="minDate" formControlName="endDate" class="form-control" id="fechaInicio" />
+                        <div *ngIf="endDate.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+                 
+
+                      <div class="row justify-content-center text-center">
+                        <div class="col">
+                            <button type="submit" [disabled]="updateForm.invalid" class="btn btn-dark w-100">Extender</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+  

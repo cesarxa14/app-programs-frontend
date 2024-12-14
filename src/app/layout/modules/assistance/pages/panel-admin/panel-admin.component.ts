@@ -30,8 +30,10 @@ export class PanelAdminComponent implements OnInit {
 
   searchForm: FormGroup;
   createAssistForm: FormGroup;
+  createAssistCustomerForm: FormGroup;
   toggleButton: boolean = false;
   idUser: number;
+  roleId: number;
   stringSwitchFilter: string = 'Buscar por nombre';
   labelFilterInput: string = 'Nombre';
   customersFoundList: IUserCustomerEntity[] = [];
@@ -53,10 +55,18 @@ export class PanelAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.idUser = this.sharedService.getUserId();
-    this.searchForm = this._builderSearchForm();
-    this.createAssistForm = this._builderCreateAssistForm();
-    this.onCustomerChange();
-    this.onProgramChange();
+    this.roleId = this.sharedService.getRoleId();
+    console.log(this.roleId)
+    if(this.roleId == 1){
+      this.searchForm = this._builderSearchForm();
+      this.createAssistForm = this._builderCreateAssistForm();
+      this.onCustomerChange();
+      this.onProgramChange();
+    }else if(this.roleId == 3){
+      this.createAssistCustomerForm = this._builderCreateAssistCustomerForm();
+      this.onProgram2Change();
+      this.getProgramValidByUser(this.idUser);
+    }
 
   }
 
@@ -77,7 +87,7 @@ export class PanelAdminComponent implements OnInit {
     const form = this._formBuilder.group({
       customer: [null, [Validators.required]],
       program: [null, [Validators.required]],
-      additional_notes: [null, [Validators.required]],
+      additional_notes: [null, []],
     });
 
     return form;
@@ -86,6 +96,21 @@ export class PanelAdminComponent implements OnInit {
   get customer() {return this.createAssistForm.controls["customer"]}
   get program() {return this.createAssistForm.controls["program"]}
   get additional_notes() {return this.createAssistForm.controls["additional_notes"]}
+
+
+  _builderCreateAssistCustomerForm() {
+    // const pattern = '[a-zA-Z ]{2,254}';
+    
+    const form = this._formBuilder.group({
+      program2: [null, [Validators.required]],
+      additional_notes2: [null, []],
+    });
+
+    return form;
+  }
+
+  get program2() {return this.createAssistCustomerForm.controls["program2"]}
+  get additional_notes2() {return this.createAssistCustomerForm.controls["additional_notes2"]}
 
   changeToggle(event: Event){
     const input = event.target as HTMLInputElement;
@@ -121,6 +146,7 @@ export class PanelAdminComponent implements OnInit {
     })
   }
 
+
   onProgramChange(){
     
     this.program?.valueChanges.subscribe(value => {
@@ -131,10 +157,25 @@ export class PanelAdminComponent implements OnInit {
     })
   }
 
+  onProgram2Change(){
+    
+    this.program2?.valueChanges.subscribe(value => {
+      console.log('value program: ', value)
+      this.programName = value.program_name
+      this.programId = value.program_id;
+      this.packageId = value.package_id;
+    })
+  }
+
   onChangeSelectCustomer(event: Event){
     // console.log(this.customer.value)
     Swal.showLoading();
-    this.programService.getProgramValidByUser(this.studentInfo.id).subscribe((res:any)=> {
+    this.getProgramValidByUser(this.studentInfo.id);
+    
+  }
+
+  getProgramValidByUser(studentId: number){
+    this.programService.getProgramValidByUser(studentId).subscribe((res:any)=> {
       console.log('res valid: ', res);
       Swal.close();
       if(res.data.length < 1){
@@ -185,14 +226,20 @@ export class PanelAdminComponent implements OnInit {
         width: '700px',
         height: 'auto',
         data: this.infoToModal,
-        panelClass: 'custom-dialog'
+        panelClass: 'custom-dialog',
+        disableClose: true
       })
   
-      // dialogRef.componentInstance.book_emit.subscribe((book_add:any) => {
-      //   console.log('prog_add: ', book_add)
-      //   // this.programs.unshift(prog_add)
-      //   this.getMyBooks();
-      // })
+      dialogRef.componentInstance.modal_emit.subscribe((res:any) => {
+        this.search.reset();
+        this.createAssistForm.reset();
+        this.customersFoundList = [];
+        this.programList = [];
+       
+      })
+    }, (err) => {
+      console.log('error: ', err)
+      alert(err.error.message)
     })
     
   }

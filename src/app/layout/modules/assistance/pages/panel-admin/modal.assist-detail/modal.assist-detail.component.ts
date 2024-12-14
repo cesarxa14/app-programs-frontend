@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AssistService } from '../../../services/assist.service';
 import Swal from 'sweetalert2';
@@ -15,6 +15,7 @@ export class ModalAssistDetailComponent implements OnInit {
   countAssist: number = 0;
   totalClasses: number = 0;
   assistList: any[] = [];
+  @Output() modal_emit:any = new EventEmitter();
   constructor(
     @Inject(MAT_DIALOG_DATA) public payload: InfoToModalDetail,
     private assistService: AssistService,
@@ -45,6 +46,11 @@ export class ModalAssistDetailComponent implements OnInit {
       console.log('pack: ', res)
       this.totalClasses = res.data[0].num_clases
     })
+  }
+
+  closeModal(){
+    this.dialogRef.close();
+    this.modal_emit.emit();
   }
 
 }

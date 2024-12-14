@@ -5,6 +5,9 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 import { ActivatedRoute } from '@angular/router';
 import { PurchaseService } from '../../services/purchase.service';
 import { IPurchaseInterface } from '../../interfaces/IPurchaseEntity';
+import { ModalExtendSubscriptionComponent } from './modal-extend-subscription/modal-extend-subscription.component';
+import { MatDialog } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detail-customer',
@@ -21,7 +24,8 @@ export class DetailCustomerComponent implements OnInit {
     private subscriptionService: SubscriptionService,
     private purchaseService: PurchaseService,
     private sharedService: SharedService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -36,8 +40,10 @@ export class DetailCustomerComponent implements OnInit {
   }
 
   getSubscriptions(){
+    Swal.showLoading();
     this.subscriptionService.getSubscriptionByUser(this.idUser).subscribe((res: any) => {
       console.log('res: ', res)
+      Swal.close();
       this.subscriptionList = res.data;
     })
   }
@@ -52,7 +58,16 @@ export class DetailCustomerComponent implements OnInit {
   }
 
   extendSubscription(sub: ISubscriptionInterface){
+    const dialogRef = this.dialog.open(ModalExtendSubscriptionComponent, {
+      width: '600px',
+      height: 'auto',
+      data: sub
+    })
 
+    dialogRef.componentInstance.extend_emit.subscribe((res:any) => {
+      console.log('res: ', res)
+      this.getSubscriptions();
+    })
   }
 
 }
