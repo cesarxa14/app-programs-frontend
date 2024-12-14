@@ -244,5 +244,52 @@ export class PanelAdminComponent implements OnInit {
     
   }
 
+  createAssistCustomer(){
+
+    const payloadCreateAssist: ICreateAssistDto = {
+      additional_notes: this.additional_notes2.value,
+      assistant: this.idUser,
+      classHour: this.getCurrentHour(),
+      pack: this.packageId,
+      program: this.programId,
+      student: this.idUser
+
+    }
+
+    this.assistService.createAssist(payloadCreateAssist).subscribe((res:any)=> {
+      console.log('res: ', res)
+      const nameCustomer = localStorage.getItem('name')
+      const lastnameCustomer = localStorage.getItem('lastname')
+      this.infoToModal = {
+        assistDate: res.createdAt,
+        assistHour: res.classHour,
+        additional_notes: this.additional_notes2.value,
+        studentId: this.idUser,
+        programName: this.programName,
+        studentName: `${nameCustomer} ${lastnameCustomer}`
+  
+      }
+      const dialogRef = this.dialog.open(ModalAssistDetailComponent, {
+        width: '700px',
+        height: 'auto',
+        data: this.infoToModal,
+        panelClass: 'custom-dialog',
+        disableClose: true
+      })
+  
+      dialogRef.componentInstance.modal_emit.subscribe((res:any) => {
+        this.search.reset();
+        this.createAssistForm.reset();
+        this.customersFoundList = [];
+        this.programList = [];
+       
+      })
+    }, (err) => {
+      console.log('error: ', err)
+      alert(err.error.message)
+    })
+    
+  }
+
 
 }
