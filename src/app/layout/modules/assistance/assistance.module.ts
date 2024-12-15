@@ -5,7 +5,7 @@ import { AssistanceRoutingModule } from './assistance-routing.module';
 import { PanelAdminComponent } from './pages/panel-admin/panel-admin.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
-import { PreviewBookModalComponent } from './pages/panel-admin/preview-book-modal/preview-book-modal.component';
+import { ModalAssistDetailComponent } from './pages/panel-admin/modal.assist-detail/modal.assist-detail.component';
 
 
 
@@ -13,7 +13,7 @@ import { PreviewBookModalComponent } from './pages/panel-admin/preview-book-moda
   declarations: [
     AssistanceComponent,
     PanelAdminComponent,
-    PreviewBookModalComponent,
+    ModalAssistDetailComponent,
   ],
   imports: [
     CommonModule,

@@ -32,6 +32,24 @@ export class ProgramService {
     }
   }
 
+  getProgramValidByUser(idUser: number){
+    try{
+      return this.http.get(`${this.API_BASE_URI}/getProgramValidByUser?userId=${idUser}`, {headers: this.setHeaders()})
+    }catch(err) {
+      console.log('error: ', err)
+      throw err
+    }
+  }
+
+  getProgramsBuyedByCustomer(idUser: number){
+    try{
+      return this.http.get(`${this.API_BASE_URI}/getProgramsBuyedByCustomer?userId=${idUser}`, {headers: this.setHeaders()})
+    }catch(err) {
+      console.log('error: ', err)
+      throw err
+    }
+  }
+
   createProgram(payloadCreate: CreateProgramDto){
     try{
       return this.http.post(this.API_BASE_URI, payloadCreate, {headers: this.setHeaders()})

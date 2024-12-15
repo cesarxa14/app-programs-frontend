@@ -117,7 +117,7 @@ export class AddSaleModalComponent implements OnInit {
   }
 
   getMyCustomers() {
-    this.myCustomerService.getMyCustomers().subscribe((res:any) => {
+    this.myCustomerService.getMyCustomers(this.idUser).subscribe((res:any) => {
       console.log('res: ', res);
       this.myCustomersList = res.data;
       // this.myCustomersListAux = this.myCustomersList;

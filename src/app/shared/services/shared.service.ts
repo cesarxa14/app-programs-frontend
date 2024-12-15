@@ -9,6 +9,7 @@ export class SharedService {
 
   private token: any;
   private idUser: any;
+  private role: any;
   constructor() { }
 
   getToken(){
@@ -23,7 +24,13 @@ export class SharedService {
     console.log('decodedToken', decodedToken)
     this.idUser = Number(decodedToken.id);
     return this.idUser;
+  }
 
+  getRoleId(){
+    const role = localStorage.getItem('role');
+    if(role)  this.role = role;
+    else this.role = -1;
+    return this.role;
   }
 
 }

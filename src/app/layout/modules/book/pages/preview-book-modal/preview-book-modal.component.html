@@ -5,7 +5,7 @@
 
     <div class="row my-2">
         <div class="col">
-            <button type="submit" class="btn btn-dark">Reservar</button>
+            <button (click)="createBook()" class="btn btn-dark">Confirmar Reservar</button>
         </div>
     </div>
 
@@ -50,7 +50,7 @@
                   <p >{{assist.assistdate | date: 'dd/MM/yyyy'}} </p>
                 </td>
                 <td>
-                    <p >falta hora </p>
+                    <p >{{assist.classhour}} </p>
                   </td>
                 <td>
                     <p>{{assist.instructor}}</p>

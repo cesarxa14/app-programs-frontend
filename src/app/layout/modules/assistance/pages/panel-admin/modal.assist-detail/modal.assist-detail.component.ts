@@ -1,26 +1,26 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { BookService } from '../../../services/book.service';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ICreateBookDto } from '../../../interfaces/ICreateBookDto';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AssistService } from '../../../services/assist.service';
 import Swal from 'sweetalert2';
 import { PackageService } from 'src/app/layout/modules/clases/services/package.service';
+import { InfoToModalDetail } from '../panel-admin.component';
 
 @Component({
-  selector: 'app-preview-book-modal',
-  templateUrl: './preview-book-modal.component.html',
-  styleUrls: ['./preview-book-modal.component.css']
+  selector: 'app-modal.assist-detail',
+  templateUrl: './modal.assist-detail.component.html',
+  styleUrls: ['./modal.assist-detail.component.css']
 })
-export class PreviewBookModalComponent implements OnInit {
+export class ModalAssistDetailComponent implements OnInit {
 
   countAssist: number = 0;
   totalClasses: number = 0;
   assistList: any[] = [];
+  @Output() modal_emit:any = new EventEmitter();
   constructor(
-    private bookService: BookService,
+    @Inject(MAT_DIALOG_DATA) public payload: InfoToModalDetail,
     private assistService: AssistService,
+    public dialogRef: MatDialogRef<ModalAssistDetailComponent>,
     private packageService: PackageService,
-    @Inject(MAT_DIALOG_DATA) public payload: any,
   ) { }
 
   ngOnInit(): void {
@@ -30,7 +30,7 @@ export class PreviewBookModalComponent implements OnInit {
 
   getAssistsByUserPackages(){
     Swal.showLoading();
-    this.assistService.getAssistsByUserPackages(this.payload.userBooked).subscribe((res: any) => {
+    this.assistService.getAssistsByUserPackages(this.payload.studentId).subscribe((res: any) => {
       console.log('assits: ', res)
       this.assistList = res.data;
       this.countAssist = res.data.length;
@@ -41,10 +41,16 @@ export class PreviewBookModalComponent implements OnInit {
   getNumClassesByUser(){
     Swal.showLoading();
 
-    this.packageService.getNumClassesByUser(this.payload.userBooked).subscribe((res: any) => {
+    this.packageService.getNumClassesByUser(this.payload.studentId).subscribe((res: any) => {
       Swal.close();
       console.log('pack: ', res)
       this.totalClasses = res.data[0].num_clases
     })
   }
+
+  closeModal(){
+    this.dialogRef.close();
+    this.modal_emit.emit();
+  }
+
 }

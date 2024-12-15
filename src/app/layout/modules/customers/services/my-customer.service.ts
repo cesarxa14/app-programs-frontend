@@ -23,9 +23,25 @@ export class MyCustomerService {
   }
 
 
-  getMyCustomers() {
+  getMyCustomers(userId: any) {
     try{
-      return this.http.get(this.API_BASE_URI, {headers: this.setHeaders()})
+      return this.http.get(`${this.API_BASE_URI}?userId=${userId}`, {headers: this.setHeaders()})
+    }catch(err) {
+      console.log('error: ', err)
+      throw err
+    }
+  }
+
+  getMyCustomersBySearch(userId: any, searchType: string, value: string) {
+    try{
+      let params = `userId=${userId}`
+      if(searchType === 'Nombre'){
+        params += `&byName=${value}`
+      }else if(searchType === 'Numero de documento'){
+        params += `&byDocuement=${value}`
+      }
+      
+      return this.http.get(`${this.API_BASE_URI}/search?${params}`, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)
       throw err

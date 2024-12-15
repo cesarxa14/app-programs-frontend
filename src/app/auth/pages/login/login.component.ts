@@ -52,7 +52,12 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('name', res.data.name)
       localStorage.setItem('lastname', res.data.lastname)
       if(res.data.role === 3) localStorage.setItem('car', JSON.stringify([]))
-      this.router.navigateByUrl('/pages/clases')
+
+      if(res.data.role == '1'){
+        this.router.navigateByUrl('/pages/clases')
+      }else if(res.data.role == '3'){
+        this.router.navigateByUrl('/pages/books')
+      }
       
     }, (err) =>{
       console.log('err: ', err)

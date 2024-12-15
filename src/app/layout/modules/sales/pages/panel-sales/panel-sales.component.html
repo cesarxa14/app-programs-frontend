@@ -25,7 +25,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let sale of mySalesList">
+              <tr *ngFor="let sale of paginatedSalesList">
                 <td>
                   <p>{{sale.saleDate | date: 'dd/mm/yyyy'}}</p>
                 </td>
@@ -45,7 +45,7 @@
                     <p class="fw-normal mb-1">{{sale.type_voucher}}</p>
                 </td>
                 <td>
-                  <button  type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Borrar">
+                  <button  type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Editar">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </button>
                   <button  type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Borrar">
@@ -57,4 +57,10 @@
             </tbody>
           </table>
     </div>
+    <mat-paginator  
+    [length]="mySalesList.length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 15]"
+    (page)="onPageChange($event)"
+  ></mat-paginator>
 </div>

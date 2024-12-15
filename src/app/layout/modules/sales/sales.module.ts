@@ -7,6 +7,7 @@ import { PanelSalesComponent } from './pages/panel-sales/panel-sales.component';
 import { AddSaleModalComponent } from './pages/panel-sales/add-sale-modal/add-sale-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -21,7 +22,8 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
     SalesRoutingModule,
     FormsModule, 
     ReactiveFormsModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    MatPaginatorModule
   ]
 })
 export class SalesModule { }

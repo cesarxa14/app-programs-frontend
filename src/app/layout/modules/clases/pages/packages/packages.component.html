@@ -18,7 +18,7 @@
     </div>
 
     <div class="my-2">
-        <button type="button" (click)="abrirModal()" class="btn btn-primary">Agregar paquete</button>
+        <button type="button" (click)="abrirModal()" class="btn btn-dark">Agregar paquete</button>
     </div>
 
     <div class="row border m-1">
@@ -35,7 +35,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let pack of packages">
+              <tr *ngFor="let pack of paginatedPackages">
                 <td>
                   <p>{{pack.program}}</p>
                 </td>
@@ -63,4 +63,10 @@
             </tbody>
           </table>
     </div>
+    <mat-paginator  
+    [length]="packages.length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 15]"
+    (page)="onPageChange($event)"
+  ></mat-paginator>
 </div>

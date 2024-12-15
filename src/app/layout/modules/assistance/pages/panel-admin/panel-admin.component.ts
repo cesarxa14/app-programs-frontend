@@ -6,14 +6,21 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 import { IBookEntity } from '../../interfaces/IBookEntity';
 import { MyCustomerService } from '../../../customers/services/my-customer.service';
 import { IUserCustomerEntity } from '../../../customers/interfaces/IUserCustomerEntity';
-import { ICreateBookDto } from '../../interfaces/ICreateBookDto';
-import { BookService } from '../../services/book.service';
 import Swal from 'sweetalert2';
-import { AutocompleteComponent } from 'angular-ng-autocomplete';
-import { PreviewBookModalComponent } from './preview-book-modal/preview-book-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SubscriptionService } from '../../../customers/services/subscription.service';
+import { ModalAssistDetailComponent } from './modal.assist-detail/modal.assist-detail.component';
+import { AssistService } from '../../services/assist.service';
+import { ICreateAssistDto } from '../../interfaces/ICreateAssistDto';
 
+export interface InfoToModalDetail {
+  studentId: number;
+  studentName:string;
+  programName: string;
+  assistDate: string;
+  assistHour: string;
+  additional_notes: string;
+}
 @Component({
   selector: 'app-panel-admin',
   templateUrl: './panel-admin.component.html',
@@ -21,83 +28,89 @@ import { SubscriptionService } from '../../../customers/services/subscription.se
 })
 export class PanelAdminComponent implements OnInit {
 
+  searchForm: FormGroup;
+  createAssistForm: FormGroup;
+  createAssistCustomerForm: FormGroup;
+  toggleButton: boolean = false;
   idUser: number;
-  idBooked: number;
-  bookForm: FormGroup;
-  programsList: IProgramEntity[] = [];
-  bookList: IBookEntity[] = [];
-  myCustomersList: IUserCustomerEntity[] = []
-  autocompleteValue: string = '';
-
+  roleId: number;
   stringSwitchFilter: string = 'Buscar por nombre';
   labelFilterInput: string = 'Nombre';
-  toggleButton: boolean = false;
-  userInfo: any = '';
-  programInfo: any;
-  @ViewChild('autocomplete') autocomplete!: AutocompleteComponent;
-
-  startDateBook: string;
-  endDateBook: string;
-
-  activeHours: any[] = [];
-
-
+  customersFoundList: IUserCustomerEntity[] = [];
+  programList: any[] = [];
+  packageId: number;
+  programId: number;
+  programName: string;
+  studentInfo: any;
+  infoToModal: InfoToModalDetail;
+  
   constructor(
     private _formBuilder: FormBuilder,
-    private programService: ProgramService,
     private sharedService: SharedService,
     private myCustomerService: MyCustomerService,
-    private bookService: BookService,
-    private subscriptionService: SubscriptionService,
+    private programService: ProgramService,
     public dialog: MatDialog,
+    private assistService: AssistService
   ) { }
-
-  selectEvent(item: IUserCustomerEntity) {
-    // do something with selected item
-    console.log('item: ', item)
-    this.document.setValue(item.document)
-    this.idBooked = item.id;
-    this.userInfo = item
-
-    this.subscriptionService.getSubscriptionValidByUser(item.id).subscribe((res:any)=> {
-      console.log('res valid: ', res);
-      if(res.data.length < 1){
-        alert('El usuario no tiene subscripciones validas')
-      }else {
-        this.getPrograms();
-        this.activeHours = JSON.parse(res.data[0].activeHours);
-        console.log('activeHours', this.activeHours)
-      }
-    })
-  }
-
 
   ngOnInit(): void {
     this.idUser = this.sharedService.getUserId();
-    this.bookForm = this._builderForm();
-    
-    this.getMyCustomers();
-    this.getMyBooks();
+    this.roleId = this.sharedService.getRoleId();
+    console.log(this.roleId)
+    if(this.roleId == 1){
+      this.searchForm = this._builderSearchForm();
+      this.createAssistForm = this._builderCreateAssistForm();
+      this.onCustomerChange();
+      this.onProgramChange();
+    }else if(this.roleId == 3){
+      this.createAssistCustomerForm = this._builderCreateAssistCustomerForm();
+      this.onProgram2Change();
+      this.getProgramValidByUser(this.idUser);
+    }
+
   }
 
-  _builderForm() {
+  _builderSearchForm() {
     // const pattern = '[a-zA-Z ]{2,254}';
     const form = this._formBuilder.group({
-      document: ['', [Validators.required]],
-      program: [{value: '', disabled: true}, [Validators.required]],
-      classDate: [{value: '', disabled: true}, [Validators.required]],
-      classHour: [{value: this.activeHours, disabled: true}, [Validators.required]],
-      additional_notes: [{value: '', disabled: true}],
+      search: [null],
     });
 
     return form;
   }
 
-  get document() {return this.bookForm.controls["document"]}
-  get program() {return this.bookForm.controls["program"]}
-  get classDate() {return this.bookForm.controls["classDate"]}
-  get classHour() {return this.bookForm.controls["classHour"]}
-  get additional_notes() {return this.bookForm.controls["additional_notes"]}
+  get search() {return this.searchForm.controls["search"]}
+
+  _builderCreateAssistForm() {
+    // const pattern = '[a-zA-Z ]{2,254}';
+    
+    const form = this._formBuilder.group({
+      customer: [null, [Validators.required]],
+      program: [null, [Validators.required]],
+      additional_notes: [null, []],
+    });
+
+    return form;
+  }
+
+  get customer() {return this.createAssistForm.controls["customer"]}
+  get program() {return this.createAssistForm.controls["program"]}
+  get additional_notes() {return this.createAssistForm.controls["additional_notes"]}
+
+
+  _builderCreateAssistCustomerForm() {
+    // const pattern = '[a-zA-Z ]{2,254}';
+    
+    const form = this._formBuilder.group({
+      program2: [null, [Validators.required]],
+      additional_notes2: [null, []],
+    });
+
+    return form;
+  }
+
+  get program2() {return this.createAssistCustomerForm.controls["program2"]}
+  get additional_notes2() {return this.createAssistCustomerForm.controls["additional_notes2"]}
 
   changeToggle(event: Event){
     const input = event.target as HTMLInputElement;
@@ -113,94 +126,170 @@ export class PanelAdminComponent implements OnInit {
     }
   }
 
-
-  getPrograms() {
+  searchStudent(){
     Swal.showLoading();
-    this.programService.getPrograms(this.idUser).subscribe((res: any) =>{
+    this.myCustomerService.getMyCustomersBySearch(this.idUser, this.labelFilterInput, this.search.value).subscribe((res: any) => {
+      console.log('res: ', res)
       Swal.close();
-      console.log('programs: ', res)
-      this.programsList = res.data;
-      this.program.enable();
+      this.customersFoundList =res.data;
     })
   }
 
-  getMyCustomers() {
-    this.myCustomerService.getMyCustomers().subscribe((res:any) => {
-      console.log('res: ', res);
-      this.myCustomersList = res.data;
-      // this.myCustomersListAux = this.myCustomersList;
-    })
-
-  }
-
-  getMyBooks() {
-    this.bookService.getMyBooks().subscribe((res:any) => {
-      console.log('books: ', res)
-      this.bookList = res.data;
+  onCustomerChange(){
+    
+    this.customer?.valueChanges.subscribe(value => {
+      console.log('value student: ', value)
+      this.studentInfo = value;
+      this.programName = value.program_name
+      this.programId = value.program_id;
+      this.packageId = value.package_id;
     })
   }
 
-  onChangeSelectProgram(event: Event){
-    const value = 
-    console.log('event: ', this.program.value);
-    const program = this.programsList.find(item => item.id == this.program.value)
-    console.log('program', program);
-    this.programInfo = program;
-    this.startDateBook = this.formatDate(new Date(program!.startDate)) 
-    this.endDateBook = this.formatDate(new Date(program!.endDate)) 
 
-    console.log('startDateBook', this.startDateBook)
-    console.log('endDateBook', this.endDateBook)
-    this.classDate.enable();
-    this.classHour.enable();
-    this.additional_notes.enable();
+  onProgramChange(){
+    
+    this.program?.valueChanges.subscribe(value => {
+      console.log('value program: ', value)
+      this.programName = value.program_name
+      this.programId = value.program_id;
+      this.packageId = value.package_id;
+    })
   }
 
-  // Formatea una fecha en formato 'yyyy-MM-dd'
-  private formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
+  onProgram2Change(){
+    
+    this.program2?.valueChanges.subscribe(value => {
+      console.log('value program: ', value)
+      this.programName = value.program_name
+      this.programId = value.program_id;
+      this.packageId = value.package_id;
+    })
   }
 
+  onChangeSelectCustomer(event: Event){
+    // console.log(this.customer.value)
+    Swal.showLoading();
+    this.getProgramValidByUser(this.studentInfo.id);
+    
+  }
 
-  createBook() {
-    const newBook = {
-      classDate: this.classDate.value,
-      classHour: this.classHour.value,
-      program: this.programInfo,
+  getProgramValidByUser(studentId: number){
+    this.programService.getProgramValidByUser(studentId).subscribe((res:any)=> {
+      console.log('res valid: ', res);
+      Swal.close();
+      if(res.data.length < 1){
+        alert('El usuario no tiene subscripciones validas')
+      }else {
+        this.programList = res.data
+        // console.log('activeHours', this.activeHours)
+      }
+    })
+  }
+
+  getCurrentHour(){
+    const currentDate = new Date();
+
+    const hours = currentDate.getHours(); 
+    const minutes = currentDate.getMinutes();
+    const seconds = currentDate.getSeconds();
+
+    // Formatear la hora en formato legible
+    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return formattedTime;
+  }
+
+  createAssist(){
+
+    const payloadCreateAssist: ICreateAssistDto = {
       additional_notes: this.additional_notes.value,
-      userCreator: this.idUser,
-      userBooked: this.idBooked,
-      type: this.labelFilterInput,
-      userInfo: this.userInfo
+      assistant: this.idUser,
+      classHour: this.getCurrentHour(),
+      pack: this.packageId,
+      program: this.programId,
+      student: Number(this.studentInfo.id)
 
     }
 
-    const dialogRef = this.dialog.open(PreviewBookModalComponent, {
-      width: '700px',
-      height: 'auto',
-      data: newBook,
-      panelClass: 'custom-dialog'
+    this.assistService.createAssist(payloadCreateAssist).subscribe((res:any)=> {
+      console.log('res: ', res)
+      this.infoToModal = {
+        assistDate: res.createdAt,
+        assistHour: res.classHour,
+        additional_notes: this.additional_notes.value,
+        studentId: this.studentInfo.id,
+        programName: this.programName,
+        studentName: `${this.studentInfo.name} ${this.studentInfo.lastname}`
+  
+      }
+      const dialogRef = this.dialog.open(ModalAssistDetailComponent, {
+        width: '700px',
+        height: 'auto',
+        data: this.infoToModal,
+        panelClass: 'custom-dialog',
+        disableClose: true
+      })
+  
+      dialogRef.componentInstance.modal_emit.subscribe((res:any) => {
+        this.search.reset();
+        this.createAssistForm.reset();
+        this.customersFoundList = [];
+        this.programList = [];
+       
+      })
+    }, (err) => {
+      console.log('error: ', err)
+      alert(err.error.message)
     })
     
+  }
 
-    // this.bookService.createBook(newBook).subscribe((res: any) => {
-    //   console.log('book created', res)
-    //   Swal.fire({
-    //     title: 'Se realizó la reserva!',
-    //     // text: 'Se inició sesión',
-    //     icon: 'success',
-    //     // confirmButtonText: 'Ir',
-    //     allowOutsideClick: true
-    //   })
-    //   this.bookForm.reset();
-    //   this.autocomplete.clear();
-    //   this.getMyBooks();
+  createAssistCustomer(){
 
-    // })
+    const payloadCreateAssist: ICreateAssistDto = {
+      additional_notes: this.additional_notes2.value,
+      assistant: this.idUser,
+      classHour: this.getCurrentHour(),
+      pack: this.packageId,
+      program: this.programId,
+      student: this.idUser
+
+    }
+
+    this.assistService.createAssist(payloadCreateAssist).subscribe((res:any)=> {
+      console.log('res: ', res)
+      const nameCustomer = localStorage.getItem('name')
+      const lastnameCustomer = localStorage.getItem('lastname')
+      this.infoToModal = {
+        assistDate: res.createdAt,
+        assistHour: res.classHour,
+        additional_notes: this.additional_notes2.value,
+        studentId: this.idUser,
+        programName: this.programName,
+        studentName: `${nameCustomer} ${lastnameCustomer}`
+  
+      }
+      const dialogRef = this.dialog.open(ModalAssistDetailComponent, {
+        width: '700px',
+        height: 'auto',
+        data: this.infoToModal,
+        panelClass: 'custom-dialog',
+        disableClose: true
+      })
+  
+      dialogRef.componentInstance.modal_emit.subscribe((res:any) => {
+        this.search.reset();
+        this.createAssistForm.reset();
+        this.customersFoundList = [];
+        this.programList = [];
+       
+      })
+    }, (err) => {
+      console.log('error: ', err)
+      alert(err.error.message)
+    })
     
   }
+
 
 }
