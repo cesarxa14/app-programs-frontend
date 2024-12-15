@@ -6,6 +6,7 @@ import { EditProgramModalComponent } from './edit-program-modal/edit-program-mod
 import { IProgramEntity } from '../../interfaces/programs/IProgramEntity';
 import Swal from 'sweetalert2';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-programs',
@@ -15,7 +16,10 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 export class ProgramsComponent implements OnInit {
 
   idUser: number;
-  programs: IProgramEntity[] = []
+  programs: IProgramEntity[] = [];
+  paginatedPrograms: IProgramEntity[] = [];
+  pageSize: number = 5; // Tamaño por defecto de la página
+  currentPage: number = 0;
   constructor(
     public dialog: MatDialog,
     private programService: ProgramService,
@@ -25,13 +29,16 @@ export class ProgramsComponent implements OnInit {
   ngOnInit(): void {
     this.idUser = this.sharedService.getUserId();
     this.getPrograms(this.idUser);
+
   }
 
   getPrograms(idUser: number){
     this.programService.getPrograms(idUser).subscribe((res:any) => {
       console.log(res)
       this.programs = res.data;
+      this.updatePagination();
     })
+    
   }
 
   abrirModal() {
@@ -78,6 +85,17 @@ export class ProgramsComponent implements OnInit {
         })
       } 
     })
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.updatePagination();
+  }
+  updatePagination() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedPrograms = this.programs.slice(startIndex, endIndex);
   }
 
 }

@@ -15,9 +15,10 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 
 
 
+
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent,    
     // SidenavComponent,
 
   ],
@@ -25,7 +26,7 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule,  
     
     
   ],
