@@ -30,6 +30,24 @@ export class AssistService {
     }
   }
 
+  getAssistByAdmin(idUser: number){
+    try{
+      return this.http.get(`${this.API_BASE_URI}/byAdmin?userId=${idUser}`, {headers: this.setHeaders()})
+    }catch(err) {
+      console.log('error: ', err)
+      throw err
+    }
+  }
+
+  getAssistByCustomer(idUser: number){
+    try{
+      return this.http.get(`${this.API_BASE_URI}/byCustomer?userId=${idUser}`, {headers: this.setHeaders()})
+    }catch(err) {
+      console.log('error: ', err)
+      throw err
+    }
+  }
+
   createAssist(payloadCreate: ICreateAssistDto) {
     try{
       return this.http.post(this.API_BASE_URI, payloadCreate ,{headers: this.setHeaders()})

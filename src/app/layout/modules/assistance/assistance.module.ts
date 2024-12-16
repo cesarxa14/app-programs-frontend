@@ -6,6 +6,7 @@ import { PanelAdminComponent } from './pages/panel-admin/panel-admin.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { ModalAssistDetailComponent } from './pages/panel-admin/modal.assist-detail/modal.assist-detail.component';
+import { HistorialAssistComponent } from './pages/historial-assist/historial-assist.component';
 
 
 
@@ -14,6 +15,7 @@ import { ModalAssistDetailComponent } from './pages/panel-admin/modal.assist-det
     AssistanceComponent,
     PanelAdminComponent,
     ModalAssistDetailComponent,
+    HistorialAssistComponent,
   ],
   imports: [
     CommonModule,

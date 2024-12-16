@@ -1,0 +1,36 @@
+<div class="container border mt-3">
+    <div>
+        <h1>Historial de Asistencias</h1>
+    </div>
+
+
+    <div class="table-responsive row border m-1">
+        <table class="table align-middle mb-0 bg-white text-center">
+            <thead class="bg-light">
+              <tr>
+                <th>Programa</th>
+                <th>Paquete</th>
+                <th>Fecha</th>
+                <th>Hora Asistencia</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let assist of historialAssist">
+                <td>
+                  <p>{{assist.program_name}}</p>
+                </td>
+                <td>
+                  <p >{{assist.package_name}}</p>
+                </td>
+                <td>
+                    <p >{{assist.created_at | date: 'dd/MM/yyyy'}}</p>
+                </td>
+                <td>
+                    <p >{{assist.classHour}}</p>
+                </td>
+               
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>

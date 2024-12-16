@@ -5,6 +5,7 @@ import { ICreateBookDto } from '../../../assistance/interfaces/ICreateBookDto';
 import { AssistService } from '../../../assistance/services/assist.service';
 import Swal from 'sweetalert2';
 import { PackageService } from 'src/app/layout/modules/clases/services/package.service';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Component({
   selector: 'app-preview-book-modal',
@@ -13,9 +14,11 @@ import { PackageService } from 'src/app/layout/modules/clases/services/package.s
 })
 export class PreviewBookModalComponent implements OnInit {
 
+  roleId: any;
   countAssist: number = 0;
   totalClasses: number = 0;
   assistList: any[] = [];
+  messageAssistOverLimit: string;
   @Output() book_emit:any = new EventEmitter();
   constructor(
     private bookService: BookService,
@@ -23,10 +26,14 @@ export class PreviewBookModalComponent implements OnInit {
     private packageService: PackageService,
     @Inject(MAT_DIALOG_DATA) public payload: any,
     public dialogRef: MatDialogRef<PreviewBookModalComponent>,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit(): void {
+    this.roleId = this.sharedService.getRoleId();
     console.log('payload: ', this.payload)
+    this.messageAssistOverLimit = this.roleId == 1 ? 'No tiene clases restantes, el cliente necesita comprar un nuevo paquete.': 'No tienes clases restantes, necesitas comprar un nuevo paquete.'
+
     this.getAssistsByUserPackages();
   }
 

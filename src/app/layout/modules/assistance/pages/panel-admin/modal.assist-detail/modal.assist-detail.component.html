@@ -1,7 +1,7 @@
 <div class="container" >
     <div class="row">
-        <h3>Información de Assistencia Registrada</h3>
-        <p class="opacity-50 mt-1">Las asistencia ha sido registrada exitosamente. Aquí están los detalles</p>
+        <h3>{{titleModal}}</h3>
+        <p class="opacity-50 mt-1">{{subtitleModal}}</p>
     </div>
 
 
@@ -22,7 +22,12 @@
             <p><b>Notas: </b>{{payload.additional_notes}}</p>
         </div>
         <div class="col-12">
-            <p><b>Clases Restantes: </b>{{countAssist}} de {{totalClasses}}</p>
+            <p><b>Clases Restantes: </b>{{totalClasses - countAssist}} de {{totalClasses}}</p>
+        </div>
+        <div class="col-12" *ngIf="totalClasses - countAssist == 0" style="color: red;">
+          <p class="d-flex align-items-center "><span class="material-icons">
+            warning
+          </span>{{messageAssistOverLimit}}</p>
         </div>
     </div>
 
@@ -56,8 +61,13 @@
           </table>
     </div>
     <div class="row d-flex justify-content-end">
-        <div class="col-4 ">
-            <button (click)="closeModal()" class="btn btn-dark">Cerrar</button>
+        <div class="col-md-4"></div>
+        <div class="col-md-4 text-right">
+          <button (click)="closeModal()" class="btn btn-dark">Cerrar</button>
         </div>
+        <div class="col-md-4 text-right" *ngIf="!isAlreadyRegistered && totalClasses - countAssist > 0">
+            <button (click)="createAssist()" class="btn btn-dark">Registrar Asistencia</button>
+        </div>
+        
     </div>
 </div>

@@ -26,7 +26,12 @@
             <p><b>Notas: </b>{{payload.additional_notes}}</p>
         </div>
         <div class="col-12">
-            <p><b>Clases Restantes: </b>{{countAssist}} de {{totalClasses}}</p>
+            <p><b>Clases Restantes: </b>{{totalClasses - countAssist}} de {{totalClasses}}</p>
+        </div>
+        <div class="col-12" *ngIf="totalClasses - countAssist == 0" style="color: red;">
+          <p class="d-flex align-items-center "><span class="material-icons">
+            warning
+          </span>{{messageAssistOverLimit}}</p>
         </div>
     </div>
 

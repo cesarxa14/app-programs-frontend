@@ -20,6 +20,10 @@ export interface InfoToModalDetail {
   assistDate: string;
   assistHour: string;
   additional_notes: string;
+  packageId: number;
+  programId: number;
+  assistantId: number;
+
 }
 @Component({
   selector: 'app-panel-admin',
@@ -201,93 +205,81 @@ export class PanelAdminComponent implements OnInit {
 
   createAssist(){
 
-    const payloadCreateAssist: ICreateAssistDto = {
+    this.infoToModal = {
+      assistDate: new Date().toString(),
+      assistHour: this.getCurrentHour(),
       additional_notes: this.additional_notes.value,
-      assistant: this.idUser,
-      classHour: this.getCurrentHour(),
-      pack: this.packageId,
-      program: this.programId,
-      student: Number(this.studentInfo.id)
+      studentId: this.studentInfo.id,
+      programName: this.programName,
+      studentName: `${this.studentInfo.name} ${this.studentInfo.lastname}`,
+      packageId: this.packageId,
+      programId: this.programId,
+      assistantId: this.idUser
 
     }
-
-    this.assistService.createAssist(payloadCreateAssist).subscribe((res:any)=> {
-      console.log('res: ', res)
-      this.infoToModal = {
-        assistDate: res.createdAt,
-        assistHour: res.classHour,
-        additional_notes: this.additional_notes.value,
-        studentId: this.studentInfo.id,
-        programName: this.programName,
-        studentName: `${this.studentInfo.name} ${this.studentInfo.lastname}`
-  
-      }
-      const dialogRef = this.dialog.open(ModalAssistDetailComponent, {
-        width: '700px',
-        height: 'auto',
-        data: this.infoToModal,
-        panelClass: 'custom-dialog',
-        disableClose: true
-      })
-  
-      dialogRef.componentInstance.modal_emit.subscribe((res:any) => {
-        this.search.reset();
-        this.createAssistForm.reset();
-        this.customersFoundList = [];
-        this.programList = [];
-       
-      })
-    }, (err) => {
-      console.log('error: ', err)
-      alert(err.error.message)
+    const dialogRef = this.dialog.open(ModalAssistDetailComponent, {
+      width: '700px',
+      height: 'auto',
+      data: this.infoToModal,
+      panelClass: 'custom-dialog',
+      disableClose: true
     })
+
+    dialogRef.componentInstance.modal_emit.subscribe((res:any) => {
+      this.search.reset();
+      this.createAssistForm.reset();
+      this.customersFoundList = [];
+      this.programList = [];
+     
+    })  
     
   }
 
   createAssistCustomer(){
 
-    const payloadCreateAssist: ICreateAssistDto = {
+    const nameCustomer = localStorage.getItem('name')
+    const lastnameCustomer = localStorage.getItem('lastname')
+
+    this.infoToModal = {
+      assistDate: new Date().toString(),
+      assistHour: this.getCurrentHour(),
       additional_notes: this.additional_notes2.value,
-      assistant: this.idUser,
-      classHour: this.getCurrentHour(),
-      pack: this.packageId,
-      program: this.programId,
-      student: this.idUser
+      studentId: this.idUser,
+      programName: this.programName,
+      studentName: `${nameCustomer} ${lastnameCustomer}`,
+      packageId: this.packageId,
+      programId: this.programId,
+      assistantId: this.idUser
 
     }
 
-    this.assistService.createAssist(payloadCreateAssist).subscribe((res:any)=> {
-      console.log('res: ', res)
-      const nameCustomer = localStorage.getItem('name')
-      const lastnameCustomer = localStorage.getItem('lastname')
-      this.infoToModal = {
-        assistDate: res.createdAt,
-        assistHour: res.classHour,
-        additional_notes: this.additional_notes2.value,
-        studentId: this.idUser,
-        programName: this.programName,
-        studentName: `${nameCustomer} ${lastnameCustomer}`
-  
-      }
-      const dialogRef = this.dialog.open(ModalAssistDetailComponent, {
-        width: '700px',
-        height: 'auto',
-        data: this.infoToModal,
-        panelClass: 'custom-dialog',
-        disableClose: true
-      })
-  
-      dialogRef.componentInstance.modal_emit.subscribe((res:any) => {
-        this.search.reset();
-        this.createAssistForm.reset();
-        this.customersFoundList = [];
-        this.programList = [];
-       
-      })
-    }, (err) => {
-      console.log('error: ', err)
-      alert(err.error.message)
+
+
+    const dialogRef = this.dialog.open(ModalAssistDetailComponent, {
+      width: '700px',
+      height: 'auto',
+      data: this.infoToModal,
+      panelClass: 'custom-dialog',
+      disableClose: true
     })
+
+    dialogRef.componentInstance.modal_emit.subscribe((res:any) => {
+      this.search.reset();
+      this.createAssistForm.reset();
+      this.customersFoundList = [];
+      this.programList = [];
+     
+    })
+
+    // this.assistService.createAssist(payloadCreateAssist).subscribe((res:any)=> {
+    //   console.log('res: ', res)
+ 
+   
+      
+    // }, (err) => {
+    //   console.log('error: ', err)
+    //   alert(err.error.message)
+    // })
     
   }
 
