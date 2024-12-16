@@ -1,9 +1,7 @@
-
-
- <div class="container">
-    <div class="row justify-content-center mt-5">
-        <div class="col-md-6 col-sm-8">
-            <div class="card">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 d-flex align-items-center">
+            <div class="card w-100">
                 <div class="card-body">
                     <h2 class="card-title text-center">Registrarse</h2>
                     <form [formGroup]="registerForm" (ngSubmit)="register()">
@@ -11,7 +9,7 @@
                            
                             <div class="col-12 mb3">
                                 <label class="form-label">Nombres</label>
-                                <input type="email" formControlName="name" class="form-control "
+                                <input type="text" formControlName="name" class="form-control"
                                         [ngClass]="name.errors && (name.dirty || name.touched) ? 'is-invalid': ''">
                                 <div *ngIf="name.hasError('required')" class="invalid-feedback">
                                     Este campo es requerido 
@@ -55,17 +53,10 @@
                                 <label class="form-label">Rol</label>
                                 <select class="form-select" formControlName="role">
                                     <option *ngFor="let rol of roles" [value]="rol.id">{{rol.name}}</option>
-                                    
                                 </select>
                             </div>
-                            
                         </div>
                        
-                        
-                        <!-- <div class="mb-3 form-check">
-                          <input type="checkbox" class="form-check-input" >
-                          <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                        </div> -->
                         <div class="mb-3 text-center">
                             <span><a routerLink="/auth/login">¿Ya tienes cuenta?</a></span>
                         </div>
@@ -75,14 +66,12 @@
                                 <button [disabled]="registerForm.invalid" type="submit" class="btn btn-dark w-100">Registrar</button>
                             </div>
                         </div>
-                        
                     </form>
-
-                  
                 </div>
             </div>
         </div>
-        
+        <div class="col-md-6 d-none d-md-block">
+            <img src="assets/sd1.jpg" alt="Imagen de Nadar es Vida" class="img-fluid">
+        </div>
     </div>
-    
 </div>

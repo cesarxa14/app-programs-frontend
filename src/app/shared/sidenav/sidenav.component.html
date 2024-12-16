@@ -1,4 +1,127 @@
 <mat-sidenav-container class="sidenav-container">
+  <!-- Sidebar -->
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+  <mat-toolbar class="sidenav-toolbar">
+    <img src="assets/logook.png" alt="Logo" class="logo">
+    <div class="toolbar-text">
+      <span class="toolbar-title">Nadar es Vida</span><br>
+      <span class="toolbar-version">v1.0.0</span>
+    </div>
+  </mat-toolbar>
+
+    <hr class="divider" />
+
+    <mat-nav-list>
+      <!-- Menu Items -->
+      <a
+        *ngIf="role == '1'"
+        class="item-sidenav"
+        mat-list-item
+        routerLink="/pages/clases/programs"
+      >
+        <span class="material-icons"> class </span> Clases
+      </a>
+      <a
+        class="item-sidenav"
+        mat-list-item
+        routerLink="/pages/customers"
+      >
+        <span class="material-icons"> people </span> Clientes
+      </a>
+      <a
+        class="item-sidenav"
+        mat-list-item
+        routerLink="/pages/assistance"
+      >
+        <span class="material-icons"> event_available </span> Asistencia
+      </a>
+      <a
+        *ngIf="role == '3'"
+        class="item-sidenav"
+        mat-list-item
+        routerLink="/pages/store"
+      >
+        <span class="material-icons"> storefront </span> Tienda web
+      </a>
+      <a
+        *ngIf="role == '1'"
+        class="item-sidenav"
+        mat-list-item
+        routerLink="/pages/sales"
+      >
+        <span class="material-icons"> point_of_sale </span> Ventas
+      </a>
+      <a
+        *ngIf="role == '1'"
+        class="item-sidenav"
+        mat-list-item
+        routerLink="/pages/products"
+      >
+        <span class="material-icons"> inventory </span> Productos
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Main Content -->
+  <mat-sidenav-content>
+    <!-- Headbar -->
+    <mat-toolbar color="primary">
+      <!-- Toggle Button for Mobile -->
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+
+
+
+      <!-- Spacer -->
+      <span class="flex-expand"></span>
+
+      <!-- User Info -->
+      <!--
+      <div class="headbar-right">
+        <span class="user-info">{{ displayName }}</span>
+        <span class="user-role">Admin</span>
+        <a mat-button (click)="logout()">Cerrar Sesión</a>
+      </div>
+      -->
+
+      
+        <div class="user-actions">
+          <div class="user-info">
+            <span>{{ displayName }}</span>
+            <!--<span class="user-role">{{ userRole }}</span>-->
+            <span class="user-role">Rol</span>
+          </div>
+          <button mat-button (click)="logout()">Cerrar Sesión</button>
+        </div>
+      
+      
+
+
+
+    </mat-toolbar>
+
+    <!-- Router Outlet -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+<!--
+<mat-sidenav-container class="sidenav-container">
     <mat-sidenav #drawer class="sidenav" fixedInViewport 
         [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
         [mode]="(isHandset$ | async) ? 'over' : 'side'"
@@ -55,37 +178,7 @@
           </span>
           Products
         </a>
-        <!-- 
-        <a class="item-sidenav" mat-list-item routerLink="/pages/products">
-          <span class="material-icons button-back">
-            local_mall
-          </span>
-          Productos
-        </a>
-        <a *ngIf="role == 'Admin'" class="item-sidenav" mat-list-item routerLink="/pages/customers">
-          <span class="material-icons button-back">
-            face
-          </span>
-          Clientes
-        </a>
-        <a *ngIf="role == 'Admin'" class="item-sidenav" mat-list-item routerLink="/pages/providers">
-          <span class="material-icons button-back">
-            local_shipping
-          </span>
-          Proveedores
-        </a>
-        <a *ngIf="role == 'Admin'" class="item-sidenav" mat-list-item routerLink="/pages/inventory">
-          <span class="material-icons button-back">
-            inventory
-          </span>
-          Inventario
-        </a>
-        <a *ngIf="role == 'Admin'" class="item-sidenav" mat-list-item routerLink="/pages/settings">
-          <span class="material-icons button-back">
-            settings
-          </span>
-          Configuración
-        </a> -->
+        
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
@@ -104,8 +197,8 @@
           <a mat-button (click)="logout()">Cerrar Sesión</a>
         </div>
       </mat-toolbar>
-      <!-- Add Content Here -->
+      
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
-  
+  -->

@@ -6,6 +6,7 @@ import { EditPackageModalComponent } from './edit-package-modal/edit-package-mod
 import { PackageService } from '../../services/package.service';
 import Swal from 'sweetalert2';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-packages',
@@ -15,7 +16,11 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 export class PackagesComponent implements OnInit {
 
   idUser: number;
-  packages: IPackageEntity[] = []
+  packages: IPackageEntity[] = [];
+  paginatedPackages: IPackageEntity[] = [];
+  pageSize: number = 5; // Tamaño por defecto de la página
+  currentPage: number = 0;
+
   constructor(
     private packageService: PackageService,
     public dialog: MatDialog,
@@ -31,6 +36,7 @@ export class PackagesComponent implements OnInit {
     this.packageService.getPackages(this.idUser).subscribe((res:any) => {
       console.log(res)
       this.packages = res.data;
+      this.updatePagination();
     })
   }
 
@@ -82,5 +88,16 @@ export class PackagesComponent implements OnInit {
       } 
     })
   }
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.updatePagination();
+  }
+  updatePagination() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedPackages = this.packages.slice(startIndex, endIndex);
+  }
+
 
 }

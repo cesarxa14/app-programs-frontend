@@ -33,7 +33,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let prog of programs">
+              <tr *ngFor="let prog of paginatedPrograms">
                 <td>
                   <p>{{prog.name}}</p>
                 </td>
@@ -55,4 +55,11 @@
             </tbody>
           </table>
     </div>
+    <mat-paginator  
+    [length]="programs.length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 15]"
+    (page)="onPageChange($event)"
+  ></mat-paginator>
+
 </div>

@@ -1,69 +1,77 @@
 <div class="container border mt-3">
-    <div>
-        <h1>Módulo de Clientes</h1>
-    </div>
+  <div>
+      <h1>Módulo de Clientes</h1>
+  </div>
 
-    <div class="row align-items-center my-3">
-        <div class="col">
-            <form [formGroup]="searchForm">
-                <div class="col-md-5">
-      
-                    <input placeholder="Buscar cliente" type="email" formControlName="search" class="form-control" (keyup)="applyFilter($event)"
-                            [ngClass]="search.errors && (search.dirty || search.touched) ? 'is-invalid': ''">
-                </div>
-            
-            </form>
-        </div>
-        <div class="col-auto">
-          <button class="btn btn-dark" (click)="abrirModal()">Registrar Nuevo Cliente</button>
-        </div>
+  <div class="row align-items-center my-3">
+      <div class="col">
+          <form [formGroup]="searchForm">
+              <div class="col-md-5">
+    
+                  <input placeholder="Buscar cliente" type="email" formControlName="search" class="form-control" (keyup)="applyFilter($event)"
+                          [ngClass]="search.errors && (search.dirty || search.touched) ? 'is-invalid': ''">
+              </div>
+          
+          </form>
       </div>
-
-
-    <div class="table-responsive row border m-1">
-        <table class="table align-middle mb-0 bg-white text-center">
-            <thead class="bg-light">
-              <tr>
-                <th>Nombres</th>
-                <th>Apellidos</th>
-                <th>Documento</th>
-                <th>Correo</th>
-                <th>Telefono</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let cus of myCustomersList">
-                <td>
-                  <p>{{cus.name}}</p>
-                </td>
-                <td>
-                  <p class="fw-normal mb-1">{{cus.lastname}}</p>
-                </td>
-                <td>
-                    <p class="fw-normal mb-1">{{cus.document}}</p>
-                </td>
-                <td>
-                    <p class="fw-normal mb-1">{{cus.email}}</p>
-                </td>
-                <td>
-                    <p class="fw-normal mb-1">{{cus.phone}}</p>
-                </td>
-                <td>
-                  <button (click)="viewDetail(cus)" type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Borrar">
-                    <a [routerLink]="['/pages/customers/my-customers/details', cus.id]"><i class="fa-solid fa-eye"></i></a>
-                    
-                  </button>
-                  <button (click)="editModal(cus)" type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Borrar">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button (click)="deleteCustomer(cus)" type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Borrar">
-                    <i class="fa-solid fa-trash-can"></i>
-                  </button>
-                 
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="col-auto">
+        <button class="btn btn-dark" (click)="abrirModal()">Registrar Nuevo Cliente</button>
+      </div>
     </div>
+
+
+  <div class="table-responsive row border m-1">
+      <table class="table align-middle mb-0 bg-white text-center">
+          <thead class="bg-light">
+            <tr>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>Documento</th>
+              <th>Correo</th>
+              <th>Telefono</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cus of paginatedCustomerList">
+              <td>
+                <p>{{cus.name}}</p>
+              </td>
+              <td>
+                <p class="fw-normal mb-1">{{cus.lastname}}</p>
+              </td>
+              <td>
+                  <p class="fw-normal mb-1">{{cus.document}}</p>
+              </td>
+              <td>
+                  <p class="fw-normal mb-1">{{cus.email}}</p>
+              </td>
+              <td>
+                  <p class="fw-normal mb-1">{{cus.phone}}</p>
+              </td>
+              <td>
+                <button (click)="viewDetail(cus)" type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Borrar">
+                  <a [routerLink]="['/pages/customers/my-customers/details', cus.id]"><i class="fa-solid fa-eye"></i></a>
+                  
+                </button>
+                <button (click)="editModal(cus)" type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Borrar">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button (click)="deleteCustomer(cus)" type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Borrar">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+               
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  </div>
+  <mat-paginator  
+  [length]="myCustomersList.length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[5, 10, 15]"
+  (page)="onPageChange($event)"
+></mat-paginator>
+
+ 
 </div>

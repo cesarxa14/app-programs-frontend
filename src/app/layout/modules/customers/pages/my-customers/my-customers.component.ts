@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EditMyCustomerModalComponent } from './edit-my-customer-modal/edit-my-customer-modal.component';
 import Swal from 'sweetalert2';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-my-customers',
@@ -19,6 +20,10 @@ export class MyCustomersComponent implements OnInit {
   searchForm: FormGroup;
   myCustomersList: IUserCustomerEntity[] = []
   myCustomersListAux: IUserCustomerEntity[] = []
+  paginatedCustomerList: IUserCustomerEntity[] = [];
+  pageSize: number = 5; // Tamaño por defecto de la página
+  currentPage: number = 0;
+
   constructor(
     private _formBuilder: FormBuilder,
     public dialog: MatDialog,
@@ -60,6 +65,7 @@ export class MyCustomersComponent implements OnInit {
       console.log('res: ', res);
       this.myCustomersList = res.data;
       this.myCustomersListAux = this.myCustomersList;
+      this.updatePagination();
     })
 
   }
@@ -113,5 +119,18 @@ export class MyCustomersComponent implements OnInit {
 
     
   }
+
+  
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.updatePagination();
+  }
+  updatePagination() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedCustomerList = this.myCustomersList.slice(startIndex, endIndex);
+  }
+
 
 }

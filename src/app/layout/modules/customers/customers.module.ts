@@ -8,6 +8,7 @@ import { AddMyCustomerModalComponent } from './pages/my-customers/add-my-custome
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditMyCustomerModalComponent } from './pages/my-customers/edit-my-customer-modal/edit-my-customer-modal.component';
 import { ModalExtendSubscriptionComponent } from './pages/detail-customer/modal-extend-subscription/modal-extend-subscription.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -17,7 +18,7 @@ import { ModalExtendSubscriptionComponent } from './pages/detail-customer/modal-
     MyCustomersComponent,
     DetailCustomerComponent,
     AddMyCustomerModalComponent,
-    EditMyCustomerModalComponent,
+    EditMyCustomerModalComponent,    
     ModalExtendSubscriptionComponent
   ],
   imports: [
@@ -25,6 +26,7 @@ import { ModalExtendSubscriptionComponent } from './pages/detail-customer/modal-
     CustomerRoutingModule,
     FormsModule, 
     ReactiveFormsModule,
+    MatPaginatorModule
   ]
 })
 export class CustomersModule { }

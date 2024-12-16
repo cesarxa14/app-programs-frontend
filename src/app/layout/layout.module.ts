@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 
 import { LayoutRoutingModule } from './layout-routing.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -39,7 +40,8 @@ import { LayoutRoutingModule } from './layout-routing.module';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    MatPaginatorModule
   ],
   
   // entryComponents: [AddProgramModalComponent, EditProgramModalComponent],

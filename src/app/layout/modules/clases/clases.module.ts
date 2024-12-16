@@ -17,6 +17,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatListModule,
     MatIconModule,
     MatSelectModule, 
+    MatPaginatorModule
     
   ],
   entryComponents: [AddProgramModalComponent, EditProgramModalComponent],

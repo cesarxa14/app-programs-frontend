@@ -4,6 +4,7 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 import { ISalesEntity } from '../../interfaces/ISaleEntity';
 import { MatDialog } from '@angular/material/dialog';
 import { AddSaleModalComponent } from './add-sale-modal/add-sale-modal.component';
+import { PageEvent } from '@angular/material/paginator';
 
 
 @Component({
@@ -15,7 +16,9 @@ export class PanelSalesComponent implements OnInit {
 
   idUser: number;
   mySalesList: ISalesEntity[] = [];
- 
+  paginatedSalesList: ISalesEntity[] = [];
+  pageSize: number = 5; // Tamaño por defecto de la página
+  currentPage: number = 0; 
   constructor(
     public dialog: MatDialog,
     private saleService: SaleService,
@@ -31,6 +34,7 @@ export class PanelSalesComponent implements OnInit {
     this.saleService.getMySales(this.idUser).subscribe((res: any) => {
       console.log('res sales: ', res)
       this.mySalesList = res;
+      this.updatePagination();
     })
   }
 
@@ -48,6 +52,18 @@ export class PanelSalesComponent implements OnInit {
       // this.packages.unshift(pack_add)s
       this.getMySales();
     })
+  }
+
+  
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.updatePagination();
+  }
+  updatePagination() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedSalesList = this.mySalesList.slice(startIndex, endIndex);
   }
 
 }
