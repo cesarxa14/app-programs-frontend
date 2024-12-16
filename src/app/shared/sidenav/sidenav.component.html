@@ -29,6 +29,7 @@
         <span class="material-icons"> class </span> Clases
       </a>
       <a
+        *ngIf="role == '1'"
         class="item-sidenav"
         mat-list-item
         routerLink="/pages/customers"

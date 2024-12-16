@@ -16,6 +16,7 @@ export class RoleGuardGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
       if(this.idRole == '3'){
+        console.log('idRole: ', this.idRole)
         if(state.url.includes('/pages/clases') || state.url.includes('/pages/sales') || state.url.includes('/pages/customer')){
           this.router.navigate(['/pages/books']);
 

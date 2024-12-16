@@ -23,7 +23,6 @@ export class ModalAddCarComponent implements OnInit {
   }
 
   removeToCar(item:IItemStoreEntity, index:number){
-    console.log('index:', index)
     const existing = this.carList.find(itemCar => itemCar.name === item.name && itemCar.type == item.type);
     if(existing){
       existing.cantidad!--;
@@ -37,11 +36,9 @@ export class ModalAddCarComponent implements OnInit {
   }
 
   addToCar(item:IItemStoreEntity){
-    console.log('otem: ', item)
     console.log(this.carList)
 
     const existing = this.carList.find(itemCar => itemCar.name === item.name && itemCar.type == item.type);
-    console.log('existing', existing)
     if (existing) {
       existing.cantidad!++;
     } else {
