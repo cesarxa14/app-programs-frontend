@@ -12,6 +12,7 @@ import { SubscriptionService } from '../../../customers/services/subscription.se
 import { ModalAssistDetailComponent } from './modal.assist-detail/modal.assist-detail.component';
 import { AssistService } from '../../services/assist.service';
 import { ICreateAssistDto } from '../../interfaces/ICreateAssistDto';
+import { Router } from '@angular/router';
 
 export interface InfoToModalDetail {
   studentId: number;
@@ -54,7 +55,7 @@ export class PanelAdminComponent implements OnInit {
     private myCustomerService: MyCustomerService,
     private programService: ProgramService,
     public dialog: MatDialog,
-    private assistService: AssistService
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -66,10 +67,11 @@ export class PanelAdminComponent implements OnInit {
       this.createAssistForm = this._builderCreateAssistForm();
       this.onCustomerChange();
       this.onProgramChange();
-    }else if(this.roleId == 3){
-      this.createAssistCustomerForm = this._builderCreateAssistCustomerForm();
-      this.onProgram2Change();
-      this.getProgramValidByUser(this.idUser);
+    }else if(this.roleId == 3){ 
+      this.router.navigateByUrl('/pages/assistance/historial')
+      // this.createAssistCustomerForm = this._builderCreateAssistCustomerForm();
+      // this.onProgram2Change();
+      // this.getProgramValidByUser(this.idUser);
     }
 
   }

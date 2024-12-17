@@ -248,7 +248,7 @@ export class RegisterBookComponent implements OnInit {
     dialogRef.componentInstance.book_emit.subscribe((book_add:any) => {
       console.log('prog_add: ', book_add)
       // this.programs.unshift(prog_add)
-      this.getMyBooks();
+      this.router.navigate(['/pages/books/my-books']);
     })
     
 
