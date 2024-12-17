@@ -21,6 +21,7 @@ export class MyCustomersComponent implements OnInit {
   myCustomersList: IUserCustomerEntity[] = []
   myCustomersListAux: IUserCustomerEntity[] = []
   paginatedCustomerList: IUserCustomerEntity[] = [];
+  filteredCustomersList: any[] = [];
   pageSize: number = 5; // Tamaño por defecto de la página
   currentPage: number = 0;
 
@@ -53,11 +54,25 @@ export class MyCustomersComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     if(filterValue == ''){
       this.myCustomersList = this.myCustomersListAux;
+      this.filteredCustomersList = [...this.myCustomersListAux];
     } else{
       this.myCustomersList = this.myCustomersListAux.filter(s => {
         return s.name.toLowerCase().includes(filterValue) || s.lastname.toLowerCase().includes(filterValue) 
       })
+      this.filteredCustomersList = this.myCustomersListAux.filter(s => {
+        return s.name.toLowerCase().includes(filterValue) || 
+               s.lastname.toLowerCase().includes(filterValue);
+      });
     }
+
+    this.currentPage = 0;
+    this.updatePaginatedList();
+  }
+
+  updatePaginatedList() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedCustomerList = this.filteredCustomersList.slice(startIndex, endIndex);
   }
 
   getMyCustomers() {

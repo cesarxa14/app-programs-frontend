@@ -18,6 +18,13 @@ export class SharedService {
     return this.token;
   }
 
+  getUserIdTokenParam(token: any){
+    const decodedToken = jwtDecode<IJwtPayload>(token)
+    console.log('decodedToken', decodedToken)
+    this.idUser = Number(decodedToken.id);
+    return this.idUser;
+  }
+
   getUserId() {
     const token = this.getToken();
     const decodedToken = jwtDecode<IJwtPayload>(token!)

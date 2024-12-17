@@ -21,9 +21,13 @@ export class BookService {
     return headers
   }
 
-  getMyBooks() {
+  getMyBooks(params: any) {
     try{
-      return this.http.get(this.API_BASE_URI, {headers: this.setHeaders()})
+      let paramString = '';
+      if(params.limit){
+        paramString = '?limit=10'
+      }
+      return this.http.get(`${this.API_BASE_URI}${paramString}`, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)
       throw err

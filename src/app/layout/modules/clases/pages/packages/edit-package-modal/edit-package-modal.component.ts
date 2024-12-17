@@ -24,7 +24,7 @@ export class EditPackageModalComponent implements OnInit {
   booleanStatus: boolean;
   @Output() package_edit_emit:any = new EventEmitter();
   constructor(
-    @Inject(MAT_DIALOG_DATA) public packag: IPackageEntity,
+    @Inject(MAT_DIALOG_DATA) public packag: any,
     private _formBuilder: FormBuilder,
     private packageService: PackageService,
     private sharedService: SharedService,
@@ -49,7 +49,7 @@ export class EditPackageModalComponent implements OnInit {
     const numberPattern = '^[0-9]*$'
     const decimalPattern = '^[0-9]+(\.[0-9]{1,2})?$'
     const form = this._formBuilder.group({
-      program: [this.packag.program.id, [Validators.required]],
+      program: [this.packag.program_id, [Validators.required]],
       name: [this.packag.name, [Validators.required]],
       num_clases: [this.packag.num_clases, [Validators.required, Validators.pattern(numberPattern)]],
       expiration: [this.packag.expiration, [Validators.required, Validators.pattern(numberPattern)]],

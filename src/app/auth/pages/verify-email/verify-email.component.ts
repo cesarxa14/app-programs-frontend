@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ICompleteRegisterDto } from '../../interfaces/ICompleteRegisterDto';
 import Swal from 'sweetalert2';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Component({
   selector: 'app-verify-email',
@@ -12,6 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class VerifyEmailComponent implements OnInit {
 
+  userId: any;
   completeRegisterForm: FormGroup;
   token: string;
 
@@ -20,10 +22,13 @@ export class VerifyEmailComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit(): void {
     this.getQueryParams();
+    this.userId = this.sharedService.getUserIdTokenParam(this.token);
+    console.log(this.userId)
     this.completeRegisterForm = this._builderForm();
   }
 
@@ -71,6 +76,7 @@ export class VerifyEmailComponent implements OnInit {
       district: ['', [Validators.required]],
       type_document: [null, [Validators.required]],
       document: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
       birthdate: [null, [Validators.required]],
       medical_history: ['', [Validators.required]],
     });
@@ -84,18 +90,21 @@ export class VerifyEmailComponent implements OnInit {
   get district() {return this.completeRegisterForm.controls["district"]}
   get type_document() {return this.completeRegisterForm.controls["type_document"]}
   get document() {return this.completeRegisterForm.controls["document"]}
+  get gender() {return this.completeRegisterForm.controls["gender"]}
   get birthdate() {return this.completeRegisterForm.controls["birthdate"]}
   get medical_history() {return this.completeRegisterForm.controls["medical_history"]}
 
   completeRegister(){
 
     const payloadCompleteRegister: ICompleteRegisterDto = {
+      userId: this.userId,
       phone: this.phone.value,
       country: this.country.value,
       province: this.province.value,
       district: this.district.value,
       type_document: this.type_document.value,
       document: this.document.value,
+      gender: this.gender.value,
       birthdate: this.birthdate.value,
       medical_history: this.medical_history.value,
     }

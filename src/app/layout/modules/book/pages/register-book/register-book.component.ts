@@ -181,7 +181,10 @@ export class RegisterBookComponent implements OnInit {
   }
 
   getMyBooks() {
-    this.bookService.getMyBooks().subscribe((res:any) => {
+    let params = {
+      limit: true
+    }
+    this.bookService.getMyBooks(params).subscribe((res:any) => {
       console.log('books: ', res)
       this.bookList = res.data;
     })
