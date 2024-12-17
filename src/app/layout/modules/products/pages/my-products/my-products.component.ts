@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ProductsService } from '../../services/products.service';
 import { AddProductModalComponent } from './add-product-modal/add-product-modal.component';
 import Swal from 'sweetalert2';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-my-products',
@@ -16,6 +17,9 @@ export class MyProductsComponent implements OnInit {
 
   idUser: number;
   productList: IProductEntity[] = [];
+  paginatedProductList: IProductEntity[] = [];
+  pageSize: number = 5; // Tamaño por defecto de la página
+  currentPage: number = 0; 
   
   constructor(
     private sharedService: SharedService,
@@ -32,6 +36,7 @@ export class MyProductsComponent implements OnInit {
     this.productsService.getMyProducts(this.idUser).subscribe((res: any) => {
       console.log('res products: ', res)
       this.productList = res.data;
+      this.updatePagination();
     })
   }
 
@@ -65,6 +70,17 @@ export class MyProductsComponent implements OnInit {
         })
       } 
     })
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.updatePagination();
+  }
+  updatePagination() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedProductList = this.productList.slice(startIndex, endIndex);
   }
 
 }

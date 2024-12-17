@@ -24,7 +24,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let prod of productList">
+            <tr *ngFor="let prod of paginatedProductList">
               <td>
                 <p>{{prod.name}}</p>
               </td>
@@ -56,4 +56,10 @@
           </tbody>
         </table>
   </div>
+  <mat-paginator  
+  [length]="productList.length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[5, 10, 15]"
+  (page)="onPageChange($event)"
+></mat-paginator>
 </div>
