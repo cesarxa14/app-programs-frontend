@@ -48,6 +48,15 @@ export class AssistService {
     }
   }
 
+  sendReminder(payload: any){
+    try{
+      return this.http.post(`${this.API_BASE_URI}/sendReminder`,payload, {headers: this.setHeaders()})
+    }catch(err) {
+      console.log('error: ', err)
+      throw err
+    }
+  }
+
   createAssist(payloadCreate: ICreateAssistDto) {
     try{
       return this.http.post(this.API_BASE_URI, payloadCreate ,{headers: this.setHeaders()})

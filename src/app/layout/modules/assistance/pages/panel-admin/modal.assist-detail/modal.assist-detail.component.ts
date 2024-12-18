@@ -71,6 +71,24 @@ export class ModalAssistDetailComponent implements OnInit {
     }
   }
 
+  sendReminder(){
+    const payload = {
+      studentId: this.payload.studentId
+    }
+    Swal.showLoading()
+    this.assistService.sendReminder(payload).subscribe((res => {
+      console.log('res:', res)
+      Swal.close();
+      Swal.fire({
+        title: 'Se envió el recordatorio!',
+        // text: 'Se inició sesión',
+        icon: 'success',
+        confirmButtonText: 'Ir',
+        allowOutsideClick: false
+      })
+
+    }))
+  }
   createAssistAdmin(){
 
     Swal.showLoading();
