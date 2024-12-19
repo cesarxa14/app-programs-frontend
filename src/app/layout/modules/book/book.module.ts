@@ -7,6 +7,7 @@ import { RegisterBookComponent } from './pages/register-book/register-book.compo
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PreviewBookModalComponent } from './pages/preview-book-modal/preview-book-modal.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -23,6 +24,7 @@ import { PreviewBookModalComponent } from './pages/preview-book-modal/preview-bo
     AutocompleteLibModule,
     FormsModule, 
     ReactiveFormsModule,
+    MatPaginatorModule
   ]
 })
 export class BookModule { }

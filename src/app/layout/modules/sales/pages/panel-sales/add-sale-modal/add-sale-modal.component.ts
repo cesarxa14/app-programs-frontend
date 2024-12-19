@@ -24,11 +24,11 @@ export class AddSaleModalComponent implements OnInit {
   idUser: number;
   addSaleForm: FormGroup;
   itemStoreList: IItemStoreEntity[] = [];
-  itemStoreSelect: IItemStoreEntity = {amount: 0, name: '', type: 'servicio'};
+  itemStoreSelect: IItemStoreEntity = { amount: 0, name: '', type: 'servicio' };
   packagesList: IPackageEntity[] = [];
   productList: IProductEntity[] = [];
   myCustomersList: IUserCustomerEntity[] = [];
-  @Output() sale_emit:any = new EventEmitter();
+  @Output() sale_emit: any = new EventEmitter();
 
 
   costSale: number;
@@ -36,7 +36,7 @@ export class AddSaleModalComponent implements OnInit {
   totalSale: number;
 
   customerData: IUserCustomerEntity;
- 
+
   @ViewChild('autocomplete') autocomplete!: AutocompleteComponent;
 
   constructor(
@@ -64,28 +64,28 @@ export class AddSaleModalComponent implements OnInit {
   }
 
   _builderForm() {
-    
+
     const form = this._formBuilder.group({
       category: [null, [Validators.required]],
-      saleItem: [{value: null, disabled: true}, [Validators.required]],
+      saleItem: [{ value: null, disabled: true }, [Validators.required]],
       type_voucher: [null, [Validators.required]],
       payment_method: [null, [Validators.required]],
       amount: [null, [Validators.required]],
-      customerFullName: [{value: '', disabled: true}, [Validators.required]],
+      customerFullName: [{ value: '', disabled: true }, [Validators.required]],
     });
 
     return form;
   }
 
-  get category() {return this.addSaleForm.controls["category"]}
-  get saleItem() {return this.addSaleForm.controls["saleItem"]}
-  get type_voucher() {return this.addSaleForm.controls["type_voucher"]}
-  get payment_method() {return this.addSaleForm.controls["payment_method"]}
-  get amount() {return this.addSaleForm.controls["amount"]}
-  get customerFullName() {return this.addSaleForm.controls["customerFullName"]}
+  get category() { return this.addSaleForm.controls["category"] }
+  get saleItem() { return this.addSaleForm.controls["saleItem"] }
+  get type_voucher() { return this.addSaleForm.controls["type_voucher"] }
+  get payment_method() { return this.addSaleForm.controls["payment_method"] }
+  get amount() { return this.addSaleForm.controls["amount"] }
+  get customerFullName() { return this.addSaleForm.controls["customerFullName"] }
 
   getMyPackages() {
-    this.packageService.getPackages(this.idUser).subscribe((res:any) => {
+    this.packageService.getPackages(this.idUser).subscribe((res: any) => {
       console.log(res)
       this.packagesList = res.data;
       this.itemStoreList = this.packagesList.map(p => {
@@ -100,8 +100,8 @@ export class AddSaleModalComponent implements OnInit {
     })
   }
 
-  getProducts(){
-    this.productService.getMyProducts(this.idUser).subscribe((res:any) => {
+  getProducts() {
+    this.productService.getMyProducts(this.idUser).subscribe((res: any) => {
       console.log(res)
       this.productList = res.data;
       this.itemStoreList = this.productList.map(p => {
@@ -117,7 +117,7 @@ export class AddSaleModalComponent implements OnInit {
   }
 
   getMyCustomers() {
-    this.myCustomerService.getMyCustomers(this.idUser).subscribe((res:any) => {
+    this.myCustomerService.getMyCustomers(this.idUser).subscribe((res: any) => {
       console.log('res: ', res);
       this.myCustomersList = res.data;
       // this.myCustomersListAux = this.myCustomersList;
@@ -125,8 +125,8 @@ export class AddSaleModalComponent implements OnInit {
 
   }
 
-  onSaleItemChange(){
-    
+  onSaleItemChange() {
+
     this.saleItem?.valueChanges.subscribe(value => {
       console.log('value saleItem: ', value)
       this.itemStoreSelect = value;
@@ -137,20 +137,20 @@ export class AddSaleModalComponent implements OnInit {
     })
   }
 
-  changeCategoryValue(){
+  changeCategoryValue() {
     // this.saleItem.reset();
     this.saleItem.setValue([])
     this.category.valueChanges.subscribe(value => {
       console.log('Valor cambiado:', value);
-      if(value == 'servicio'){
+      if (value == 'servicio') {
         // if(this.itemStoreList.length == 0){
-          this.getMyPackages();
+        this.getMyPackages();
         // }
         this.saleItem.enable();
-      }else if(value == 'producto'){
+      } else if (value == 'producto') {
         // this.saleItem.disable();
         // if(this.itemStoreList.length == 0){
-          this.getProducts();
+        this.getProducts();
         // }
         this.saleItem.enable();
       }
@@ -158,20 +158,22 @@ export class AddSaleModalComponent implements OnInit {
 
   }
 
-  selectEventAutocomplete(item: IUserCustomerEntity){
+  selectEventAutocomplete(item: IUserCustomerEntity) {
     this.customerData = item;
     this.customerFullName.setValue(`${this.customerData.name} ${this.customerData.lastname}`);
   }
 
 
-  createSale(){
+  createSale() {
+    const localDate = new Date();
+    const saleDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000); // Ajusta la fecha a la zona horaria local (Perú es UTC-5)
     Swal.showLoading();
     const newSalePayload: ICreateSaleDto = {
       amount: this.amount.value,
       category: this.category.value,
       igv: this.amount.value * 0.18,
       payment_method: this.payment_method.value,
-      saleDate: new Date(),
+      saleDate: saleDate,//new Date(),
       saleName: this.itemStoreSelect.name,
       itemId: this.itemStoreSelect.id || -1,
       type_voucher: this.type_voucher.value,
@@ -179,7 +181,7 @@ export class AddSaleModalComponent implements OnInit {
       customerId: this.customerData.id
     }
 
-    this.saleService.createSale(newSalePayload).subscribe((res:any)=> {
+    this.saleService.createSale(newSalePayload).subscribe((res: any) => {
       console.log('res sale:', res)
       Swal.close();
       Swal.fire({
@@ -190,10 +192,10 @@ export class AddSaleModalComponent implements OnInit {
         allowOutsideClick: false
       }).then((result) => {
         console.log('result: ', result)
-        if(result.isConfirmed){
+        if (result.isConfirmed) {
           this.sale_emit.emit(res);
           this.dialogRef.close()
-          
+
         }
       })
     })

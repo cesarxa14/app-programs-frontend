@@ -21,7 +21,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let book of bookList">
+              <tr *ngFor="let book of paginatedBookList">
                 <td>
                   <p>{{book.userBooked.name}} {{book.userBooked.lastname}}</p>
                 </td>
@@ -52,4 +52,10 @@
             </tbody>
           </table>
     </div>
+    <mat-paginator  
+    [length]="bookList.length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 15]"
+    (page)="onPageChange($event)"
+  ></mat-paginator>
 </div>

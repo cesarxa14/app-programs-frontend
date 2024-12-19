@@ -1,3 +1,20 @@
 .ng-autocomplete {
-    width: 100%;
-  }
+  width: 100%;
+}
+
+.form-switch {
+  display: flex;
+  align-items: center;
+}
+
+.form-check-inline .form-check-input {
+  margin-right: 0.5rem;
+}
+
+.form-check-inline .form-check-label {
+  margin-right: 1rem;
+}
+
+.btn-group .btn {
+  min-width: 100px;
+}
