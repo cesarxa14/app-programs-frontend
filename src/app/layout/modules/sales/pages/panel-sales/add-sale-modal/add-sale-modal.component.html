@@ -29,7 +29,8 @@
                         <label class="form-label">Producto/Servicio</label>
                         <select class="form-select" formControlName="saleItem">
                             <!-- <option *ngFor="let prog of programsList" [value]="prog.id">{{prog.name}}</option> -->
-                             <option *ngFor="let item of itemStoreList" [ngValue]="item">({{item.type}}) - {{item.name}}</option>
+                             <!--<option *ngFor="let item of itemStoreList" [ngValue]="item">({{item.program}}) - {{item.name}}</option>-->
+                             <option *ngFor="let item of itemStoreList" [ngValue]="item">{{item.name}}</option>
                            
                             
                         </select>

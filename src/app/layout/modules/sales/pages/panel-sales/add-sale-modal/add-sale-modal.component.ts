@@ -92,7 +92,7 @@ export class AddSaleModalComponent implements OnInit {
         return {
           id: p.id,
           amount: p.cost,
-          name: p.name,
+          name: p.program + " - " + p.name,
           type: 'servicio',
         }
       })

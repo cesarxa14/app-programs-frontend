@@ -132,13 +132,32 @@ export class PanelAdminComponent implements OnInit {
     }
   }
 
-  searchStudent(){
+  searchStudent() {
     Swal.showLoading();
-    this.myCustomerService.getMyCustomersBySearch(this.idUser, this.labelFilterInput, this.search.value).subscribe((res: any) => {
-      console.log('res: ', res)
-      Swal.close();
-      this.customersFoundList =res.data;
-    })
+    this.myCustomerService.getMyCustomersBySearch(this.idUser, this.labelFilterInput, this.searchForm.value.search)
+      .subscribe((res: any) => {
+        this.customersFoundList = [];
+        this.programList = [];
+        Swal.close();
+  
+        this.customersFoundList = res.data;
+  
+        // Limpia y reinicia los valores del formulario de asistencias
+        this.createAssistForm.reset({
+          customer: null,
+          program: null,
+          additional_notes: null,
+        });
+  
+        if (this.customersFoundList.length > 0) {
+          // Selecciona el primer alumno por defecto
+          const defaultCustomer = this.customersFoundList[0];
+          this.createAssistForm.controls['customer'].setValue(defaultCustomer);
+  
+          // Obtiene los programas válidos para el primer alumno
+          this.getProgramValidByUser(defaultCustomer.id);
+        }
+      });
   }
 
   onCustomerChange(){
@@ -173,25 +192,31 @@ export class PanelAdminComponent implements OnInit {
     })
   }
 
-  onChangeSelectCustomer(event: Event){
-    // console.log(this.customer.value)
-    Swal.showLoading();
-    this.getProgramValidByUser(this.studentInfo.id);
-    
+  onChangeSelectCustomer(event: Event) {
+    const selectedCustomer = this.createAssistForm.value.customer;
+    if (selectedCustomer) {
+      Swal.showLoading();
+      this.getProgramValidByUser(selectedCustomer.id);
+    }
   }
+  
 
-  getProgramValidByUser(studentId: number){
-    this.programService.getProgramValidByUser(studentId).subscribe((res:any)=> {
-      console.log('res valid: ', res);
+  getProgramValidByUser(studentId: number) {
+    this.programService.getProgramValidByUser(studentId).subscribe((res: any) => {
       Swal.close();
-      if(res.data.length < 1){
-        alert('El usuario no tiene subscripciones validas')
-      }else {
-        this.programList = res.data
-        // console.log('activeHours', this.activeHours)
+  
+      this.programList = res.data;
+  
+      if (this.programList.length > 0) {
+        // Selecciona el primer programa por defecto
+        const defaultProgram = this.programList[0];
+        this.createAssistForm.controls['program'].setValue(defaultProgram);
+      } else {
+        alert('El usuario no tiene subscripciones válidas');
       }
-    })
+    });
   }
+  
 
   getCurrentHour(){
     const currentDate = new Date();

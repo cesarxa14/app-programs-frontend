@@ -56,13 +56,18 @@
                 </select>
             </div>
 
+       
+
             <div class="col-12 mb-3">
               <label class="form-label">Programa</label>
-              <select class="form-select" formControlName="program">
-                  <option *ngFor="let prog of programList" [ngValue]="prog">{{prog.program_name}}</option>
-                  
+              <select class="form-select" formControlName="program" [disabled]="!programList.length">
+                <option *ngFor="let program of programList" [ngValue]="program">
+                  {{ program.program_name }}
+                </option>
               </select>
-          </div>
+            </div>
+            
+          
 
             
 
