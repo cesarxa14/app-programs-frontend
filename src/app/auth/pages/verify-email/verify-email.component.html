@@ -17,42 +17,60 @@
                                     Este campo es requerido 
                                 </div>
                             </div>
+
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Pais</label>
+                                <select class="form-select" formControlName="country">
+                                    <!-- <option *ngFor="let prog of programsList" [value]="prog.id">{{prog.name}}</option> -->
+                                     <option value="Peru" selected>Perú</option>
+                                     <option value="Argentina">Argentina</option>
+                                     <option value="Bolivia">Bolivia</option>
+                                     <option value="Brasil">Brasil</option>
+                                     <option value="Chile">Chile</option>
+                                     <option value="Colombia">Colombia</option>
+                                     <option value="Ecuador">Ecuador</option>
+                                     <option value="Paraguay">Paraguay</option>
+                                     <option value="Uruguay">Uruguay</option>
+                                     <option value="Venezuela">Venezuela</option>                                    
+                                </select>
+                            </div>
+
+                            <div class="col-12 mb-3" *ngIf="countryIsPeru">
+                                <label class="form-label">Departamento</label>
+                                <select class="form-select" formControlName="department">
+                                    <option *ngFor="let dep of departmentList" [ngValue]="dep">{{dep.nombre_ubigeo}}</option>
+                        
+                                    
+                                </select>
+                            </div>
+
+                            <div class="col-12 mb-3" *ngIf="countryIsPeru">
+                                <label class="form-label">Provincia</label>
+                                <select class="form-select" formControlName="province">
+                                    <option *ngFor="let prov of provinceSelected" [ngValue]="prov">{{prov.nombre_ubigeo}}</option>
+                        
+                                </select>
+                            </div>
+
+                            <div class="col-12 mb-3" *ngIf="countryIsPeru">
+                                <label class="form-label">Distrito</label>
+                                <select class="form-select" formControlName="district">
+                                    <option *ngFor="let dis of districtSelected" [ngValue]="dis">{{dis.nombre_ubigeo}}</option>
+                        
+                                </select>
+                            </div>
         
-                            <div class="mb-1">
+                            <!-- <div class="mb-1">
                                 <label for="exampleInputEmail1" class="form-label">Pais</label>
                                 <input formControlName="country" class="form-control form-control-sm"
                                         [ngClass]="country.errors && (country.dirty || country.touched) ? 'is-invalid': ''">
                                 <div *ngIf="country.hasError('required')" class="invalid-feedback">
                                     Este campo es requerido 
                                 </div>
-                                <!-- <div *ngIf="name.hasError('email')" class="invalid-feedback">
-                                        Ingrese un email válido
-                                </div> -->
+                              
                             </div>
-        
-                            <div class="mb-1">
-                                <label for="exampleInputEmail1" class="form-label">Provincia</label>
-                                <input  formControlName="province" class="form-control form-control-sm"
-                                        [ngClass]="province.errors && (province.dirty || province.touched) ? 'is-invalid': ''">
-                                <div *ngIf="province.hasError('required')" class="invalid-feedback">
-                                    Este campo es requerido 
-                                </div>
-                                <!-- <div *ngIf="name.hasError('email')" class="invalid-feedback">
-                                        Ingrese un email válido
-                                </div> -->
-                            </div>
-        
-                            <div class="mb-1">
-                                <label for="exampleInputEmail1" class="form-label">Distrito</label>
-                                <input  formControlName="district" class="form-control form-control-sm"
-                                        [ngClass]="district.errors && (district.dirty || district.touched) ? 'is-invalid': ''">
-                                <div *ngIf="district.hasError('required')" class="invalid-feedback">
-                                    Este campo es requerido 
-                                </div>
-                                <!-- <div *ngIf="name.hasError('email')" class="invalid-feedback">
-                                        Ingrese un email válido
-                                </div> -->
-                            </div>
+         -->
+                    
 
                             <div class="col-12 mb-3">
                                 <label class="form-label">Genero</label>

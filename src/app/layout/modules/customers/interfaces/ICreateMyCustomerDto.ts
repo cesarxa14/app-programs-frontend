@@ -5,6 +5,7 @@ export interface ICreateMyCustomerDto {
     password: string;
     phone: string;
     country: string;
+    department: string;
     province: string;
     district: string;
     type_document: string;

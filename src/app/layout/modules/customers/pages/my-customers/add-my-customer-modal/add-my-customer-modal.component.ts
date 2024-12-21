@@ -5,6 +5,9 @@ import { MyCustomerService } from '../../../services/my-customer.service';
 import Swal from 'sweetalert2';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import {provinceData} from 'src/assets/ubigeos/provinciasData';
+import {departamentosData} from 'src/assets/ubigeos/departamentosData';
+import {districtData} from 'src/assets/ubigeos/distritosData';
 
 @Component({
   selector: 'app-add-my-customer-modal',
@@ -16,6 +19,14 @@ export class AddMyCustomerModalComponent implements OnInit {
   idUser: any;
   addMyCustomerForm: FormGroup;
   @Output() customer_created:any = new EventEmitter();
+
+  provinceSelected: any[] = [];
+  districtSelected: any[] = [];
+  provinceList: any = null;
+  departmentList: any[] = [];
+  districtList: any = null;
+  countryIsPeru: boolean = true;
+
   constructor(
     private _formBuilder: FormBuilder,
     private myCustomerService: MyCustomerService,
@@ -26,6 +37,13 @@ export class AddMyCustomerModalComponent implements OnInit {
   ngOnInit(): void {
     this.idUser = this.sharedService.getUserId();
     this.addMyCustomerForm = this._builderForm();
+    this.onSelectCountry();
+    this.onSelectDepartment();
+    this.onSelectProvince();
+    this.onSelectDistrict();
+    this.departmentList = departamentosData;
+    this.provinceList = provinceData;
+    this.districtList = districtData;
   }
 
   _builderForm() {
@@ -36,9 +54,10 @@ export class AddMyCustomerModalComponent implements OnInit {
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
       phone: ['', [Validators.required]],
-      country: ['', [Validators.required]],
-      province: ['', [Validators.required]],
-      district: ['', [Validators.required]],
+      country: ['Peru', [Validators.required]],
+      department: ['', []],
+      province: ['', []],
+      district: ['', []],
       type_document: ['', [Validators.required]],
       document: ['', [Validators.required]],
       birthdate: [null, [Validators.required]],
@@ -54,12 +73,63 @@ export class AddMyCustomerModalComponent implements OnInit {
   get password() {return this.addMyCustomerForm.controls["password"]}
   get phone() {return this.addMyCustomerForm.controls["phone"]}
   get country() {return this.addMyCustomerForm.controls["country"]}
+  get department() {return this.addMyCustomerForm.controls["department"]}
   get province() {return this.addMyCustomerForm.controls["province"]}
   get district() {return this.addMyCustomerForm.controls["district"]}
   get type_document() {return this.addMyCustomerForm.controls["type_document"]}
   get document() {return this.addMyCustomerForm.controls["document"]}
   get birthdate() {return this.addMyCustomerForm.controls["birthdate"]}
   get medical_history() {return this.addMyCustomerForm.controls["medical_history"]}
+
+
+    onSelectCountry(){
+      this.country.valueChanges.subscribe(selected=> {
+        console.log('res country: ', selected)
+        this.department.setValue('')
+        if(selected == 'Peru'){
+          this.countryIsPeru = true;
+          this.provinceList = provinceData
+        }else {
+          this.countryIsPeru = false;
+        }
+      })
+  
+    }
+  
+    onSelectDepartment(){
+      this.department.valueChanges.subscribe(selected => {
+        console.log('selected', selected)
+        const ubigeo = selected.id_ubigeo
+        const valueDepartment = selected.nombre_ubigeo;
+        console.log('ubigeo', ubigeo)
+        this.provinceSelected = this.provinceList[ubigeo];
+        console.log(this.provinceSelected);
+        this.province.setValue('');
+        this.district.setValue('');
+       
+      })
+    }
+  
+  
+    onSelectProvince(){
+      this.province.valueChanges.subscribe(selected => {
+        console.log('selected', selected)
+        const ubigeo = selected.id_ubigeo
+        console.log('ubigeo', ubigeo)
+        this.districtList = districtData
+        this.districtSelected = this.districtList[ubigeo];
+        console.log(this.districtSelected);
+        this.district.setValue('');
+  
+      })
+    }
+  
+    onSelectDistrict(){
+      this.district.valueChanges.subscribe(selected => {
+        console.log('selected', selected)
+        
+      })
+    }
 
   createMyCustomer() {
     Swal.showLoading();
@@ -70,8 +140,9 @@ export class AddMyCustomerModalComponent implements OnInit {
       password: this.password.value,
       phone: this.phone.value,
       country: this.country.value,
-      province: this.province.value,
-      district: this.province.value,
+      department: this.department.value["nombre_ubigeo"] || '',
+      province: this.province.value["nombre_ubigeo"] || '',
+      district: this.district.value["nombre_ubigeo"] || '',
       type_document: this.type_document.value,
       document: this.document.value,
       birthdate: new Date(this.birthdate.value), 
@@ -80,6 +151,7 @@ export class AddMyCustomerModalComponent implements OnInit {
     }
 
     console.log('newMyCustomer: ', newMyCustomer)
+    
     this.myCustomerService.createMyCustomer(newMyCustomer).subscribe(res => {
       console.log('res: ', res);
       Swal.close();

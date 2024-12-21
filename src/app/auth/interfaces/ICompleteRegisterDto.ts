@@ -1,6 +1,7 @@
 export interface ICompleteRegisterDto {
     phone: string;
     country: string;
+    department: string;
     province: string;
     district: string;
     gender: string;

@@ -5,6 +5,9 @@ import { AuthService } from '../../services/auth.service';
 import { ICompleteRegisterDto } from '../../interfaces/ICompleteRegisterDto';
 import Swal from 'sweetalert2';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import {provinceData} from 'src/assets/ubigeos/provinciasData';
+import {departamentosData} from 'src/assets/ubigeos/departamentosData';
+import {districtData} from 'src/assets/ubigeos/distritosData';
 
 @Component({
   selector: 'app-verify-email',
@@ -16,6 +19,12 @@ export class VerifyEmailComponent implements OnInit {
   userId: any;
   completeRegisterForm: FormGroup;
   token: string;
+  provinceSelected: any[] = [];
+  districtSelected: any[] = [];
+  provinceList: any = null;
+  departmentList: any[] = [];
+  districtList: any = null;
+  countryIsPeru: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,6 +39,14 @@ export class VerifyEmailComponent implements OnInit {
     this.userId = this.sharedService.getUserIdTokenParam(this.token);
     console.log(this.userId)
     this.completeRegisterForm = this._builderForm();
+    this.onSelectCountry();
+    this.onSelectDepartment();
+    this.onSelectProvince();
+    this.onSelectDistrict();
+    this.departmentList = departamentosData;
+    this.provinceList = provinceData;
+    this.districtList = districtData;
+    
   }
 
   getQueryParams() {
@@ -71,9 +88,10 @@ export class VerifyEmailComponent implements OnInit {
     // const pattern = '[a-zA-Z ]{2,254}';
     const form = this._formBuilder.group({
       phone: ['', [Validators.required]],
-      country: ['', [Validators.required]],
-      province: ['', [Validators.required]],
-      district: ['', [Validators.required]],
+      country: ['Peru', [Validators.required]],
+      department: ['', []],
+      province: ['', []],
+      district: ['', []],
       type_document: [null, [Validators.required]],
       document: ['', [Validators.required]],
       gender: ['', [Validators.required]],
@@ -86,6 +104,7 @@ export class VerifyEmailComponent implements OnInit {
 
   get phone() {return this.completeRegisterForm.controls["phone"]}
   get country() {return this.completeRegisterForm.controls["country"]}
+  get department() {return this.completeRegisterForm.controls["department"]}
   get province() {return this.completeRegisterForm.controls["province"]}
   get district() {return this.completeRegisterForm.controls["district"]}
   get type_document() {return this.completeRegisterForm.controls["type_document"]}
@@ -94,21 +113,73 @@ export class VerifyEmailComponent implements OnInit {
   get birthdate() {return this.completeRegisterForm.controls["birthdate"]}
   get medical_history() {return this.completeRegisterForm.controls["medical_history"]}
 
+  
+
+  onSelectCountry(){
+    this.country.valueChanges.subscribe(selected=> {
+      console.log('res country: ', selected)
+      this.department.setValue('')
+      if(selected == 'Peru'){
+        this.countryIsPeru = true;
+        this.provinceList = provinceData
+      }else {
+        this.countryIsPeru = false;
+      }
+    })
+
+  }
+
+  onSelectDepartment(){
+    this.department.valueChanges.subscribe(selected => {
+      console.log('selected', selected)
+      const ubigeo = selected.id_ubigeo
+      const valueDepartment = selected.nombre_ubigeo;
+      console.log('ubigeo', ubigeo)
+      this.provinceSelected = this.provinceList[ubigeo];
+      console.log(this.provinceSelected);
+      this.province.setValue('');
+      this.district.setValue('');
+     
+    })
+  }
+
+
+  onSelectProvince(){
+    this.province.valueChanges.subscribe(selected => {
+      console.log('selected', selected)
+      const ubigeo = selected.id_ubigeo
+      console.log('ubigeo', ubigeo)
+      this.districtList = districtData
+      this.districtSelected = this.districtList[ubigeo];
+      console.log(this.districtSelected);
+      this.district.setValue('');
+
+    })
+  }
+
+  onSelectDistrict(){
+    this.district.valueChanges.subscribe(selected => {
+      console.log('selected', selected)
+      
+    })
+  }
+
   completeRegister(){
 
     const payloadCompleteRegister: ICompleteRegisterDto = {
       userId: this.userId,
       phone: this.phone.value,
       country: this.country.value,
-      province: this.province.value,
-      district: this.district.value,
+      department: this.department.value["nombre_ubigeo"] || '',
+      province: this.province.value["nombre_ubigeo"] || '',
+      district: this.district.value["nombre_ubigeo"] || '',
       type_document: this.type_document.value,
       document: this.document.value,
       gender: this.gender.value,
       birthdate: this.birthdate.value,
       medical_history: this.medical_history.value,
     }
-
+    
     console.log('payloadCompleteRegister: ', payloadCompleteRegister)
     this.authService.completeRegister(payloadCompleteRegister).subscribe(res => {
       console.log('res: ', res)
