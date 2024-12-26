@@ -25,16 +25,11 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this._builderForm();
-    this.getRoles();
+
 
   }
 
-  getRoles() {
-    this.rolesService.getRoles().subscribe((res:any) => {
-      console.log('res roles: ', res)
-      this.roles = res.data;
-    })
-  }
+
 
   _builderForm() {
     // const pattern = '[a-zA-Z ]{2,254}';
@@ -43,7 +38,6 @@ export class RegisterComponent implements OnInit {
       lastname: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      role: [null, [Validators.required]],
     });
 
     return form;
@@ -53,7 +47,6 @@ export class RegisterComponent implements OnInit {
   get lastname() {return this.registerForm.controls["lastname"]}
   get email() {return this.registerForm.controls["email"]}
   get password() {return this.registerForm.controls["password"]}
-  get role() {return this.registerForm.controls["role"]}
 
   register() {
     const newUser: ICreateUserFirstStep = {
@@ -61,7 +54,7 @@ export class RegisterComponent implements OnInit {
       lastname: this.lastname.value,
       email: this.email.value,
       password: this.password.value,
-      role: Number(this.role.value)
+      role: 3
     }
 
     console.log('newUser:', newUser)
@@ -79,6 +72,12 @@ export class RegisterComponent implements OnInit {
         if(result.isConfirmed){
           this.router.navigateByUrl('/auth/login')
         }
+      })
+    }, (err) => {
+      Swal.fire({
+        title: err.error.message,
+        icon: 'error',
+        allowOutsideClick: true
       })
     })
 
