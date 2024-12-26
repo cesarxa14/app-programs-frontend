@@ -98,7 +98,8 @@ export class ModalAssistDetailComponent implements OnInit {
       classHour: this.getCurrentHour(),
       pack: this.payload.packageId,
       program: this.payload.programId,
-      student: this.payload.studentId
+      student: this.payload.studentId,
+      subscription: this.payload.subscriptionId
 
     }
 
@@ -143,7 +144,8 @@ export class ModalAssistDetailComponent implements OnInit {
       classHour: this.getCurrentHour(),
       pack: this.payload.packageId,
       program: this.payload.programId,
-      student: this.payload.studentId
+      student: this.payload.studentId,
+      subscription: this.payload.subscriptionId
 
     }
 

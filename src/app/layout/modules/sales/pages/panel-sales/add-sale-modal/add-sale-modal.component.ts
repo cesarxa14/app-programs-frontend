@@ -198,6 +198,10 @@ export class AddSaleModalComponent implements OnInit {
 
         }
       })
+    }, (err) => {
+      console.log('error: ', err)
+      Swal.close();
+      alert(err.error.message)
     })
   }
 

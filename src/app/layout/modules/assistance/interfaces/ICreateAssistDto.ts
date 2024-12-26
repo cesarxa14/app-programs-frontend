@@ -5,4 +5,5 @@ export interface ICreateAssistDto {
     pack: number;
     classHour: string;
     additional_notes: string;
+    subscription: number;
 }

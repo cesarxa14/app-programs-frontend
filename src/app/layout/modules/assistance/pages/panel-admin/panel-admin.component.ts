@@ -24,6 +24,7 @@ export interface InfoToModalDetail {
   packageId: number;
   programId: number;
   assistantId: number;
+  subscriptionId: number;
 
 }
 @Component({
@@ -45,6 +46,7 @@ export class PanelAdminComponent implements OnInit {
   programList: any[] = [];
   packageId: number;
   programId: number;
+  subscriptionId: number;
   programName: string;
   studentInfo: any;
   infoToModal: InfoToModalDetail;
@@ -210,6 +212,8 @@ export class PanelAdminComponent implements OnInit {
       if (this.programList.length > 0) {
         // Selecciona el primer programa por defecto
         const defaultProgram = this.programList[0];
+        console.log('defaultProgram', defaultProgram)
+        this.subscriptionId = defaultProgram.id;
         this.createAssistForm.controls['program'].setValue(defaultProgram);
       } else {
         alert('El usuario no tiene subscripciones válidas');
@@ -241,7 +245,8 @@ export class PanelAdminComponent implements OnInit {
       studentName: `${this.studentInfo.name} ${this.studentInfo.lastname}`,
       packageId: this.packageId,
       programId: this.programId,
-      assistantId: this.idUser
+      assistantId: this.idUser,
+      subscriptionId: this.subscriptionId
 
     }
     const dialogRef = this.dialog.open(ModalAssistDetailComponent, {
@@ -276,8 +281,8 @@ export class PanelAdminComponent implements OnInit {
       studentName: `${nameCustomer} ${lastnameCustomer}`,
       packageId: this.packageId,
       programId: this.programId,
-      assistantId: this.idUser
-
+      assistantId: this.idUser,
+      subscriptionId: this.subscriptionId
     }
 
 
