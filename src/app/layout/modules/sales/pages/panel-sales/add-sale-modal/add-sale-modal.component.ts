@@ -30,9 +30,11 @@ export class AddSaleModalComponent implements OnInit {
   myCustomersList: IUserCustomerEntity[] = [];
   @Output() sale_emit: any = new EventEmitter();
 
+  today: string;
 
   costSale: number;
   igv: number;
+  igv_fee: number;
   totalSale: number;
 
   customerData: IUserCustomerEntity;
@@ -54,9 +56,11 @@ export class AddSaleModalComponent implements OnInit {
     this.idUser = this.sharedService.getUserId();
     this.addSaleForm = this._builderForm();
     // this.getMyPackages();
+    this.today = this.formatDate(new Date())
     this.getMyCustomers();
     this.changeCategoryValue();
     this.onSaleItemChange();
+    this.changeTypeVoucher()
     this.addSaleForm.get('saleItem')?.valueChanges.subscribe((selectedValue) => {
       console.log(selectedValue)
       // this.addSaleForm.get('selectedItemValue')?.setValue(selectedValue);
@@ -69,6 +73,7 @@ export class AddSaleModalComponent implements OnInit {
       category: [null, [Validators.required]],
       saleItem: [{ value: null, disabled: true }, [Validators.required]],
       type_voucher: [null, [Validators.required]],
+      startDate: ['', []],
       payment_method: [null, [Validators.required]],
       amount: [null, [Validators.required]],
       customerFullName: [{ value: '', disabled: true }, [Validators.required]],
@@ -83,6 +88,9 @@ export class AddSaleModalComponent implements OnInit {
   get payment_method() { return this.addSaleForm.controls["payment_method"] }
   get amount() { return this.addSaleForm.controls["amount"] }
   get customerFullName() { return this.addSaleForm.controls["customerFullName"] }
+  get startDate() { return this.addSaleForm.controls["startDate"] }
+
+  
 
   getMyPackages() {
     this.packageService.getPackages(this.idUser).subscribe((res: any) => {
@@ -132,7 +140,32 @@ export class AddSaleModalComponent implements OnInit {
       this.itemStoreSelect = value;
       this.amount.setValue(this.itemStoreSelect.amount)
       this.costSale = this.itemStoreSelect.amount;
-      this.igv = this.costSale * 0.18;
+      this.igv = this.costSale * this.igv_fee;
+      this.totalSale = this.costSale + this.igv
+    })
+  }
+
+  private formatDate(date:any ) {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
+  }
+
+  changeTypeVoucher(){
+    this.type_voucher.valueChanges.subscribe(res => {
+      console.log('res: ', res)
+      if(res !== 'nota_venta'){
+        this.igv_fee = 0.18
+      }else {
+        this.igv_fee = 0
+      }
+
+      this.costSale = this.itemStoreSelect.amount;
+      this.igv = this.costSale * this.igv_fee;
       this.totalSale = this.costSale + this.igv
     })
   }
@@ -178,8 +211,12 @@ export class AddSaleModalComponent implements OnInit {
       itemId: this.itemStoreSelect.id || -1,
       type_voucher: this.type_voucher.value,
       sellerId: this.idUser,
-      customerId: this.customerData.id
+      customerId: this.customerData.id,
+      startDate: this.startDate.value
     }
+
+    console.log(newSalePayload)
+    // return;
 
     this.saleService.createSale(newSalePayload).subscribe((res: any) => {
       console.log('res sale:', res)

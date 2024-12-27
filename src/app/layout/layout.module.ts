@@ -20,7 +20,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
   declarations: [
     LayoutComponent,
-    SidenavComponent,
+    SidenavComponent
     // ClasesComponent,
     // AddProgramModalComponent,
     // ProgramsComponent,

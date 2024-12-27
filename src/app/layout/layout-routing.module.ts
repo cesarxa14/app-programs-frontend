@@ -10,6 +10,7 @@ const routes: Routes = [
       path: '',
       component: LayoutComponent,
       children: [
+        { path: 'home', loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule), canActivate: [RoleGuardGuard] },
         { path: 'clases', loadChildren: () => import('./modules/clases/clases.module').then(m => m.ClasesModule), canActivate: [RoleGuardGuard] },
         { path: 'customers', loadChildren: () => import('./modules/customers/customers.module').then(m => m.CustomersModule), canActivate: [RoleGuardGuard] },
         { path: 'assistance', loadChildren: () => import('./modules/assistance/assistance.module').then(m => m.AssistanceModule), canActivate: [RoleGuardGuard] },

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map, Observable, shareReplay } from 'rxjs';
+import { distinctUntilChanged, map, Observable, shareReplay } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
@@ -10,11 +10,18 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 })
 export class SidenavComponent implements OnInit {
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe([
+      Breakpoints.Handset, Breakpoints.Small
+  ])
     .pipe(
-      map(result => result.matches),
+      map(result => {
+        console.log('result: ', result)
+        return result.matches
+      }),
       shareReplay()
     );
+
+   
 
     // TODO: agregar lo del local storage
     role:any = localStorage.getItem('role') || 'Admin';
