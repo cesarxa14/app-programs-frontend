@@ -5,4 +5,6 @@ export interface IEditPackageDto{
     expiration: number;
     cost: number;
     status: string;
+    activeDays: string;
+    activeHours: string;
 }

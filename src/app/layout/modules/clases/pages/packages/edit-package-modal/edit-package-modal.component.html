@@ -39,6 +39,24 @@
                     </div>
 
                     <div class="mb-3">
+                        <mat-form-field appearance="fill" class="w-100 mat-select-multiple">
+                            <mat-label>Dias activos</mat-label>
+                            <mat-select formControlName="activeDays" multiple>
+                              <mat-option *ngFor="let day of listDays" [value]="day">{{day}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="mb-3">
+                        <mat-form-field appearance="fill" class="w-100 mat-select-multiple">
+                            <mat-label>Horas Activas</mat-label>
+                            <mat-select formControlName="activeHours" multiple>
+                              <mat-option *ngFor="let hour of listHours" [value]="hour">{{hour.startHour + ' - ' + hour.endHour}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Numero de Clases</label>
                         <input type="email" formControlName="num_clases" class="form-control"
                                 [ngClass]="num_clases.errors && (num_clases.dirty || num_clases.touched) ? 'is-invalid': ''">

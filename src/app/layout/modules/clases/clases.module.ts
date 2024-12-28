@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClasesComponent } from './clases.component';
 import { ClasesRoutingModule } from './clases-routing.module';
@@ -44,6 +44,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatPaginatorModule
     
   ],
+  schemas: [NO_ERRORS_SCHEMA],
   entryComponents: [AddProgramModalComponent, EditProgramModalComponent],
 })
 export class ClasesModule { }

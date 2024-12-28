@@ -60,7 +60,9 @@ export class PackagesComponent implements OnInit {
     const dialogRef = this.dialog.open(EditPackageModalComponent, {
       width: '700px',
       height: 'auto',
-      data: pack
+      data: pack,
+      panelClass: 'custom-dialog',
+
     })
 
     dialogRef.componentInstance.package_edit_emit.subscribe((pack_add:any) => {

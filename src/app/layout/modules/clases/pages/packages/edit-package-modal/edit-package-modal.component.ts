@@ -8,6 +8,7 @@ import { ProgramService } from '../../../services/program.service';
 import { IProgramEntity } from '../../../interfaces/programs/IProgramEntity';
 import Swal from 'sweetalert2';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { SettingsService } from 'src/app/layout/modules/settings/services/settings.service';
 
 
 @Component({
@@ -23,6 +24,9 @@ export class EditPackageModalComponent implements OnInit {
   isStatusChecked: boolean = true;
   booleanStatus: boolean;
   @Output() package_edit_emit:any = new EventEmitter();
+
+  listDays= ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"]
+  listHours: any[] = []
   constructor(
     @Inject(MAT_DIALOG_DATA) public packag: any,
     private _formBuilder: FormBuilder,
@@ -30,6 +34,7 @@ export class EditPackageModalComponent implements OnInit {
     private sharedService: SharedService,
     private programService: ProgramService,
     public dialogRef: MatDialogRef<EditPackageModalComponent>,
+    private settingService: SettingsService
   ) { 
     this.booleanStatus = this.packag.status == 'HABILITADO' ? true : false
 
@@ -41,6 +46,7 @@ export class EditPackageModalComponent implements OnInit {
     this.editPackageForm = this._builderForm();
     this.getPrograms();
     this.getValueChangesStatus();
+    this.getHours();
     console.log('packag: ', this.packag)
   }
 
@@ -48,15 +54,22 @@ export class EditPackageModalComponent implements OnInit {
     // const pattern = '[a-zA-Z ]{2,254}';
     const numberPattern = '^[0-9]*$'
     const decimalPattern = '^[0-9]+(\.[0-9]{1,2})?$'
+    console.log(JSON.parse(this.packag.activeHours))
+    // this.listDays = JSON.parse(this.packag.activeDays)
+    // this.listHours = JSON.parse(this.packag.activeHours)
     const form = this._formBuilder.group({
       program: [this.packag.program_id, [Validators.required]],
       name: [this.packag.name, [Validators.required]],
       num_clases: [this.packag.num_clases, [Validators.required, Validators.pattern(numberPattern)]],
       expiration: [this.packag.expiration, [Validators.required, Validators.pattern(numberPattern)]],
       cost: [this.packag.cost, [Validators.required, Validators.pattern(decimalPattern)]],
-      status: [this.booleanStatus, [Validators.required]]   
+      status: [this.booleanStatus, [Validators.required]]   ,
+      activeDays: [JSON.parse(this.packag.activeDays) || [], [Validators.required]],
+      activeHours: [JSON.parse(this.packag.activeHours) || [], []],
 
     });
+
+    
 
     return form;
   }
@@ -67,6 +80,23 @@ export class EditPackageModalComponent implements OnInit {
   get expiration() {return this.editPackageForm.controls["expiration"]}
   get cost() {return this.editPackageForm.controls["cost"]}
   get status() {return this.editPackageForm.controls["status"]}
+  get activeDays() {return this.editPackageForm.controls["activeDays"]}
+  get activeHours() {return this.editPackageForm.controls["activeHours"]}
+
+  getHours(){
+    this.settingService.getHours().subscribe((res:any) => {
+      console.log('get hours: ', res)
+      this.listHours = res.data;
+
+      this.editPackageForm.patchValue({
+        activeHours: this.listHours.filter(hour =>
+          JSON.parse(this.packag.activeHours).some((active:any) => active.id === hour.id)
+        ),
+      });
+      console.log('activeHours: ', this.activeHours.value)
+      console.log('listHours: ', this.listHours)
+    })
+  }
 
   getValueChangesStatus() {
     this.editPackageForm.get('status')?.valueChanges.subscribe((newValue) => {
@@ -93,9 +123,13 @@ export class EditPackageModalComponent implements OnInit {
       cost: this.cost.value,
       expiration: this.expiration.value,
       num_clases: this.num_clases.value,
-      status: setStatus
+      status: setStatus,
+      activeDays: this.activeDays.value,
+      activeHours: this.activeHours.value
     }
 
+    console.log('payloadEdit', payloadEdit)
+    
     this.packageService.editPackage(payloadEdit, this.packag.id).subscribe((res: any) => {
       console.log('res', res)
       Swal.fire({

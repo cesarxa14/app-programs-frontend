@@ -75,7 +75,7 @@
                                 <div class="col-12 mb-3">
                                     <label class="form-label">Hora de la clase</label>
                                     <select class="form-select" formControlName="classHour">
-                                        <option *ngFor="let hour of activeHours" value="{{hour.start}} - {{hour.end}}">{{hour.start}} - {{hour.end}}</option>
+                                        <option *ngFor="let hour of activeHours" value="{{hour.startHour}} - {{hour.endHour}}">{{hour.startHour}} - {{hour.endHour}}</option>
                                         
                                     </select>
                                 </div>
