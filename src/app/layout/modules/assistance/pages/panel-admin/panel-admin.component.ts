@@ -64,7 +64,7 @@ export class PanelAdminComponent implements OnInit {
     this.idUser = this.sharedService.getUserId();
     this.roleId = this.sharedService.getRoleId();
     console.log(this.roleId)
-    if(this.roleId == 1){
+    if(this.roleId == 1 || this.roleId == 2){
       this.searchForm = this._builderSearchForm();
       this.createAssistForm = this._builderCreateAssistForm();
       this.onCustomerChange();
