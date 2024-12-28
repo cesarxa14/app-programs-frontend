@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('lastname', res.data.lastname)
       if(res.data.role === 3) localStorage.setItem('car', JSON.stringify([]))
 
-      if(res.data.role == '1'){
+      if(res.data.role == '1' || res.data.role == '2'){
         this.router.navigateByUrl('/pages/clases')
       }else if(res.data.role == '3'){
         this.router.navigateByUrl('/pages/books')

@@ -34,7 +34,7 @@ export class ModalAssistDetailComponent implements OnInit {
   ngOnInit(): void {
     console.log('payload: ', this.payload)
     this.roleId = this.sharedService.getRoleId();
-    this.messageAssistOverLimit = this.roleId == 1 ? 'No tiene clases restantes, el cliente necesita comprar un nuevo paquete.': 'No tienes clases restantes, necesitas comprar un nuevo paquete.'
+    this.messageAssistOverLimit = this.roleId == 1 || this.roleId == 2 ? 'No tiene clases restantes, el cliente necesita comprar un nuevo paquete.': 'No tienes clases restantes, necesitas comprar un nuevo paquete.'
     this.getAssistsByUserPackages();
   }
 
@@ -64,7 +64,7 @@ export class ModalAssistDetailComponent implements OnInit {
   }
 
   createAssist(){
-    if(this.roleId == 1){
+    if(this.roleId == 1 || this.roleId ==  2){
       this.createAssistAdmin();
     } else if(this.roleId == 3){
       this.createAssistCustomer();
@@ -118,8 +118,14 @@ export class ModalAssistDetailComponent implements OnInit {
           this.isAlreadyRegistered = true;
           this.titleModal = 'Información de Asistencia Registrada';
           this.subtitleModal = 'Las asistencia ha sido registrada exitosamente. Aquí están los detalles';
-          this.getAssistsByUserPackages();
-          this.getNumClassesByUser();
+          if(res.isLast){
+            this.assistList.push(res.fullAssist[0])
+            this.countAssist = this.assistList.length;
+          }else {
+            this.getAssistsByUserPackages();
+            // this.getNumClassesByUser();
+          }
+          
 
           
         }
@@ -165,7 +171,7 @@ export class ModalAssistDetailComponent implements OnInit {
           this.titleModal = 'Información de Asistencia Registrada';
           this.subtitleModal = 'Las asistencia ha sido registrada exitosamente. Aquí están los detalles';
           this.getAssistsByUserPackages();
-          this.getNumClassesByUser();
+          // this.getNumClassesByUser();
 
           
         }

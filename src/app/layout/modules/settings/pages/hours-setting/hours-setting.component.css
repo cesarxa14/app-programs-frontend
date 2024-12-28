@@ -1,0 +1,4 @@
+::ng-deep .custom-dialog .mat-dialog-container {
+    max-height: 80vh;  /* Limita la altura del modal */
+    overflow-y: auto;  /* Aparece un scroll si el contenido excede la altura */
+  }

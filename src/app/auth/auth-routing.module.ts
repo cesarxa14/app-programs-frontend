@@ -4,6 +4,7 @@ import { AuthComponent } from "./auth.component";
 import { LoginComponent } from "./pages/login/login.component";
 import { RegisterComponent } from "./pages/register/register.component";
 import { VerifyEmailComponent } from "./pages/verify-email/verify-email.component";
+import { RegisterAdminComponent } from "./pages/register-admin/register-admin.component";
 
 const routes: Routes = [
     {
@@ -12,6 +13,7 @@ const routes: Routes = [
       children: [
         { path: 'login'   , component: LoginComponent},
         { path: 'register', component: RegisterComponent },
+        { path: 'register-admin', component: RegisterAdminComponent },
         { path: 'verify-email', component: VerifyEmailComponent },
         // { path: 'register-admin', component: RegisterAdminComponent }
       ]

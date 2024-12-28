@@ -21,7 +21,15 @@
     <mat-nav-list>
       <!-- Menu Items -->
       <a
-        *ngIf="role == '1'"
+        *ngIf="role == '1' || role == '2'"
+        class="item-sidenav"
+        mat-list-item
+        routerLink="/pages/home/dashboard"
+      >
+        <span class="material-icons"> home </span> Inicio
+      </a>
+      <a
+        *ngIf="role == '1' || role == '2'"
         class="item-sidenav"
         mat-list-item
         routerLink="/pages/clases/programs"
@@ -29,7 +37,7 @@
         <span class="material-icons"> class </span> Clases
       </a>
       <a
-        *ngIf="role == '1'"
+        *ngIf="role == '1' || role == '2'"
         class="item-sidenav"
         mat-list-item
         routerLink="/pages/customers"
@@ -59,7 +67,7 @@
         <span class="material-icons"> storefront </span> Tienda web
       </a>
       <a
-        *ngIf="role == '1'"
+        *ngIf="role == '1' || role == '2'"
         class="item-sidenav"
         mat-list-item
         routerLink="/pages/sales"
@@ -67,12 +75,20 @@
         <span class="material-icons"> point_of_sale </span> Ventas
       </a>
       <a
-        *ngIf="role == '1'"
+        *ngIf="role == '1' || role == '2'"
         class="item-sidenav"
         mat-list-item
         routerLink="/pages/products"
       >
         <span class="material-icons"> inventory </span> Productos
+      </a>
+      <a
+        *ngIf="role == '1' || role == '2'"
+        class="item-sidenav"
+        mat-list-item
+        routerLink="/pages/settings"
+      >
+        <span class="material-icons"> settings </span> Configuracion
       </a>
     </mat-nav-list>
   </mat-sidenav>
@@ -87,7 +103,7 @@
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async"
+        
       >
         <mat-icon>menu</mat-icon>
       </button>

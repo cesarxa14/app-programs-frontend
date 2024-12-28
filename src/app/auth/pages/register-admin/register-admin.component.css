@@ -1,0 +1,73 @@
+body {
+    background: url('../../../../assets/logook.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-top: 50px;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.card-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.btn {
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.btn-dark {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-dark:hover {
+    background-color: #0056b3;
+}
+
+a {
+    color: #007bff;
+}
+
+a:hover {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+.invalid-feedback {
+    font-size: 0.9rem;
+    color: red;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}

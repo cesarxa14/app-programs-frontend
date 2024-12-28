@@ -39,8 +39,23 @@
 
                             <div class="col-12 mb-3">
                                 <label class="form-label">Contraseña</label>
-                                <input type="password" formControlName="password" class="form-control"
+                                <div class="form-group inner-addon right-addon">
+                                    <div class="input-group">
+                                        <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control"
                                         [ngClass]="password.errors && (password.dirty || password.touched) ? 'is-invalid': ''">
+                                    <div class="">
+                                        <i alt="show" class="far fa-eye eye-show" 
+                                        (click)="showPassword = !showPassword"
+                                        [class.hide]="showPassword"></i>
+                                        <i alt="hide" class="far fa-eye-slash eye-hide" 
+                                        (click)="showPassword = !showPassword"
+                                        [class.hide]="!showPassword"></i>
+                                    </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                                        
                                 <div *ngIf="password.hasError('required')" class="invalid-feedback">
                                     Este campo es requerido 
                                 </div>
@@ -50,11 +65,48 @@
                             </div>
 
                             <div class="col-12 mb-3">
-                                <label class="form-label">Rol</label>
-                                <select class="form-select" formControlName="role">
-                                    <option *ngFor="let rol of roles" [value]="rol.id">{{rol.name}}</option>
-                                </select>
+                                <label class="form-label">Confirmar Contraseña</label>
+                                <div class="form-group inner-addon right-addon">
+                                    <div class="input-group">
+                                        <input [type]="showPassword ? 'text' : 'password'" formControlName="confirmPassword" class="form-control"
+                                        [ngClass]="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched) ? 'is-invalid': ''">
+                                    <div class="">
+                                        <i alt="show" class="far fa-eye eye-show" 
+                                        (click)="showPassword = !showPassword"
+                                        [class.hide]="showPassword"></i>
+                                        <i alt="hide" class="far fa-eye-slash eye-hide" 
+                                        (click)="showPassword = !showPassword"
+                                        [class.hide]="!showPassword"></i>
+                                    </div>
+                                    </div>                                    
+                                </div>
+                                
+                                       
+                                <div *ngIf="confirmPassword.hasError('required')" class="invalid-feedback">
+                                    Este campo es requerido 
+                                </div>
+                                <div *ngIf="confirmPassword.hasError('passwordMismatch')" class="invalid-feedback">
+                                    Las contraseñas no coinciden
+                                </div>
                             </div>
+                            
+                            
+                            
+
+                            <!-- <div class="col-12 mb-3">
+                                <label class="form-label">Confirmar Contraseña</label>
+                                <input type="password" formControlName="confirmPassword" class="form-control"
+                                        [ngClass]="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched) ? 'is-invalid': ''">
+                                <div *ngIf="confirmPassword.hasError('required')" class="invalid-feedback">
+                                    Este campo es requerido 
+                                </div>
+                            
+                                <div *ngIf="confirmPassword.hasError('passwordMismatch') && registerForm.touched" class="invalid-feedback">
+                                    Las contraseñas no coinciden
+                                  </div>
+                            </div> -->
+
+                         
                         </div>
                        
                         <div class="mb-3 text-center">

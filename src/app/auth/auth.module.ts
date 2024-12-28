@@ -6,6 +6,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from './pages/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { VerifyEmailComponent } from './pages/verify-email/verify-email.component';
+import { RegisterAdminComponent } from './pages/register-admin/register-admin.component';
 
 
 
@@ -14,7 +15,8 @@ import { VerifyEmailComponent } from './pages/verify-email/verify-email.componen
     AuthComponent,
     LoginComponent,
     RegisterComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    RegisterAdminComponent
   ],
   imports: [
     CommonModule,

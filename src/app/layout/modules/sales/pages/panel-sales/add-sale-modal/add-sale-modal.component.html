@@ -36,6 +36,14 @@
                         </select>
                     </div>
 
+                    <div class="mb-3" *ngIf="category.value == 'servicio'">
+                      <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+                      <input type="date" formControlName="startDate" [min]="today" class="form-control" id="fechaInicio" />
+                      <div *ngIf="startDate.hasError('required')" class="invalid-feedback">
+                          Este campo es requerido 
+                      </div>
+                  </div>
+
                     <div class="mb-1">
                         <label for="exampleInputEmail1" class="form-label">Tipo de Comprobante</label>
                         <div class="form-check">
@@ -51,16 +59,16 @@
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input"  name="type_voucher" type="radio" value="ticket" formControlName="type_voucher"  >
+                            <input class="form-check-input"  name="type_voucher" type="radio" value="nota_venta" formControlName="type_voucher"  >
                             <label class="form-check-label" for="exampleRadios3">
-                              Ticket
+                              Nota de Venta
                             </label>
                           </div>
 
                     </div>
 
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">DNI</label>
+                        <label for="exampleInputEmail1" class="form-label">Numero de documento</label>
                         <div class="ng-autocomplete">
                             <ng-autocomplete 
                               #autocomplete
@@ -94,6 +102,9 @@
                             <!-- <option *ngFor="let prog of programsList" [value]="prog.id">{{prog.name}}</option> -->
                              <option value="efectivo">Efectivo</option>
                              <option value="tarjeta">Tarjeta</option>
+                             <option value="tarjeta">Yape</option>
+                             <option value="tarjeta">Plin</option>
+                             <option value="tarjeta">Transferencia</option>
                         </select>
                     </div>
 

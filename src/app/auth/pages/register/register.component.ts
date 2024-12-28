@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { ICreateUserFirstStep } from '../../interfaces/ICreateUserFirstStepDto';
 import { IRolEntity } from '../../interfaces/IRolEntity';
@@ -16,6 +16,7 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
   roles: IRolEntity[] = [];
+  showPassword = false; 
   constructor(
     private authService: AuthService,
     private rolesService: RolesService,
@@ -25,16 +26,10 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this._builderForm();
-    this.getRoles();
-
+    this.onChangePassword();
   }
 
-  getRoles() {
-    this.rolesService.getRoles().subscribe((res:any) => {
-      console.log('res roles: ', res)
-      this.roles = res.data;
-    })
-  }
+
 
   _builderForm() {
     // const pattern = '[a-zA-Z ]{2,254}';
@@ -43,7 +38,7 @@ export class RegisterComponent implements OnInit {
       lastname: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      role: [null, [Validators.required]],
+      confirmPassword: ['', [Validators.required, this.confirmPasswordValidator('password')]],
     });
 
     return form;
@@ -53,7 +48,35 @@ export class RegisterComponent implements OnInit {
   get lastname() {return this.registerForm.controls["lastname"]}
   get email() {return this.registerForm.controls["email"]}
   get password() {return this.registerForm.controls["password"]}
-  get role() {return this.registerForm.controls["role"]}
+  get confirmPassword() {return this.registerForm.controls["confirmPassword"]}
+
+  onChangePassword(){
+    this.password?.valueChanges.subscribe(() => {
+      this.confirmPassword?.updateValueAndValidity();
+    });
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  confirmPasswordValidator(passwordControlName: string) {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.parent) {
+        return null; // Si no hay un padre (FormGroup), salimos.
+      }
+  
+      const passwordControl = control.parent.get(passwordControlName);
+      if (!passwordControl) {
+        return null;
+      }
+  
+      const passwordValue = passwordControl.value;
+      const confirmPasswordValue = control.value;
+  
+      return passwordValue === confirmPasswordValue ? null : { passwordMismatch: true };
+    };
+  }
 
   register() {
     const newUser: ICreateUserFirstStep = {
@@ -61,7 +84,7 @@ export class RegisterComponent implements OnInit {
       lastname: this.lastname.value,
       email: this.email.value,
       password: this.password.value,
-      role: Number(this.role.value)
+      role: 3
     }
 
     console.log('newUser:', newUser)
@@ -79,6 +102,12 @@ export class RegisterComponent implements OnInit {
         if(result.isConfirmed){
           this.router.navigateByUrl('/auth/login')
         }
+      })
+    }, (err) => {
+      Swal.fire({
+        title: err.error.message,
+        icon: 'error',
+        allowOutsideClick: true
       })
     })
 
