@@ -7,6 +7,8 @@ import { IProgramEntity } from '../../../interfaces/programs/IProgramEntity';
 import Swal from 'sweetalert2';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { SettingsComponent } from 'src/app/layout/modules/settings/settings.component';
+import { SettingsService } from 'src/app/layout/modules/settings/services/settings.service';
 
 
 @Component({
@@ -19,7 +21,7 @@ export class AddPackageModalComponent implements OnInit {
 
   listDays= ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"]
 
-  listHours = [
+  listHours: any[] = [
     {
       start: "05:00",
       end: "06:00"
@@ -90,6 +92,7 @@ export class AddPackageModalComponent implements OnInit {
     private packageService: PackageService,
     private programService: ProgramService,
     private sharedService: SharedService,
+    private settingsService: SettingsService,
     private _formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<AddPackageModalComponent>,
   ) { }
@@ -101,6 +104,7 @@ export class AddPackageModalComponent implements OnInit {
     this.addPackageForm = this._builderForm();
     this.getPrograms();
     this.getValueChangesStatus();
+    this.getHours();
 
     
   }
@@ -132,6 +136,14 @@ export class AddPackageModalComponent implements OnInit {
   get status() {return this.addPackageForm.controls["status"]}
   get activeDays() {return this.addPackageForm.controls["activeDays"]}
   get activeHours() {return this.addPackageForm.controls["activeHours"]}
+
+
+  getHours(){
+    this.settingsService.getHours().subscribe((res:any) => {
+      console.log('res: ', res);
+      this.listHours = res.data;
+    })
+  }
   
 
   getValueChangesStatus() {

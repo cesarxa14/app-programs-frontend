@@ -1,0 +1,52 @@
+<div class="container" >
+    <div class="row">
+        <h3>Registrar Nueva Hora</h3>
+    </div>
+
+    <div class="my-1 row justify-content-center ">
+        <div class="card">
+            <div class="card-body">
+                <form [formGroup]="addHourForm" (ngSubmit)="createHour()">
+
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Hora de inicio</label>
+                        <input formControlName="startHour"  class="form-control"
+                        [ngClass]="startHour.errors && (startHour.dirty || startHour.touched) ? 'is-invalid': ''">
+                        <div *ngIf="startHour.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                        <div *ngIf="startHour.hasError('invalidTimeFormat')" class="invalid-feedback">
+                            El formato debe ser HH:mm (por ejemplo, 03:30 o 23:15).
+                        </div>
+                        <div *ngIf="startHour.hasError('invalidTimeRange')" class="invalid-feedback">
+                            La hora debe estar en el rango 00:00 - 23:59.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Hora de Fin</label>
+                        <input formControlName="endHour"  class="form-control"
+                        [ngClass]="endHour.errors && (endHour.dirty || endHour.touched) ? 'is-invalid': ''">
+                        <div *ngIf="endHour.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                        <div *ngIf="endHour.hasError('invalidTimeFormat')" class="invalid-feedback">
+                            El formato debe ser HH:mm (por ejemplo, 03:30 o 23:15).
+                        </div>
+                        <div *ngIf="endHour.hasError('invalidTimeRange')" class="invalid-feedback">
+                            La hora debe estar en el rango 00:00 - 23:59.
+                        </div>
+                    </div>
+
+                      <div class="row justify-content-center text-center">
+                        <div class="col">
+                            <button type="submit" [disabled]="addHourForm.invalid" class="btn btn-dark w-100">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+  

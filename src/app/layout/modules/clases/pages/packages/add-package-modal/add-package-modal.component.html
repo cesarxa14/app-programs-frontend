@@ -43,7 +43,7 @@
                         <mat-form-field appearance="fill" class="w-100 mat-select-multiple">
                             <mat-label>Horas Activas</mat-label>
                             <mat-select formControlName="activeHours" multiple>
-                              <mat-option *ngFor="let hour of listHours" [value]="hour">{{hour.start + ' - ' + hour.end}}</mat-option>
+                              <mat-option *ngFor="let hour of listHours" [value]="hour">{{hour.startHour + ' - ' + hour.endHour}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>

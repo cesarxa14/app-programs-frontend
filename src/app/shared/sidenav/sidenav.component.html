@@ -82,6 +82,14 @@
       >
         <span class="material-icons"> inventory </span> Productos
       </a>
+      <a
+        *ngIf="role == '1' || role == '2'"
+        class="item-sidenav"
+        mat-list-item
+        routerLink="/pages/settings"
+      >
+        <span class="material-icons"> settings </span> Configuracion
+      </a>
     </mat-nav-list>
   </mat-sidenav>
 

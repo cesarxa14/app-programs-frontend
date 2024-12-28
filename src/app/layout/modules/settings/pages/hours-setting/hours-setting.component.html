@@ -1,0 +1,56 @@
+<div class="container border mt-3">
+    <div>
+        <h1>Configuración de horas</h1>
+    </div>
+
+    <div class="row align-items-center my-3">
+        
+        <div class="col-auto">
+          <button class="btn btn-dark" (click)="abrirModalNewHour()">Agregar</button>
+        </div>
+      </div>
+
+
+    <div class="table-responsive row border m-1">
+        <table class="table align-middle mb-0 bg-white text-center">
+            <thead class="bg-light">
+              <tr>
+                <th>Fecha</th>
+                <th>Hora inicio</th>
+                <th>Hora Fin</th>
+             
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let hour of hourList">
+                <td>
+                  <p>{{hour.createdAt | date: 'dd/MM/yyyy'}}</p>
+                </td>
+                <td>
+                  <p class="fw-normal mb-1">{{hour.startHour}}</p>
+                </td>
+                <td>
+                    <p class="fw-normal mb-1">{{hour.endHour}}</p>
+                </td>
+           
+                <td>
+                  <button  type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Editar">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button (click)="deleteHour(hour.id)"  type="button" class="btn btn-ligth btn-sm mx-1" matTooltip="Borrar">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                 
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <!-- <mat-paginator  
+    [length]="mySalesList.length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 15]"
+    (page)="onPageChange($event)"
+  ></mat-paginator> -->
+</div>

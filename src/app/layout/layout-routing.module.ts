@@ -17,7 +17,9 @@ const routes: Routes = [
         { path: 'books', loadChildren: () => import('./modules/book/book.module').then(m => m.BookModule), canActivate: [RoleGuardGuard] },
         { path: 'store', loadChildren: () => import('./modules/store/store.module').then(m => m.StoreModule), canActivate: [RoleGuardGuard] },
         { path: 'sales', loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule), canActivate: [RoleGuardGuard] },
-        { path: 'products', loadChildren: () => import('./modules/products/products.module').then(m => m.ProductsModule), canActivate: [RoleGuardGuard] }
+        { path: 'products', loadChildren: () => import('./modules/products/products.module').then(m => m.ProductsModule), canActivate: [RoleGuardGuard] },
+        { path: 'settings', loadChildren: () => import('./modules/settings/settings.module').then(m => m.SettingsModule), canActivate: [RoleGuardGuard] }
+
 
 
       ]
