@@ -55,9 +55,9 @@ export class AddMyCustomerModalComponent implements OnInit {
       password: ['', [Validators.required]],
       phone: ['', [Validators.required]],
       country: ['Peru', [Validators.required]],
-      department: ['', []],
-      province: ['', []],
-      district: ['', []],
+      department: [null, []],
+      province: [null, []],
+      district: [null, []],
       type_document: ['', [Validators.required]],
       document: ['', [Validators.required]],
       birthdate: [null, [Validators.required]],
@@ -85,7 +85,7 @@ export class AddMyCustomerModalComponent implements OnInit {
     onSelectCountry(){
       this.country.valueChanges.subscribe(selected=> {
         console.log('res country: ', selected)
-        this.department.setValue('')
+        this.department.setValue(null)
         if(selected == 'Peru'){
           this.countryIsPeru = true;
           this.provinceList = provinceData
@@ -98,14 +98,17 @@ export class AddMyCustomerModalComponent implements OnInit {
   
     onSelectDepartment(){
       this.department.valueChanges.subscribe(selected => {
-        console.log('selected', selected)
-        const ubigeo = selected.id_ubigeo
-        const valueDepartment = selected.nombre_ubigeo;
-        console.log('ubigeo', ubigeo)
-        this.provinceSelected = this.provinceList[ubigeo];
-        console.log(this.provinceSelected);
-        this.province.setValue('');
-        this.district.setValue('');
+        if(selected){
+          console.log('selected', selected)
+          const ubigeo = selected.id_ubigeo
+          const valueDepartment = selected.nombre_ubigeo;
+          console.log('ubigeo', ubigeo)
+          this.provinceSelected = this.provinceList[ubigeo];
+          console.log(this.provinceSelected);
+          this.province.setValue(null);
+          this.district.setValue(null);
+        }
+        
        
       })
     }
@@ -113,14 +116,16 @@ export class AddMyCustomerModalComponent implements OnInit {
   
     onSelectProvince(){
       this.province.valueChanges.subscribe(selected => {
-        console.log('selected', selected)
-        const ubigeo = selected.id_ubigeo
-        console.log('ubigeo', ubigeo)
-        this.districtList = districtData
-        this.districtSelected = this.districtList[ubigeo];
-        console.log(this.districtSelected);
-        this.district.setValue('');
-  
+        if(selected){
+          console.log('selected', selected)
+          const ubigeo = selected.id_ubigeo
+          console.log('ubigeo', ubigeo)
+          this.districtList = districtData
+          this.districtSelected = this.districtList[ubigeo];
+          console.log(this.districtSelected);
+          this.district.setValue(null);
+        }
+
       })
     }
   
@@ -133,6 +138,8 @@ export class AddMyCustomerModalComponent implements OnInit {
 
   createMyCustomer() {
     Swal.showLoading();
+
+    console.log('dsadasd', this.department.value)
     let newMyCustomer: ICreateMyCustomerDto = {
       name: this.name.value,
       lastname: this.lastname.value,
@@ -140,9 +147,9 @@ export class AddMyCustomerModalComponent implements OnInit {
       password: this.password.value,
       phone: this.phone.value,
       country: this.country.value,
-      department: this.department.value["nombre_ubigeo"] || '',
-      province: this.province.value["nombre_ubigeo"] || '',
-      district: this.district.value["nombre_ubigeo"] || '',
+      department: this.department.value ? this.department.value["nombre_ubigeo"] : null,
+      province: this.province.value ? this.province.value["nombre_ubigeo"] : null,
+      district: this.district.value ? this.district.value["nombre_ubigeo"] : null,
       type_document: this.type_document.value,
       document: this.document.value,
       birthdate: new Date(this.birthdate.value), 

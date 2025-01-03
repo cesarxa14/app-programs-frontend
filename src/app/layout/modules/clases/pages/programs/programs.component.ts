@@ -50,7 +50,7 @@ export class ProgramsComponent implements OnInit {
 
     dialogRef.componentInstance.program_emit.subscribe((prog_add:any) => {
       console.log('prog_add: ', prog_add)
-      this.programs.unshift(prog_add)
+      this.getPrograms(this.idUser);
     })
 
    

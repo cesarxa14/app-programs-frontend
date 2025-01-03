@@ -1,8 +1,241 @@
-<div class="container">
+<div class="container p-2">
     <div class="row">
 
-        <div class="col-md-3">
+        <div class="col-md-6 col-12 my-1"> 
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body">
+                    <div>
+                        <h2>Cantidad de alumnos</h2>
+                    </div>
+                    <div>
+                            <h1>{{quantityStudents}}</h1>
+                    </div>
+                  
+                </div>
+              </div>
+            </div>
+        </div>
 
+        <div class="col-md-6 col-12 my-1" *ngIf="userByGenderInfo"> 
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body">
+                    <div class="row">
+                        <div>
+                            <h2>Cantidad de alumnos por género</h2>
+                        </div>
+                        <div class="col-md-6">
+                            <h1>{{userByGenderInfo[0]?.gender}}: {{userByGenderInfo[0]?.count}}</h1>
+                        </div>
+                        <div class="col-md-6">
+                            <h1>{{userByGenderInfo[1]?.gender}}: {{userByGenderInfo[1]?.count}}</h1>
+                        </div>
+                    </div>
+                    
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 my-1" *ngIf="chartOptionsSalesLineTime">
+            <div class="card">
+                <div class="card-content">
+                    <div id="chart">
+                        <apx-chart
+                          [series]="chartOptionsSalesLineTime.series!"
+                          [chart]="chartOptionsSalesLineTime.chart!"
+                          [dataLabels]="chartOptionsSalesLineTime.dataLabels!"
+                          [plotOptions]="chartOptionsSalesLineTime.plotOptions!"
+                          [yaxis]="chartOptionsSalesLineTime.yaxis!"
+                          [legend]="chartOptionsSalesLineTime.legend!"
+                          [fill]="chartOptionsSalesLineTime.fill!"
+                          [stroke]="chartOptionsSalesLineTime.stroke!"
+                          [tooltip]="chartOptionsSalesLineTime.tooltip!"
+                          [xaxis]="chartOptionsSalesLineTime.xaxis!"
+                          [title]="chartOptionsSalesLineTime.title!"
+                          [colors]="chartOptionsSalesLineTime.colors!"
+                        ></apx-chart>
+                      </div>
+                </div>
+
+            </div>
+            
+        </div>
+
+        <div class="col-md-6 my-1" *ngIf="chartOptionsStudentByProgram">
+            <div class="card">
+                <div class="card-content">
+                    <div id="chart">
+                        <apx-chart
+                          [series]="chartOptionsStudentByProgram.series!"
+                          [chart]="chartOptionsStudentByProgram.chart!"
+                          [dataLabels]="chartOptionsStudentByProgram.dataLabels!"
+                          [plotOptions]="chartOptionsStudentByProgram.plotOptions!"
+                          [yaxis]="chartOptionsStudentByProgram.yaxis!"
+                          [legend]="chartOptionsStudentByProgram.legend!"
+                          [fill]="chartOptionsStudentByProgram.fill!"
+                          [stroke]="chartOptionsStudentByProgram.stroke!"
+                          [tooltip]="chartOptionsStudentByProgram.tooltip!"
+                          [xaxis]="chartOptionsStudentByProgram.xaxis!"
+                          [title]="chartOptionsStudentByProgram.title!"
+                          [colors]="chartOptionsStudentByProgram.colors!"
+                        ></apx-chart>
+                      </div>
+                </div>
+
+            </div>
+            
+        </div>
+
+        <div class="col-md-6 my-1" *ngIf="chartOptionsStudentByPackage">
+            <div class="card">
+                <div class="card-content">
+                    <div id="chart">
+                        <apx-chart
+                          [series]="chartOptionsStudentByPackage.series!"
+                          [chart]="chartOptionsStudentByPackage.chart!"
+                          [dataLabels]="chartOptionsStudentByPackage.dataLabels!"
+                          [plotOptions]="chartOptionsStudentByPackage.plotOptions!"
+                          [yaxis]="chartOptionsStudentByPackage.yaxis!"
+                          [legend]="chartOptionsStudentByPackage.legend!"
+                          [fill]="chartOptionsStudentByPackage.fill!"
+                          [stroke]="chartOptionsStudentByPackage.stroke!"
+                          [tooltip]="chartOptionsStudentByPackage.tooltip!"
+                          [xaxis]="chartOptionsStudentByPackage.xaxis!"
+                          [title]="chartOptionsStudentByPackage.title!"
+                          [colors]="chartOptionsStudentByPackage.colors!"
+                        ></apx-chart>
+                      </div>
+                </div>
+
+            </div>
+            
+        </div>
+
+        <div class="col-md-6 my-1" *ngIf="chartOptionsEarningByPackage">
+            <div class="card">
+                <div class="card-content">
+                    <div id="chart">
+                        <apx-chart
+                          [series]="chartOptionsEarningByPackage.series!"
+                          [chart]="chartOptionsEarningByPackage.chart!"
+                          [dataLabels]="chartOptionsEarningByPackage.dataLabels!"
+                          [plotOptions]="chartOptionsEarningByPackage.plotOptions!"
+                          [yaxis]="chartOptionsEarningByPackage.yaxis!"
+                          [legend]="chartOptionsEarningByPackage.legend!"
+                          [fill]="chartOptionsEarningByPackage.fill!"
+                          [stroke]="chartOptionsEarningByPackage.stroke!"
+                          [tooltip]="chartOptionsEarningByPackage.tooltip!"
+                          [xaxis]="chartOptionsEarningByPackage.xaxis!"
+                          [title]="chartOptionsEarningByPackage.title!"
+                          [colors]="chartOptionsEarningByPackage.colors!"
+                        ></apx-chart>
+                      </div>
+                </div>
+
+            </div>
+            
+        </div>
+
+        <div class="col-md-6 my-1" *ngIf="chartOptionsEarningByProgram">
+            <div class="card">
+                <div class="card-content">
+                    <div id="chart">
+                        <apx-chart
+                          [series]="chartOptionsEarningByProgram.series!"
+                          [chart]="chartOptionsEarningByProgram.chart!"
+                          [dataLabels]="chartOptionsEarningByProgram.dataLabels!"
+                          [plotOptions]="chartOptionsEarningByProgram.plotOptions!"
+                          [yaxis]="chartOptionsEarningByProgram.yaxis!"
+                          [legend]="chartOptionsEarningByProgram.legend!"
+                          [fill]="chartOptionsEarningByProgram.fill!"
+                          [stroke]="chartOptionsEarningByProgram.stroke!"
+                          [tooltip]="chartOptionsEarningByProgram.tooltip!"
+                          [xaxis]="chartOptionsEarningByProgram.xaxis!"
+                          [title]="chartOptionsEarningByProgram.title!"
+                          [colors]="chartOptionsEarningByProgram.colors!"
+                        ></apx-chart>
+                      </div>
+                </div>
+
+            </div>
+            
+        </div>
+
+        <div class="col-md-6 my-1" *ngIf="chartOptionsInfoDemographicsDepartment">
+            <div class="card">
+                <div class="card-content">
+                    <div id="chart">
+                        <apx-chart
+                          [series]="chartOptionsInfoDemographicsDepartment.series!"
+                          [chart]="chartOptionsInfoDemographicsDepartment.chart!"
+                          [dataLabels]="chartOptionsInfoDemographicsDepartment.dataLabels!"
+                          [plotOptions]="chartOptionsInfoDemographicsDepartment.plotOptions!"
+                          [yaxis]="chartOptionsInfoDemographicsDepartment.yaxis!"
+                          [legend]="chartOptionsInfoDemographicsDepartment.legend!"
+                          [fill]="chartOptionsInfoDemographicsDepartment.fill!"
+                          [stroke]="chartOptionsInfoDemographicsDepartment.stroke!"
+                          [tooltip]="chartOptionsInfoDemographicsDepartment.tooltip!"
+                          [xaxis]="chartOptionsInfoDemographicsDepartment.xaxis!"
+                          [title]="chartOptionsInfoDemographicsDepartment.title!"
+                          [colors]="chartOptionsInfoDemographicsDepartment.colors!"
+                        ></apx-chart>
+                      </div>
+                </div>
+
+            </div>
+            
+        </div>
+
+        <div class="col-md-6 my-1" *ngIf="chartOptionsInfoDemographicsProvince">
+            <div class="card">
+                <div class="card-content">
+                    <div id="chart">
+                        <apx-chart
+                          [series]="chartOptionsInfoDemographicsProvince.series!"
+                          [chart]="chartOptionsInfoDemographicsProvince.chart!"
+                          [dataLabels]="chartOptionsInfoDemographicsProvince.dataLabels!"
+                          [plotOptions]="chartOptionsInfoDemographicsProvince.plotOptions!"
+                          [yaxis]="chartOptionsInfoDemographicsProvince.yaxis!"
+                          [legend]="chartOptionsInfoDemographicsProvince.legend!"
+                          [fill]="chartOptionsInfoDemographicsProvince.fill!"
+                          [stroke]="chartOptionsInfoDemographicsProvince.stroke!"
+                          [tooltip]="chartOptionsInfoDemographicsProvince.tooltip!"
+                          [xaxis]="chartOptionsInfoDemographicsProvince.xaxis!"
+                          [title]="chartOptionsInfoDemographicsProvince.title!"
+                          [colors]="chartOptionsInfoDemographicsProvince.colors!"
+                        ></apx-chart>
+                      </div>
+                </div>
+
+            </div>
+            
+        </div>
+
+        <div class="col-md-12 my-1" *ngIf="chartOptionsInfoDemographicsDistrict">
+            <div class="card">
+                <div class="card-content">
+                    <div id="chart">
+                        <apx-chart
+                          [series]="chartOptionsInfoDemographicsDistrict.series!"
+                          [chart]="chartOptionsInfoDemographicsDistrict.chart!"
+                          [dataLabels]="chartOptionsInfoDemographicsDistrict.dataLabels!"
+                          [plotOptions]="chartOptionsInfoDemographicsDistrict.plotOptions!"
+                          [yaxis]="chartOptionsInfoDemographicsDistrict.yaxis!"
+                          [legend]="chartOptionsInfoDemographicsDistrict.legend!"
+                          [fill]="chartOptionsInfoDemographicsDistrict.fill!"
+                          [stroke]="chartOptionsInfoDemographicsDistrict.stroke!"
+                          [tooltip]="chartOptionsInfoDemographicsDistrict.tooltip!"
+                          [xaxis]="chartOptionsInfoDemographicsDistrict.xaxis!"
+                          [title]="chartOptionsInfoDemographicsDistrict.title!"
+                          [colors]="chartOptionsInfoDemographicsDistrict.colors!"
+                        ></apx-chart>
+                      </div>
+                </div>
+
+            </div>
+            
         </div>
 
     </div>
