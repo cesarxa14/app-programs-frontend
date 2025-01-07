@@ -99,6 +99,16 @@
                     </div>
 
                     <div class="col-12 mb-3">
+                        <label class="form-label">Genero</label>
+                        <select class="form-select" formControlName="gender">
+                            <!-- <option *ngFor="let prog of programsList" [value]="prog.id">{{prog.name}}</option> -->
+                             <option value="Masculino">Masculino</option>
+                             <option value="Femenino">Femenino</option>
+                            
+                        </select>
+                    </div>
+
+                    <div class="col-12 mb-3">
                         <label class="form-label">Tipo de Documento</label>
                         <select class="form-select form-select-sm" formControlName="type_document">
                             <!-- <option *ngFor="let prog of programsList" [value]="prog.id">{{prog.name}}</option> -->

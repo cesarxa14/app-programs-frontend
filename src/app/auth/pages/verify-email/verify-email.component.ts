@@ -195,7 +195,21 @@ export class VerifyEmailComponent implements OnInit {
           this.router.navigateByUrl('/auth/login')
         }
       })
-    })
+    }, (err) =>{
+          console.log('err: ', err)
+          Swal.fire({
+            title: 'No se puedo iniciar sesión',
+            text: err.error.message,
+            icon: 'error',
+            confirmButtonText: 'Volver',
+            allowOutsideClick: false
+          }).then((result) => {
+            console.log('result: ', result)
+            
+          })
+          // alert(err.error.message)
+          // this.toastr.error(err.error.message);
+        })
 
   }
 

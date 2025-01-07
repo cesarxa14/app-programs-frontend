@@ -6,6 +6,7 @@ import { PackageService } from 'src/app/layout/modules/clases/services/package.s
 import { InfoToModalDetail } from '../panel-admin.component';
 import { ICreateAssistDto } from '../../../interfaces/ICreateAssistDto';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-modal.assist-detail',
@@ -28,7 +29,8 @@ export class ModalAssistDetailComponent implements OnInit {
     private assistService: AssistService,
     public dialogRef: MatDialogRef<ModalAssistDetailComponent>,
     private packageService: PackageService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -135,7 +137,8 @@ export class ModalAssistDetailComponent implements OnInit {
     }, (err) => {
       console.log('error: ', err)
       Swal.close();
-      alert(err.error.message)
+      this.toastr.error(err.error.message)
+      // alert(err.error.message)
     })
 
     
@@ -181,7 +184,8 @@ export class ModalAssistDetailComponent implements OnInit {
     }, (err) => {
       console.log('error: ', err)
       Swal.close();
-      alert(err.error.message)
+      this.toastr.error(err.error.message)
+      // alert(err.error.message)
     })
 
     

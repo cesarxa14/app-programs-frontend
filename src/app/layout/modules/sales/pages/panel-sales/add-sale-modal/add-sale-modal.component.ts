@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ProductsService } from 'src/app/layout/modules/products/services/products.service';
 import { IProductEntity } from 'src/app/layout/modules/products/interfaces/IProductEntity';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-sale-modal',
@@ -49,6 +50,7 @@ export class AddSaleModalComponent implements OnInit {
     private myCustomerService: MyCustomerService,
     private saleService: SaleService,
     public dialogRef: MatDialogRef<AddSaleModalComponent>,
+    private toastr: ToastrService
 
   ) { }
 
@@ -238,7 +240,8 @@ export class AddSaleModalComponent implements OnInit {
     }, (err) => {
       console.log('error: ', err)
       Swal.close();
-      alert(err.error.message)
+      this.toastr.error(err.error.message)
+      // alert(err.error.message)
     })
   }
 

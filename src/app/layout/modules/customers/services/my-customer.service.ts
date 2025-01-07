@@ -38,8 +38,10 @@ export class MyCustomerService {
       if(searchType === 'Nombre'){
         params += `&byName=${value}`
       }else if(searchType === 'Numero de documento'){
-        params += `&byDocuement=${value}`
+        params += `&byDocument=${value}`
       }
+
+      console.log('params', params)
       
       return this.http.get(`${this.API_BASE_URI}/search?${params}`, {headers: this.setHeaders()})
     }catch(err) {

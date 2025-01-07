@@ -3,11 +3,14 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse
 import { catchError, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-    constructor(private router: Router, private authService: AuthService){}
+    constructor(private router: Router, private authService: AuthService,
+      private toastr: ToastrService
+    ){}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Obtener el token desde localStorage
 
@@ -28,7 +31,8 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
           // Token expirado o no autorizado
-          alert('Expiró su sesion')
+          this.toastr.error('Expiró su sesion');
+          // alert('Expiró su sesion')
           console.error('Token vencido o inválido.');
           this.authService.logOut();
         }

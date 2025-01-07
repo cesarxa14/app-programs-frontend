@@ -34,15 +34,16 @@ export class AuthService {
     return this.http.post(this.API_BASE_URI + '/verifyUser', payloadVerify)
   }
 
+  sendEmailResetPassword(payload:any){
+    return this.http.post(this.API_BASE_URI + '/email-reset-password', payload)
+  }
+
+  resetPassword(payload:any){
+    return this.http.post(this.API_BASE_URI + '/reset-password', payload)
+  }
+
   logOut() {
-    // return this.afAuth.signOut().then(() => {
-    //   localStorage.removeItem('user');
-    //   localStorage.removeItem('role');
-    //   localStorage.removeItem('email');
-    //   localStorage.removeItem('idUser');
-    //   localStorage.removeItem('displayName');
-    //   this.router.navigateByUrl('auth/login');
-    // });
+
     localStorage.removeItem('token')
     localStorage.removeItem('role')
     localStorage.removeItem('name')

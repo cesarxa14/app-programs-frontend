@@ -13,6 +13,7 @@ import { ModalAssistDetailComponent } from './modal.assist-detail/modal.assist-d
 import { AssistService } from '../../services/assist.service';
 import { ICreateAssistDto } from '../../interfaces/ICreateAssistDto';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 export interface InfoToModalDetail {
   studentId: number;
@@ -58,6 +59,7 @@ export class PanelAdminComponent implements OnInit {
     private programService: ProgramService,
     public dialog: MatDialog,
     private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -132,6 +134,15 @@ export class PanelAdminComponent implements OnInit {
       this.labelFilterInput = 'Nombre'
       this.stringSwitchFilter = 'Buscar por nombre'
     }
+
+    // Limpia y reinicia los valores del formulario de asistencias
+    this.createAssistForm.reset({
+      customer: null,
+      program: null,
+      additional_notes: null,
+    });
+
+    this.customersFoundList = [];
   }
 
   searchStudent() {
@@ -216,7 +227,7 @@ export class PanelAdminComponent implements OnInit {
         this.subscriptionId = defaultProgram.id;
         this.createAssistForm.controls['program'].setValue(defaultProgram);
       } else {
-        alert('El usuario no tiene subscripciones válidas');
+        this.toastr.error('El usuario no tiene subscripciones válidas');
       }
     });
   }

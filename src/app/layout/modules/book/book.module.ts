@@ -24,7 +24,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     AutocompleteLibModule,
     FormsModule, 
     ReactiveFormsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
   ]
 })
 export class BookModule { }

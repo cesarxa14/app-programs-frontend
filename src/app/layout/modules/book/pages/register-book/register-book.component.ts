@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 import { PreviewBookModalComponent } from '../preview-book-modal/preview-book-modal.component';
 import { UserService } from 'src/app/shared/services/user.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register-book',
@@ -54,13 +55,16 @@ export class RegisterBookComponent implements OnInit {
     private userService: UserService,
     private subscriptionService: SubscriptionService,
     public dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
 
     this.idUser = this.sharedService.getUserId();
     this.roleId = this.sharedService.getRoleId();
+
+    console.log('role: ', this.roleId)
     
     if(this.roleId == '1'){
       this.bookForm = this._builderForm();
@@ -81,7 +85,8 @@ export class RegisterBookComponent implements OnInit {
       this.subscriptionService.getSubscriptionValidByUser(this.customerInfo.id).subscribe((res:any)=> {
         console.log('res valid: ', res);
         if(res.data.length < 1){
-          alert('El usuario no tiene subscripciones validas')
+          this.toastr.error('El usuario no tiene subscripciones validas')
+          // alert('El usuario no tiene subscripciones validas')
         }else {
           this.getPrograms(this.customerInfo.id);
           this.activeHours = JSON.parse(res.data[0].activeHours);
@@ -151,7 +156,8 @@ export class RegisterBookComponent implements OnInit {
     this.subscriptionService.getSubscriptionValidByUser(item.id).subscribe((res:any)=> {
       console.log('res valid: ', res);
       if(res.data.length < 1){
-        alert('El usuario no tiene subscripciones validas')
+        this.toastr.error('El usuario no tiene subscripciones validas')
+        // alert('El usuario no tiene subscripciones validas')
       }else {
         this.getPrograms(item.id);
         this.activeHours = JSON.parse(res.data[0].activeHours);

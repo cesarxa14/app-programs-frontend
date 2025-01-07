@@ -8,6 +8,7 @@ export interface ICreateMyCustomerDto {
     department: string;
     province: string;
     district: string;
+    gender: string;
     type_document: string;
     document: string;
     birthdate: Date;

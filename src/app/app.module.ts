@@ -11,6 +11,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthInterceptor } from './auth/auth-interceptor';
+import { ToastrModule } from 'ngx-toastr';
 
 
 
@@ -26,7 +27,11 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule,  
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({ // Configuración global de ngx-toastr
+      positionClass: 'toast-top-right', // Posición del toast
+      preventDuplicates: true, // Evita duplicados
+    }),
     
     
   ],

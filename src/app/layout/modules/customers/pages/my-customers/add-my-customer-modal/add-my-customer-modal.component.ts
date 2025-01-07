@@ -58,6 +58,7 @@ export class AddMyCustomerModalComponent implements OnInit {
       department: [null, []],
       province: [null, []],
       district: [null, []],
+      gender: ['', [Validators.required]],
       type_document: ['', [Validators.required]],
       document: ['', [Validators.required]],
       birthdate: [null, [Validators.required]],
@@ -76,6 +77,7 @@ export class AddMyCustomerModalComponent implements OnInit {
   get department() {return this.addMyCustomerForm.controls["department"]}
   get province() {return this.addMyCustomerForm.controls["province"]}
   get district() {return this.addMyCustomerForm.controls["district"]}
+  get gender() {return this.addMyCustomerForm.controls["gender"]}
   get type_document() {return this.addMyCustomerForm.controls["type_document"]}
   get document() {return this.addMyCustomerForm.controls["document"]}
   get birthdate() {return this.addMyCustomerForm.controls["birthdate"]}
@@ -150,6 +152,7 @@ export class AddMyCustomerModalComponent implements OnInit {
       department: this.department.value ? this.department.value["nombre_ubigeo"] : null,
       province: this.province.value ? this.province.value["nombre_ubigeo"] : null,
       district: this.district.value ? this.district.value["nombre_ubigeo"] : null,
+      gender: this.gender.value,
       type_document: this.type_document.value,
       document: this.document.value,
       birthdate: new Date(this.birthdate.value), 
@@ -176,7 +179,21 @@ export class AddMyCustomerModalComponent implements OnInit {
           
         }
       })
-    })
+    }, (err) =>{
+        console.log('err: ', err)
+        Swal.fire({
+          title: 'Error',
+          text: err.error.message,
+          icon: 'error',
+          confirmButtonText: 'Volver',
+          allowOutsideClick: false
+        }).then((result) => {
+          console.log('result: ', result)
+          
+        })
+        // alert(err.error.message)
+        // this.toastr.error(err.error.message);
+      })
 
   }
 

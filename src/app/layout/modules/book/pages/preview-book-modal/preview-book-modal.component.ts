@@ -6,6 +6,7 @@ import { AssistService } from '../../../assistance/services/assist.service';
 import Swal from 'sweetalert2';
 import { PackageService } from 'src/app/layout/modules/clases/services/package.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-preview-book-modal',
@@ -26,7 +27,8 @@ export class PreviewBookModalComponent implements OnInit {
     private packageService: PackageService,
     @Inject(MAT_DIALOG_DATA) public payload: any,
     public dialogRef: MatDialogRef<PreviewBookModalComponent>,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -35,6 +37,7 @@ export class PreviewBookModalComponent implements OnInit {
     this.messageAssistOverLimit = this.roleId == 1 ? 'No tiene clases restantes, el cliente necesita comprar un nuevo paquete.': 'No tienes clases restantes, necesitas comprar un nuevo paquete.'
 
     this.getAssistsByUserPackages();
+    
   }
 
   getAssistsByUserPackages(){
@@ -89,7 +92,9 @@ export class PreviewBookModalComponent implements OnInit {
     },  (err) => {
       console.log('error: ', err)
       Swal.close();
-      alert(err.error.message)
+      this.toastr.success('Hello world!', 'Toastr fun!');
+      // alert(err.error.message)
+      this.toastr.error(err.error.message)
     })
   }
 }

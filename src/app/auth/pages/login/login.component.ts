@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { ILoginDto } from '../../interfaces/ILoginDto';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -74,6 +76,7 @@ export class LoginComponent implements OnInit {
         }
       })
       // alert(err.error.message)
+      this.toastr.error(err.error.message);
     })
   }
 
