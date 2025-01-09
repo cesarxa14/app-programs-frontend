@@ -56,12 +56,18 @@ export class DashboardComponent implements OnInit {
   categories3: any[] = [];
   categories4: any[] = [];
   userByGenderInfo: any;
+  totalSalesEarnings: any;
+  totalSalesByType: any;
+  totalSalesByPaymentMethod: any;
   constructor(
     private dashboardService: DashboardService
   ) {  }
 
   ngOnInit(): void {
     this.getQuantityStudent();
+    this.getTotalEarningSales();
+    this.getSalesByTypeVoucher();
+    this.getSalesByPaymentMethod();
     this.getUsersByGender();
     this.getStudentsByPrograms();
     this.getStudentsByPackages();
@@ -75,6 +81,31 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getQuantityStudent().subscribe((res: any) => {
       // console.log('res: ', res)
       this.quantityStudents = res.students;
+    })
+  }
+
+  
+  getTotalEarningSales(){
+    this.dashboardService.getTotalEarningSales().subscribe((res: any) => {
+      console.log('res: ', res)
+      this.totalSalesEarnings = res.total.toFixed(2);
+      // this.quantityStudents = res.students;
+    })
+  }
+
+  getSalesByTypeVoucher(){
+    this.dashboardService.getSalesByTypeVoucher().subscribe((res: any) => {
+      console.log('res: ', res)
+      this.totalSalesByType = res;
+    })
+  }
+
+  
+  getSalesByPaymentMethod(){
+    this.dashboardService.getSalesByPaymentMethod().subscribe((res: any) => {
+      console.log('res: ', res)
+      this.totalSalesByPaymentMethod = res;
+
     })
   }
 
@@ -657,7 +688,7 @@ export class DashboardComponent implements OnInit {
         }
       },
       title: {
-        text: 'Estudiantes por Departamentos', 
+        text: 'Estudiantes por Provincia', 
         align: 'center', 
         margin: 10,
         style: {
@@ -712,7 +743,7 @@ export class DashboardComponent implements OnInit {
         }
       },
       title: {
-        text: 'Estudiantes por Departamentos', 
+        text: 'Estudiantes por Distrito', 
         align: 'center', 
         margin: 10,
         style: {

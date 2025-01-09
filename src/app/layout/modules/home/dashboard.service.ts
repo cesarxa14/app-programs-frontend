@@ -91,5 +91,32 @@ export class DashboardService {
       throw err
     }
   }
+
+  getTotalEarningSales(){
+    try{
+      return this.http.get(`${this.API_BASE_URI}/getTotalEarningSales`, {headers: this.setHeaders()})
+    }catch(err) {
+      console.log('error: ', err)
+      throw err
+    }
+  }
+
+  getSalesByTypeVoucher(){
+    try{
+      return this.http.get(`${this.API_BASE_URI}/getSalesByTypeVoucher`, {headers: this.setHeaders()})
+    }catch(err) {
+      console.log('error: ', err)
+      throw err
+    }
+  }
+
+  getSalesByPaymentMethod(){
+    try{
+      return this.http.get(`${this.API_BASE_URI}/getSalesByPaymentMethod`, {headers: this.setHeaders()})
+    }catch(err) {
+      console.log('error: ', err)
+      throw err
+    }
+  }
   
 }

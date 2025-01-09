@@ -1,7 +1,7 @@
 <div class="container p-2">
     <div class="row">
 
-        <div class="col-md-6 col-12 my-1"> 
+        <div class="col-md-3 col-12 my-1"> 
             <div class="card">
               <div class="card-content">
                 <div class="card-body">
@@ -9,7 +9,7 @@
                         <h2>Cantidad de alumnos</h2>
                     </div>
                     <div>
-                            <h1>{{quantityStudents}}</h1>
+                            <h2>{{quantityStudents}}</h2>
                     </div>
                   
                 </div>
@@ -37,6 +37,66 @@
               </div>
             </div>
         </div>
+
+        <div class="col-md-3 col-12 my-1"> 
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body">
+                    <div>
+                        <h2>Total Ventas </h2>
+                    </div>
+                    <div>
+                            <h2> S/.{{totalSalesEarnings}}</h2>
+                    </div>
+                  
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-12 my-1" *ngIf="userByGenderInfo"> 
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2>Ventas por Tipo</h2>
+                        </div>
+                        <div class="col-md-4" *ngFor="let type of totalSalesByType">
+                            <div class="" >
+                                <h3>{{type?.voucher_type}}: {{type?.total}}</h3>
+                            </div>
+                        </div>
+                                               
+                    </div>
+                    
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-12 my-1" *ngIf="userByGenderInfo"> 
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2>Ventas por Metodo de Pago</h2>
+                        </div>
+                        <div class="col-md-4" *ngFor="let type of totalSalesByPaymentMethod">
+                            <div>
+                                <h3>{{type?.payment_method}}: {{type?.total}}</h3>
+                            </div>
+                        </div>
+                                               
+                    </div>
+                    
+                </div>
+              </div>
+            </div>
+        </div>
+
+       
 
         <div class="col-md-12 my-1" *ngIf="chartOptionsSalesLineTime">
             <div class="card">
