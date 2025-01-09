@@ -23,6 +23,7 @@ export class SaleService {
 
   getMySales(idSeller: number){
     try{
+      //return this.http.get(`${this.API_BASE_URI}/my-sales?sellerId=${idSeller}`, {headers: this.setHeaders()})
       return this.http.get(`${this.API_BASE_URI}/my-sales?sellerId=${idSeller}`, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)

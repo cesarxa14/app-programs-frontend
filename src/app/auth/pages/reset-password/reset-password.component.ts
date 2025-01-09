@@ -37,7 +37,8 @@ export class ResetPasswordComponent implements OnInit {
 
     let idUser = this.sharedService.getUserIdTokenParam(token);
     console.log('idUser: ', idUser)
-    this.userService.getUserById(idUser).subscribe((res:any) => {
+    //this.userService.getUserById(idUser).subscribe((res:any) => {
+      this.userService.getUserByEmail(idUser).subscribe((res:any) => {
       console.log('userData: ', res)
       this.userData = res.data;
       this.email.setValue(this.userData.email)
