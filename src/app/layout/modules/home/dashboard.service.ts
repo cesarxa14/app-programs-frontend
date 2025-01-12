@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -20,99 +21,100 @@ export class DashboardService {
     return headers
   }
 
-  getQuantityStudent(){
+  getQuantityStudent(startDate: string, endDate: string){
     try{
-      return this.http.get(`${this.API_BASE_URI}/getQuantityStudent`, {headers: this.setHeaders()})
+      return this.http.get(`${this.API_BASE_URI}/getQuantityStudent?startDate=${startDate}&endDate=${endDate}`, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)
       throw err
     }
   }
 
-  getStudentsByPrograms(){
+  getStudentsByPrograms(startDate: string, endDate: string){
     try{
-      return this.http.get(`${this.API_BASE_URI}/getStudentsByPrograms`, {headers: this.setHeaders()})
+      console.log({startDate, endDate})
+      return this.http.get(`${this.API_BASE_URI}/getStudentsByPrograms?startDate=${startDate}&endDate=${endDate}`, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)
       throw err
     }
   }
 
-  getStudentsByPackages(){
+  getStudentsByPackages(startDate: string, endDate: string){
     try{
-      return this.http.get(`${this.API_BASE_URI}/getStudentsByPackages`, {headers: this.setHeaders()})
+      return this.http.get(`${this.API_BASE_URI}/getStudentsByPackages?startDate=${startDate}&endDate=${endDate}`, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)
       throw err
     }
   }
 
-  getEarningsByPackages(){
+  getEarningsByPackages(startDate: string, endDate: string){
     try{
-      return this.http.get(`${this.API_BASE_URI}/getEarningsByPackages`, {headers: this.setHeaders()})
+      return this.http.get(`${this.API_BASE_URI}/getEarningsByPackages?startDate=${startDate}&endDate=${endDate}`, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)
       throw err
     }
   }
 
-  getEarningsByPrograms(){
+  getEarningsByPrograms(startDate: string, endDate: string){
     try{
-      return this.http.get(`${this.API_BASE_URI}/getEarningsByPrograms`, {headers: this.setHeaders()})
+      return this.http.get(`${this.API_BASE_URI}/getEarningsByPrograms?startDate=${startDate}&endDate=${endDate}`, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)
       throw err
     }
   }
 
-  getUsersByGender(){
+  getUsersByGender(startDate: string, endDate: string){
     try{
-      return this.http.get(`${this.API_BASE_URI}/getUsersByGender`, {headers: this.setHeaders()})
+      return this.http.get(`${this.API_BASE_URI}/getUsersByGender?startDate=${startDate}&endDate=${endDate}`, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)
       throw err
     }
   }
 
-  getUsersInfoDemographics(){
+  getUsersInfoDemographics(startDate: string, endDate: string){
     try{
-      return this.http.get(`${this.API_BASE_URI}/getUsersInfoDemographics`, {headers: this.setHeaders()})
+      return this.http.get(`${this.API_BASE_URI}/getUsersInfoDemographics?startDate=${startDate}&endDate=${endDate}`, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)
       throw err
     }
   }
 
-  getSalesLineTime(){
+  getSalesLineTime(startDate: string, endDate: string){
     try{
-      return this.http.get(`${this.API_BASE_URI}/getSalesLineTime`, {headers: this.setHeaders()})
+      return this.http.get(`${this.API_BASE_URI}/getSalesLineTime?startDate=${startDate}&endDate=${endDate}`, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)
       throw err
     }
   }
 
-  getTotalEarningSales(){
+  getTotalEarningSales(startDate: string, endDate: string){
     try{
-      return this.http.get(`${this.API_BASE_URI}/getTotalEarningSales`, {headers: this.setHeaders()})
+      return this.http.get(`${this.API_BASE_URI}/getTotalEarningSales?startDate=${startDate}&endDate=${endDate}`, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)
       throw err
     }
   }
 
-  getSalesByTypeVoucher(){
+  getSalesByTypeVoucher(startDate: string, endDate: string){
     try{
-      return this.http.get(`${this.API_BASE_URI}/getSalesByTypeVoucher`, {headers: this.setHeaders()})
+      return this.http.get(`${this.API_BASE_URI}/getSalesByTypeVoucher?startDate=${startDate}&endDate=${endDate}`, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)
       throw err
     }
   }
 
-  getSalesByPaymentMethod(){
+  getSalesByPaymentMethod(startDate: string, endDate: string){
     try{
-      return this.http.get(`${this.API_BASE_URI}/getSalesByPaymentMethod`, {headers: this.setHeaders()})
+      return this.http.get(`${this.API_BASE_URI}/getSalesByPaymentMethod?startDate=${startDate}&endDate=${endDate}`, {headers: this.setHeaders()})
     }catch(err) {
       console.log('error: ', err)
       throw err
