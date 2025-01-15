@@ -50,21 +50,50 @@ export class MyCustomersComponent implements OnInit {
   get search() {return this.searchForm.controls["search"]}
 
   // Filtro de Búsqueda
+
   applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+  
+    if (filterValue.length < 3) {
+      // Si menos de 3 caracteres, se muestra la lista completa
+      this.myCustomersList = this.myCustomersListAux;
+      this.filteredCustomersList = [...this.myCustomersListAux];
+    } else {
+      this.myCustomersList = this.myCustomersListAux.filter(s => {
+        return (s.name.toLowerCase().includes(filterValue) ||
+                s.lastname.toLowerCase().includes(filterValue) ||
+                (s.document && s.document.toLowerCase().includes(filterValue))); // Controla si document es nulo
+      });
+  
+      this.filteredCustomersList = this.myCustomersListAux.filter(s => {
+        return (s.name.toLowerCase().includes(filterValue) ||
+                s.lastname.toLowerCase().includes(filterValue) ||
+                (s.document && s.document.toLowerCase().includes(filterValue))); // Controla si document es nulo
+      });
+    }
+  
+    this.currentPage = 0;
+    this.updatePaginatedList();
+  }
+  
+  
+
+  applyFilter2(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     if(filterValue == ''){
       this.myCustomersList = this.myCustomersListAux;
       this.filteredCustomersList = [...this.myCustomersListAux];
     } else{
       this.myCustomersList = this.myCustomersListAux.filter(s => {
-        return s.name.toLowerCase().includes(filterValue) || s.lastname.toLowerCase().includes(filterValue) 
+        console.log('s: ', s)
+        console.log('docuemnto: ', s.document)
+        return s.name.toLowerCase().includes(filterValue) || s.lastname.toLowerCase().includes(filterValue) || s.document.toLowerCase().includes(filterValue);
       })
       this.filteredCustomersList = this.myCustomersListAux.filter(s => {
         return s.name.toLowerCase().includes(filterValue) || 
-               s.lastname.toLowerCase().includes(filterValue);
+               s.lastname.toLowerCase().includes(filterValue) || s.document.toLowerCase().includes(filterValue);
       });
     }
-
     this.currentPage = 0;
     this.updatePaginatedList();
   }

@@ -7,6 +7,9 @@
   <div class="my-3">
     <ul class="nav nav-tabs">
       <li class="nav-item cursor-pointer">
+        <a class="nav-link" (click)="changeTab('historial')" [ngClass]="{'active': currentTab === 'historial'}" role="button" aria-current="page" >Historial</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" (click)="changeTab('subscription')" [ngClass]="{'active': currentTab === 'subscription'}" role="button" aria-current="page" >Suscripciones</a>
       </li>
       <li class="nav-item">
@@ -17,6 +20,43 @@
       <!-- <a href="#" class="btn btn-primary active" role="button" aria-pressed="true">Programas</a>
       <a href="#" class="btn btn-primary active" role="button" aria-pressed="true">Paquetes</a> -->
   </div>
+
+  <div *ngIf="currentTab === 'historial'">
+    <div class="row m-1">
+      <h2>Historial de asistncia</h2>
+      <p>Mira todas las veces que has asistido a tus clases</p>
+    </div>
+    <div class="table-responsive row border m-1">
+      <table class="table align-middle mb-0 bg-white text-center">
+          <thead class="bg-light">
+            <tr>
+              <th>Programa</th>
+              <th>Paquete</th>
+              <th>Fecha</th>
+              <th>Hora Asistencia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let assist of historialAssist">
+              <td>
+                <p>{{assist.program_name}}</p>
+              </td>
+              <td>
+                <p >{{assist.package_name}}</p>
+              </td>
+              <td>
+                  <p >{{assist.created_at | date: 'dd/MM/yyyy'}}</p>
+              </td>
+              <td>
+                  <p >{{assist.classHour}}</p>
+              </td>
+             
+            </tr>
+          </tbody>
+        </table>
+  </div>
+</div>
+
 
   <div *ngIf="currentTab === 'subscription'">
     <div class="row m-1">

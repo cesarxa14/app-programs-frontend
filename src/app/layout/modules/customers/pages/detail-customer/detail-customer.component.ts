@@ -8,6 +8,7 @@ import { IPurchaseInterface } from '../../interfaces/IPurchaseEntity';
 import { ModalExtendSubscriptionComponent } from './modal-extend-subscription/modal-extend-subscription.component';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { AssistService } from '../../../assistance/services/assist.service';
 
 @Component({
   selector: 'app-detail-customer',
@@ -17,22 +18,27 @@ import Swal from 'sweetalert2';
 export class DetailCustomerComponent implements OnInit {
 
   idUser: string;
-  currentTab: string = 'subscription';
+  currentTab: string = 'historial';
   subscriptionList: ISubscriptionInterface[] = [];
   purchaseList: IPurchaseInterface[] = [];
+  historialAssist: any[] = [];
+
   constructor(
     private subscriptionService: SubscriptionService,
     private purchaseService: PurchaseService,
     private sharedService: SharedService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private assistService: AssistService
   ) { }
 
   ngOnInit(): void {
     // this.idUser = this.sharedService.getUserId();
     this.idUser = this.route.snapshot.paramMap.get('id')!; 
+    
     this.getSubscriptions();
     this.getPurchases();
+    this.getAssisyByCustomer();
   }
 
   changeTab(tab: string){
@@ -67,6 +73,12 @@ export class DetailCustomerComponent implements OnInit {
     dialogRef.componentInstance.extend_emit.subscribe((res:any) => {
       console.log('res: ', res)
       this.getSubscriptions();
+    })
+  }
+  getAssisyByCustomer(){
+    this.assistService.getAssistByCustomer(parseInt(this.idUser)).subscribe((res: any) => {
+      console.log('res: ', res)
+      this.historialAssist = res.data;
     })
   }
 
