@@ -4,6 +4,7 @@ import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -15,7 +16,9 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
   imports: [
     CommonModule,
     HomeRoutingModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    FormsModule, 
+    ReactiveFormsModule,
   ],
   // schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

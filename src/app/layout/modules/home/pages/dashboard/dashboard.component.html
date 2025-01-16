@@ -1,5 +1,40 @@
 <div class="container p-2">
     <div class="row">
+        <div class="col-md-12 col-sm-8">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="searchForm" (ngSubmit)="searchByDate()">
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+                                <input type="date" formControlName="startDate" (change)="onStartDateChange($event)" 
+                                class="form-control form-control-sm" id="fechaInicio" />
+                                <div *ngIf="startDate.hasError('required')" class="invalid-feedback">
+                                    Este campo es requerido 
+                                </div>
+                            </div>
+                
+                            <div class="col-md-4">
+                                <label for="fechaInicio" class="form-label">Fecha Fin</label>
+                                <input type="date" formControlName="endDate" [min]="minEndDate" class="form-control form-control-sm" id="fechaInicio" />
+                                <div *ngIf="endDate.hasError('required')" class="invalid-feedback">
+                                    Este campo es requerido 
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 d-flex justify-content-center align-items-center">
+                                <button [disabled]="searchForm.invalid" type="submit" class="btn btn-primary btn-sm w-100 mt-4">Buscar</button>
+                            </div>
+                        </div>
+            
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="row">
 
         <div class="col-md-3 col-12 my-1"> 
             <div class="card">

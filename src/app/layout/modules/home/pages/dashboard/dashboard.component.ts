@@ -14,6 +14,8 @@ import {
   ApexTooltip,
   ApexTitleSubtitle
 } from "ng-apexcharts";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -36,6 +38,11 @@ export type ChartOptions = {
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+
+  searchForm: FormGroup;
+  minEndDate: string;
+  fechaActual = moment().format('YYYY/MM/DD'); // Fecha actual
+  fechaTresMesesAntes = moment().subtract(3, 'months').format('YYYY/MM/DD');
 
   @ViewChild("chart") chart: ChartComponent;
   public chartOptionsStudentByProgram: Partial<ChartOptions>;
@@ -60,70 +67,87 @@ export class DashboardComponent implements OnInit {
   totalSalesByType: any;
   totalSalesByPaymentMethod: any;
   constructor(
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private _formBuilder: FormBuilder,
   ) {  }
 
   ngOnInit(): void {
-    this.getQuantityStudent();
-    this.getTotalEarningSales();
-    this.getSalesByTypeVoucher();
-    this.getSalesByPaymentMethod();
-    this.getUsersByGender();
-    this.getStudentsByPrograms();
-    this.getStudentsByPackages();
-    this.getEarningsByPackages();
-    this.getEarningsByPrograms();
-    this.getUsersInfoDemographics();
-    this.getSalesLineTime();
+    this.searchForm = this._builderForm();
+    this.getQuantityStudent(this.fechaTresMesesAntes, this.fechaActual);
+    this.getTotalEarningSales(this.fechaTresMesesAntes, this.fechaActual);
+    this.getSalesByTypeVoucher(this.fechaTresMesesAntes, this.fechaActual);
+    this.getSalesByPaymentMethod(this.fechaTresMesesAntes, this.fechaActual);
+    this.getUsersByGender(this.fechaTresMesesAntes, this.fechaActual);
+    this.getStudentsByPrograms(this.fechaTresMesesAntes, this.fechaActual);
+    this.getStudentsByPackages(this.fechaTresMesesAntes, this.fechaActual);
+    this.getEarningsByPackages(this.fechaTresMesesAntes, this.fechaActual);
+    this.getEarningsByPrograms(this.fechaTresMesesAntes, this.fechaActual);
+    this.getUsersInfoDemographics(this.fechaTresMesesAntes, this.fechaActual);
+    this.getSalesLineTime(this.fechaTresMesesAntes, this.fechaActual);
+    this.onChangeStartDate()
   }
 
-  getQuantityStudent(){
-    this.dashboardService.getQuantityStudent().subscribe((res: any) => {
+  _builderForm() {
+    const form = this._formBuilder.group({
+      startDate: ['', [Validators.required]],
+      endDate: [{value: '', disabled: true}, [Validators.required]],
+    });
+
+    return form;
+  }
+
+  get startDate() { return this.searchForm.controls["startDate"] }
+  get endDate() { return this.searchForm.controls["endDate"] }
+
+  getQuantityStudent(startDate: any, endDate: any){
+    this.dashboardService.getQuantityStudent(startDate, endDate).subscribe((res: any) => {
       // console.log('res: ', res)
-      this.quantityStudents = res.students;
+      this.quantityStudents = res[0].students;
     })
   }
 
   
-  getTotalEarningSales(){
-    this.dashboardService.getTotalEarningSales().subscribe((res: any) => {
-      console.log('res: ', res)
-      this.totalSalesEarnings = res.total.toFixed(2);
+  getTotalEarningSales(startDate: any, endDate: any){
+    this.dashboardService.getTotalEarningSales(startDate, endDate).subscribe((res: any) => {
+      // console.log('res: ', res)
+      this.totalSalesEarnings = res.total?.toFixed(2);
       // this.quantityStudents = res.students;
     })
   }
 
-  getSalesByTypeVoucher(){
-    this.dashboardService.getSalesByTypeVoucher().subscribe((res: any) => {
-      console.log('res: ', res)
+  getSalesByTypeVoucher(startDate: any, endDate: any){
+    this.dashboardService.getSalesByTypeVoucher(startDate, endDate).subscribe((res: any) => {
+      // console.log('res: ', res)
       this.totalSalesByType = res;
     })
   }
 
   
-  getSalesByPaymentMethod(){
-    this.dashboardService.getSalesByPaymentMethod().subscribe((res: any) => {
-      console.log('res: ', res)
+  getSalesByPaymentMethod(startDate: any, endDate: any){
+    this.dashboardService.getSalesByPaymentMethod(startDate, endDate).subscribe((res: any) => {
+      // console.log('res: ', res)
       this.totalSalesByPaymentMethod = res;
 
     })
   }
 
-  getUsersByGender(){
-    this.dashboardService.getUsersByGender().subscribe((res:any) => {
+  getUsersByGender(startDate: any, endDate: any){
+    this.dashboardService.getUsersByGender(startDate, endDate).subscribe((res:any) => {
       // console.log('res', res)
       this.userByGenderInfo = res;
     })
   }
 
-  getSalesLineTime(){
-    this.dashboardService.getSalesLineTime().subscribe((res:any) => {
-      console.log('line time: ', res);
+  getSalesLineTime(startDate: any, endDate: any){
+    this.dashboardService.getSalesLineTime(startDate, endDate).subscribe((res:any) => {
+      // console.log('line time: ', res);
 
       let series: any[] = [];
+      let categories:any [] = [];
 
       res.forEach((item:any) => {
         let totalSales = item.month_sales.map(((x:any) => x.sales))
+        categories = item.month_sales.map(((x:any) => x.month))
         // totalSales.push(item.month_sales.sales)
         let itemSerie = {
           name: item.package_name,
@@ -132,15 +156,17 @@ export class DashboardComponent implements OnInit {
         series.push(itemSerie)
       })
 
-      console.log('series', series)
+      // console.log('series', series)
+
+      
      
 
-      this.buildDiagramSalesLineTime(series);
+      this.buildDiagramSalesLineTime(series, categories);
 
     })
   }
 
-  buildDiagramSalesLineTime(series: any){
+  buildDiagramSalesLineTime(series: any, categories: any){
     
     // console.log({series, categories})
     this.chartOptionsSalesLineTime = {
@@ -185,7 +211,7 @@ export class DashboardComponent implements OnInit {
       //   size: 1
       // },
       xaxis: {
-        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        categories: categories,
         title: {
           text: 'Month'
         }
@@ -213,30 +239,37 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  getStudentsByPrograms(){
-    this.dashboardService.getStudentsByPrograms().subscribe((res: any) => {
+  getStudentsByPrograms(startDate: any, endDate: any){
+    this.dashboardService.getStudentsByPrograms(startDate, endDate).subscribe((res: any) => {
       // console.log('res: ', res)
-      let array: any[] = res.map((item:any) => {
-        let arrayData = []
-        arrayData.push(Number(item.quantity_student))
-        return {
-          name: item.program_name,
-          data: Number(item.quantity_student)
-        }
-      });
-
-      array.forEach(item => {
-        this.quantityStudentsList.push(item.data)
-        this.categories.push(item.name)
-      })
-
-
-      let series = [
-        {
-          name: 'Cantidad de estudiantes',
-          data: this.quantityStudentsList
-        }
-      ]
+      let series: any[]
+      if(res.length > 0){
+        let array: any[] = res.map((item:any) => {
+          let arrayData = []
+          arrayData.push(Number(item.quantity_student))
+          return {
+            name: item.program_name,
+            data: Number(item.quantity_student)
+          }
+        });
+  
+        array.forEach(item => {
+          this.quantityStudentsList.push(item.data)
+          this.categories.push(item.name)
+        })
+  
+  
+        series = [
+          {
+            name: 'Cantidad de estudiantes',
+            data: this.quantityStudentsList
+          }
+        ]
+      }else {
+        series = [];
+        this.categories = [];
+      }
+      
 
       this.buildDiagramStudentByProgram(series, this.categories)
     })
@@ -296,30 +329,38 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  getStudentsByPackages(){
-    this.dashboardService.getStudentsByPackages().subscribe((res: any) => {
-      // console.log('res: ', res)
-      let array: any[] = res.map((item:any) => {
-        let arrayData = []
-        arrayData.push(Number(item.quantity_student))
-        return {
-          name: item.package_name,
-          data: Number(item.quantity_student)
-        }
-      });
-
-      array.forEach(item => {
-        this.quantityStudentsList2.push(item.data)
-        this.categories2.push(item.name)
-      })
-
-
-      let series = [
-        {
-          name: 'Cantidad de estudiantes',
-          data: this.quantityStudentsList2
-        }
-      ]
+  getStudentsByPackages(startDate: any, endDate: any){
+    this.dashboardService.getStudentsByPackages(startDate, endDate).subscribe((res: any) => {
+      // console.log('getStudentsByPackages: ', res)
+      let series: any[]
+      if(res.length>0){
+        let array: any[] = res.map((item:any) => {
+          let arrayData = []
+          arrayData.push(Number(item.quantity_student))
+          return {
+            name: item.package_name,
+            data: Number(item.quantity_student)
+          }
+        });
+  
+        array.forEach(item => {
+          this.quantityStudentsList2.push(item.data)
+          this.categories2.push(item.name)
+        })
+  
+  
+        series = [
+          {
+            name: 'Cantidad de estudiantes',
+            data: this.quantityStudentsList2
+          }
+        ]
+  
+      }else {
+        series = [];
+        this.categories2 = [];
+      }
+      
 
       this.buildDiagramStudentByPackage(series, this.categories2)
     })
@@ -377,29 +418,37 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  getEarningsByPackages(){
-    this.dashboardService.getEarningsByPackages().subscribe((res: any) => {
-      // console.log('res: ', res)
-      let array: any[] = res.map((item:any) => {
+  getEarningsByPackages(startDate: any, endDate: any){
+    this.dashboardService.getEarningsByPackages(startDate, endDate).subscribe((res: any) => {
+      // console.log('getEarningsByPackages: ', res)
+
+      let series: any[];
+      if(res.length > 0){
+        let array: any[] = res.map((item:any) => {
         
-        return {
-          name: item.package_name,
-          data: Number(item.earning)
-        }
-      });
-
-      array.forEach(item => {
-        this.earningPackagesList.push(item.data)
-        this.categories3.push(item.name)
-      })
-
-
-      let series = [
-        {
-          name: 'Ingresos',
-          data: this.earningPackagesList
-        }
-      ]
+          return {
+            name: item.package_name,
+            data: Number(item.earning)
+          }
+        });
+  
+        array.forEach(item => {
+          this.earningPackagesList.push(item.data)
+          this.categories3.push(item.name)
+        })
+  
+  
+        series = [
+          {
+            name: 'Ingresos',
+            data: this.earningPackagesList
+          }
+        ]
+      }else {
+        series = [];
+        this.categories3 = [];
+      }
+      
 
       this.buildDiagramEarningByPackage(series, this.categories3)
     })
@@ -457,29 +506,36 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  getEarningsByPrograms(){
-    this.dashboardService.getEarningsByPrograms().subscribe((res:any) => {
+  getEarningsByPrograms(startDate: any, endDate: any){
+    this.dashboardService.getEarningsByPrograms(startDate, endDate).subscribe((res:any) => {
       // console.log('res: ', res)
-      let array: any[] = res.map((item:any) => {
+      let series: any[];
+      if(res.length > 0){
+        let array: any[] = res.map((item:any) => {
         
-        return {
-          name: item.program_name,
-          data: Number(item.earning)
-        }
-      });
-
-      array.forEach(item => {
-        this.earningProgramList.push(item.data)
-        this.categories4.push(item.name)
-      })
-
-
-      let series = [
-        {
-          name: 'Ingresos',
-          data: this.earningProgramList
-        }
-      ]
+          return {
+            name: item.program_name,
+            data: Number(item.earning)
+          }
+        });
+  
+        array.forEach(item => {
+          this.earningProgramList.push(item.data)
+          this.categories4.push(item.name)
+        })
+  
+  
+        series = [
+          {
+            name: 'Ingresos',
+            data: this.earningProgramList
+          }
+        ]
+      }else {
+        series = [];
+        this.categories4 = [];
+      }
+      
 
       this.buildDiagramEarningByProgram(series, this.categories4)
     })
@@ -538,8 +594,8 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  getUsersInfoDemographics(){
-    this.dashboardService.getUsersInfoDemographics().subscribe((res:any)=> {
+  getUsersInfoDemographics(startDate: any, endDate: any){
+    this.dashboardService.getUsersInfoDemographics(startDate, endDate).subscribe((res:any)=> {
       // console.log('res demo: ', res);
       
       const resultDepartments = res["resultDepartments"];
@@ -784,6 +840,43 @@ export class DashboardComponent implements OnInit {
   //   };
     
   // }
+
+  onChangeStartDate(){
+    this.startDate.valueChanges.subscribe(res => {
+      this.endDate.enable();
+    })
+  }
+
+  onStartDateChange(event: Event){
+    const input = event.target as HTMLInputElement;
+    // console.log('input: ', input.value)
+    
+    this.endDate.enable();
+    this.endDate.reset();
+    this.minEndDate = input.value;
+  }
+
+  searchByDate(){
+
+    const payloadSearch = {
+      starDate: this.startDate.value,
+      endDate: this.endDate.value
+    }
+
+    console.log(payloadSearch)
+    // return;
+    this.getQuantityStudent(payloadSearch.starDate,payloadSearch.endDate);
+    this.getTotalEarningSales(payloadSearch.starDate,payloadSearch.endDate);
+    this.getSalesByTypeVoucher(payloadSearch.starDate,payloadSearch.endDate);
+    this.getSalesByPaymentMethod(payloadSearch.starDate,payloadSearch.endDate);
+    this.getUsersByGender(payloadSearch.starDate,payloadSearch.endDate);
+    this.getStudentsByPrograms(payloadSearch.starDate,payloadSearch.endDate);
+    this.getStudentsByPackages(payloadSearch.starDate,payloadSearch.endDate);
+    this.getEarningsByPackages(payloadSearch.starDate,payloadSearch.endDate);
+    this.getEarningsByPrograms(payloadSearch.starDate,payloadSearch.endDate);
+    this.getUsersInfoDemographics(payloadSearch.starDate,payloadSearch.endDate);
+    this.getSalesLineTime(payloadSearch.starDate,payloadSearch.endDate);
+  }
 
 
 
