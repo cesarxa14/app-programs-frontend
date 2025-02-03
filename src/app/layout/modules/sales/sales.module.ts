@@ -8,6 +8,7 @@ import { AddSaleModalComponent } from './pages/panel-sales/add-sale-modal/add-sa
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { DetailSaleModalComponent } from './pages/panel-sales/detail-sale-modal/detail-sale-modal.component';
 
 
 
@@ -15,7 +16,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   declarations: [
     SalesComponent,
     PanelSalesComponent,
-    AddSaleModalComponent
+    AddSaleModalComponent,
+    DetailSaleModalComponent
   ],
   imports: [
     CommonModule,

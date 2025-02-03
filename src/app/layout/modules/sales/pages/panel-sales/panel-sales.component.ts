@@ -5,6 +5,8 @@ import { ISalesEntity } from '../../interfaces/ISaleEntity';
 import { MatDialog } from '@angular/material/dialog';
 import { AddSaleModalComponent } from './add-sale-modal/add-sale-modal.component';
 import { PageEvent } from '@angular/material/paginator';
+import { DetailCustomerComponent } from '../../../customers/pages/detail-customer/detail-customer.component';
+import { DetailSaleModalComponent } from './detail-sale-modal/detail-sale-modal.component';
 
 
 @Component({
@@ -64,6 +66,20 @@ export class PanelSalesComponent implements OnInit {
     const startIndex = this.currentPage * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     this.paginatedSalesList = this.mySalesList.slice(startIndex, endIndex);
+  }
+
+  viewSaleDetail(sale: ISalesEntity){
+    const dialogRef = this.dialog.open(DetailSaleModalComponent, {
+      width: '600px',
+      height: 'auto', 
+      data: sale,
+      panelClass: 'custom-dialog',
+    })
+
+    // dialogRef.componentInstance.customer_edit_emit.subscribe((res:any) => {
+    //   console.log('res: ', res)
+    //   this.getMySales();
+    // })
   }
 
 }

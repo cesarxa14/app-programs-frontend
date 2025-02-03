@@ -11,6 +11,7 @@ export interface ISalesEntity {
     amount: number;
     igv: number;
     saleDate: Date;
+    startDate?: Date;
     createdAt: Date;
     updatedAt: Date;
 }

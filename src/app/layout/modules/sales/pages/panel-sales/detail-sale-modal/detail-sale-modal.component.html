@@ -1,0 +1,117 @@
+<div class="container" >
+    <div class="row">
+        <h3>Detalles de la Venta</h3>
+    </div>
+
+    <div class="my-1 row justify-content-center ">
+        <div class="card">
+            <div class="card-body">
+                <form [formGroup]="dateilSaleForm">
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Cliente</label>
+                        <input type="email" formControlName="customer" class="form-control form-control-sm"
+                                [ngClass]="customer.errors && (customer.dirty || customer.touched) ? 'is-invalid': ''">
+                        <div *ngIf="customer.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Documento del Cliente</label>
+                        <input type="email" formControlName="document_customer" class="form-control form-control-sm"
+                                [ngClass]="document_customer.errors && (document_customer.dirty || document_customer.touched) ? 'is-invalid': ''">
+                        <div *ngIf="document_customer.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Categoria</label>
+                        <input type="email" formControlName="category" class="form-control form-control-sm"
+                                [ngClass]="category.errors && (category.dirty || category.touched) ? 'is-invalid': ''">
+                        <div *ngIf="category.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Producto/Servicio</label>
+                        <input type="email" formControlName="saleName" class="form-control form-control-sm"
+                                [ngClass]="saleName.errors && (saleName.dirty || saleName.touched) ? 'is-invalid': ''">
+                        <div *ngIf="saleName.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Producto/Servicio</label>
+                        <input type="email" formControlName="saleName" class="form-control form-control-sm"
+                                [ngClass]="saleName.errors && (saleName.dirty || saleName.touched) ? 'is-invalid': ''">
+                        <div *ngIf="saleName.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Total</label>
+                        <input type="email" formControlName="amount" class="form-control form-control-sm"
+                                [ngClass]="amount.errors && (amount.dirty || amount.touched) ? 'is-invalid': ''">
+                        <div *ngIf="amount.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Tipo de Comprobante</label>
+                        <input type="email" formControlName="type_voucher" class="form-control form-control-sm"
+                                [ngClass]="type_voucher.errors && (type_voucher.dirty || type_voucher.touched) ? 'is-invalid': ''">
+                        <div *ngIf="type_voucher.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Metodo de Pago</label>
+                        <input type="email" formControlName="payment_method" class="form-control form-control-sm"
+                                [ngClass]="payment_method.errors && (payment_method.dirty || payment_method.touched) ? 'is-invalid': ''">
+                        <div *ngIf="payment_method.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Fecha de Venta</label>
+                        <input type="email" formControlName="saleDate" class="form-control form-control-sm"
+                                [ngClass]="saleDate.errors && (saleDate.dirty || saleDate.touched) ? 'is-invalid': ''">
+                        <div *ngIf="saleDate.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="exampleInputEmail1" class="form-label">Fecha de Inicio</label>
+                        <input type="email" formControlName="startDate" class="form-control form-control-sm"
+                                [ngClass]="startDate.errors && (startDate.dirty || startDate.touched) ? 'is-invalid': ''">
+                        <div *ngIf="startDate.hasError('required')" class="invalid-feedback">
+                            Este campo es requerido 
+                        </div>
+                    </div>
+
+
+                    
+
+            
+
+                      <!-- <div class="row justify-content-center text-center">
+                        <div class="col">
+                            <button type="submit" [disabled]="dateilSaleForm.invalid" class="btn btn-dark w-100">Guardar</button>
+                        </div>
+                    </div> -->
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+  
